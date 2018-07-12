@@ -1,0 +1,33 @@
+---
+title: Upgrading to AppDynamics APM v1.1.1
+owner: Partners
+---
+
+This topic describes how to upgrade to v1.1.1 of the AppDynamics APM tile for Pivotal Cloud Foundry (PCF).
+
+## <a id='version'></a>v1.1.1
+
+**Release Date: July 26, 2016**
+
+Features included in this release:
+
+ - Added support for AppDynamics **Database Monitoring**
+ - Added support for AppDynamics **Transaction Analytics**
+ - **Web Proxy Config** is now a separate configuration tab
+ - Updated the stem cell version to **3146.12**
+
+## <a id='upgrade'></a>Upgrade AppDynamics APM
+
+1. In Ops Manager, click **Import a Product** to import the new tile binary.
+  ![Import Product](../images/Ops_Manager1.png)
+
+1. Click **Upgrade** on the left panel for AppDynamics.
+  ![Upgrade](../images/Ops_Manager2.png)
+
+1. Follow the procedures in the topics below:
+  - [Configuring Database Monitoring](database_monitoring.html)
+  - [Configuring Transaction Analytics](transaction_analytics.html)
+
+1. Update to stemcell v**3146.12** if prompted. 
+
+1. Click **Apply Changes**.

@@ -1,0 +1,27 @@
+---
+title: Upgrading to AppDynamics APM v1.2.4
+owner: Partners
+---
+
+This topic describes how to upgrade to v1.2.4 of the the AppDynamics APM tile for Pivotal Cloud Foundry (PCF).
+
+## <a id='version'></a>v1.2.4
+
+**Release Date: January 8, 2018**
+
+Features included in this release:
+
+ - Fix for insufficient memory when using Java Buildpack 4.0+
+ - DB agent upgraded to `4.2.15.18`
+
+## <a id='upgrade'></a>Upgrade AppDynamics APM
+
+1. In PCF Ops Manager, click **Import a Product** to import the new tile binary.
+  ![Import Product](../images/Ops_Manager1.png)
+
+1. After the binary is imported, click **Upgrade** on the left panel for AppDynamics. 
+  ![Upgrade](../images/Ops_Manager2.png)
+
+1. Update to stemcell version to **3445** if prompted. 
+
+1. Click **Apply Changes**.

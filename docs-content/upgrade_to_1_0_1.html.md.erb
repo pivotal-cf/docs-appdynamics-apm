@@ -1,0 +1,55 @@
+---
+title: Upgrading to AppDynamics APM v1.0.1
+owner: Partners
+---
+
+This topic describes how to upgrade to v1.0.1 of the AppDynamics APM tile for Pivotal Cloud Foundry (PCF). 
+If you use JMX Bridge v1.6.x or later, you must also [configure your JMX Bridge tile](#config).  
+
+## <a id='version'></a>v1.0.1
+
+**Release Date: February 20, 2016**
+
+Features included in this release:
+
+ - Updated stemcell to v3146.9
+ - Fixed machine agent related issue for multiple PCF installations
+ - TierName, NodeName and UniqueHostID suffixed with DomainName
+ - Support for **OpenTSDB Firehose Nozzle**; support for all Cloud Foundry deployment metrics
+
+## <a id='upgrade'></a>Upgrade AppDynamics APM
+
+1. In Ops Manager, click **Import a Product** to import the new tile binary.
+  ![Import Product](../images/Ops_Manager1.png)
+
+1. Click **Upgrade** on the left panel for AppDynamics. 
+  ![Upgrade](../images/Ops_Manager2.png)
+
+1. If you have multiple PCF installations, update the **Application name** for **Machine Agent Extension** so that 
+the application name for each Machine Agent Extension would is unique across PCF installations. Save these changes.
+  ![Application Name for MachineAgent](../images/Ops_Manager3.png)
+
+1. If necessary, import a new stem cell version 3146.9 from http://bosh.io/stemcells.
+  ![Upgrade Stem Cell](../images/Ops_Manager4.png)
+
+1. Click **Apply Changes**. This will upgrade your tile to v1.0.1.
+  ![Apply Changes](../images/Ops_Manager5.png)
+
+1. Once the tile is successfully installed, check all the Cloud Foundry deployment metrics on this path by navigating to **Metric Browser > Application Infrastructure Performance > {Tier Name} > Custom Metrics > CF**.
+  ![enter image description here](../images/HierarchyMetricBrowser.png)
+
+1. If you use JMX Bridge v1.6.x or later, follow the steps in the next section. 
+
+
+## <a id='config'></a>Configure JMX Bridge Tile
+
+<p class="note"><strong>Note:</strong> This procedure is only necessary if you are using JMX Bridge v1.6.x or later.</p>
+
+1. Ensure the OpenTSDB instance for **JMX Bridge** is configured to run one instance in the JMX Bridge Tile.
+  ![enter image description here](../images/OpenTSDB.png)
+
+1. Get the IP address of the **JMX Provider** VM (Ops metrics VM) from **JMX Bridge Tile > Status**.
+  ![enter image description here](../images/JMX_IP.png)
+
+1. In the **Director Config** section of the BOSH Director tile, set the **Metrics IP Address** to value of JMX Provider VM IP address.
+  ![enter image description here](../images/OpsManagerDirector.png)
