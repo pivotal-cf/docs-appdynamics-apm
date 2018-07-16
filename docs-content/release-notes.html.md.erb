@@ -1,58 +1,92 @@
 ---
-title: Release Notes for YOUR-PRODUCT-NAME
+title: Release Notes for AppDynamics Tile
 owner: Partners
 ---
 
-**This topic should include the Release Notes for your product. For examples, see the 
-[GCP Service Broker Release Notes](http://docs.pivotal.io/gcp-sb/release-notes.html) or the 
-[ISS Knowtify Search Analytics Release Notes](http://docs.pivotal.io/knowtify/release.html).
-When you release a new version, add new release notes to this file, keeping the older notes below.**
-
-These are release notes for YOUR-PRODUCT-NAME.
-
-##<a id="ver"></a> vCURRENT-VERSION-NUMBER (Ex. v1.0.1)
-
-**Release Date:** RELEASE-DATE (Ex. October 1, 2017)
-
-Features included in this release:
-
-* Feature one.
-* Feature two.
-* Feature three.
-
-Fixed issues in this release:
-
-* Fixed issue one.
-* Fixed issue two.
-* Fixed issue three.
-
-**When you have fixed issue, you should have a corresponding known issue in the release below.**
-
-Known issues in this release:
-
-* Issue one.
-* Issue two.
-* Issue three.
+<p class="note"><strong>Note:</strong> Upgrades from AppDynamics v1.x are not supported. If you previously installed AppDynamics v1.x, uninstall it and install the latest version.</p>
 
 
-##<a id="ver"></a> vPREVIOUS-VERSION-NUMBER (Ex. v1.0.0)
+## <a id='44335'></a> v4.4.335
 
-**Release Date:** RELEASE-DATE (Ex. August 1, 2017)
+**Release Date:** July 16, 2018
 
-Features included in this release:
+##### Features
 
-* Feature one.
-* Feature two.
-* Feature three.
 
-Fixed issues in this release:
+- Simplified SSL configuration for SAAS Appdynamics controllers, but importing DigiCert Root CA automatically to key store. 
+- Dashboard improvements. 
 
-* Fixed issue one.
-* Fixed issue two.
-* Fixed issue three.
 
-Known issues in this release:
+## <a id='44322'></a> v4.4.322
 
-* Issue one.
-* Issue two.
-* Issue three.
+**Release Date:** July 12, 2018
+
+##### Features
+
+- Improvements in dashboard application
+- Simplified SSL enabled communication configuration between tile and Appdynamics Controller 
+- Set the certificate in the security-config of the OpsManager Director e.g: https://docs.pivotal.io/pivotalcf/2-0/customizing/vsphere-config.html#security-config and Tile will pick it up. 
+
+
+
+## <a id='44244'></a> v4.4.244
+
+**Release Date:** June 19, 2018
+
+##### Features
+
+- Improvements to the AppDynamics Dashboard Application
+- Fixes issues noticed on AppDynamics Dashboard Application installation on some private cloud deployments. 
+
+
+## <a id='44231'></a> v4.4.231
+
+**Release Date:** June 11, 2018
+
+##### Features
+
+This major release now contains AppDynamics Machine Agent and an extension that talks to a custom nozzle and collects KPI metrics of the cloud-foundry environment.
+Also, a dashboard application is included that automatically generates the custom dashboard on AppDynamics Controller. For more information, see [AppDynamics KPI Dashboard and Metrics](https://docs.pivotal.io/partners/appdynamics/kpi-dashboard.html).
+
+The tile contains:
+
+- AppDynamics Service Broker, for instrumentation of applications
+- AppDynamics Machine Agent, for collecting KPI metrics through Loggregator
+- AppDynamics Dashboard Application, for displaying the above collected metrics in a neat UI dashboard on controller
+
+### Limitations
+
+The tile requires having 
+
+- PCF Ops Manager: v2.0.7 or higher, or any v2.1.x or v2.2.x versions
+
+<p class="note"><strong>Note:</strong> Please note that the tile cannot be used for OpsManager with cf < v2.0.7 since the Loggregator component (reverse_log_proxy) needed for extracting the KPI metrics is not exposed.</p>
+
+
+## <a id='44135'></a> v4.4.135
+
+**Release Date:** May 2, 2018
+
+#### APM-only Release
+
+##### Features
+
+* Tile now packages the vendor dependencies of the service broker instead of just specifying them in requirements file.
+This is to enable installs of customers without access to standard pypi.org servers for Python package installs.
+
+
+## <a id='4487'></a> v4.4.91
+
+**Release Date:** April 24, 2018
+
+#### APM-only Release
+
+##### Features
+
+* New Service Broker implements OpenServiceBrokerApi(2.11)
+* Lighter on Memory Requirement
+* Works only with PCF v2.0 or higher
+
+##### Limitations
+
+* Machine Agent metrics based on the old JMX bridge have been deprecated.

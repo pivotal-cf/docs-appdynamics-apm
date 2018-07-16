@@ -1,15 +1,90 @@
 ---
-title: Using YOUR-PRODUCT-NAME
+title: Using AppDynamics
 owner: Partners
 ---
 
-This topic describes how to use YOUR-PRODUCT-NAME.
+This topic describes how to push and bind an application to an AppDynamics tile.
 
-##<a id='using'></a> Using YOUR-PRODUCT-NAME
+## <a id='before-you-start'></a>Before You Start
 
-**This topic should include any instructions for how to use the service or dashboard created by the tile. 
-Give procedures for how to perform the different functions offered by your product and provide screenshots where necessary.** 
+1. Create a [Pivotal Network](https://network.pivotal.io) account if you do not have one.
 
-**You can also use this section to include information about Architecture and Troubleshooting for known errors. 
-If you include a Troubleshooting section, follow the Symptom/Explanation format used in the 
-[Okta Troubleshooting](http://docs.pivotal.io/p-identity/okta/troubleshooting.html) topic**.
+1. Install the Cloud Foundry Command Line Interface (cf CLI). See [Installing the cf CLI](https://docs.pivotal.io/pivotalcf/2-1/cf-cli/install-go-cli.html).
+
+
+## <a id='log-in-to-pivotal-cli'></a>Log in to the Pivotal CLI
+
+1. Open a cf CLI or command-prompt window.
+
+1. Identify your Pivotal API endpoint and version. Enter the following command:
+  <pre class='terminal'>$ cf api</pre>
+  You should see the following output:
+  <pre class='terminal'>
+  api endpoint: https://api.my.pivotal.io
+
+  api version: 2.103.0
+  </pre>
+
+1. Log in to the Pivotal endpoint:
+  <pre class='terminal'>cf login</pre>
+
+1. Enter your email address and Pivotal password when prompted.
+
+
+##<a id='push-the-application'></a> Push the Application
+
+1. `cd` into the root directory of the application you want to deploy.
+
+1. Push the application and the [corresponding buildpack](using.html#buildpack-info):
+  <pre class='terminal'>cf push <app-name> -b <url-to-appdynamics-buildpack></pre>
+
+## <a id='bind-the-service-plan-to-the-application'></a>Bind the Service Plan to the Application
+
+1. Log in to Pivotal Apps Manager.
+
+1. Navigate to **Marketplace > AppDynamics**.
+
+1. Under **Service Plans**, select the service plan that you set up in Ops Manager. Click **Select This Plan**.
+  ![](./images/appdash-01-select-plan.png)
+
+1. Under **Instance Configuration**, specify the instance name and select the application of interest under **Bind to App**. Then click **Create**.
+  ![](./images/appdash-02-bind-to-app.png)
+  The Service tab confirms that the service is successfully bound to the application.
+  ![](./images/appdash-04-bind-success.png)
+
+## <a id='restage-the-application'></a>Restage the Application
+
+1. Run the following command:
+  <pre class='terminal'>cf bind-service <application-name></pre>
+
+1. Check the resulting output and verify that the app is successfully deployed. The last lines should confirm that the state of the app is running.
+  <pre class='terminal'>
+       state     since                  cpu    memory        disk           details
+  #0   running   2018-02-15T02:06:03Z   0.0%   55.3M of 1G   341.7M of 1G
+  </pre>
+
+## <a id='setting-proxy-properties'></a>Setting Proxy Properties
+
+If you are using a proxy server, the consumer application should specify the `http_proxy` or `https_proxy` as an environment variable for the application running on PCF to communicate with the proxy server. Do the following:
+
+1. Set the environment variable for the application and the Controller.
+   * For an HTTP proxy:
+    <pre class='terminal'>cf set-env <app-name> http_proxy http://user@password:myproxy....:8080/</pre>
+   * For an HTTPS proxy:
+    <pre class='terminal'>cf set-env <app-name> https_proxy https://user@password:myproxy....:8080/</pre>
+
+1. Restage the application:
+    <pre class='terminal'>cf restage <app-name></pre>
+
+1. Log in to the Controller web UI, navigate to the Metric Browser, and verify that the application is being detected and monitored.
+
+## <a id='buildpack-info'></a>Supported Buildpacks and Sample Workflows
+
+The following buildpacks are supported in this release. The [AppDynamics documentation for Pivotal] (https://docs.appdynamics.com/display/PCF) includes several step-by-step example workflows with sample applications.
+
+|  Language | Buildpack  | Sample Workflow |
+|---|---|---|
+| Java  |  https://github.com/cloudfoundry/java-buildpack | [Java Application Workflow](https://docs.appdynamics.com/display/PCF/Java+Application+in+PCF+-+Monitoring+Workflow) |
+| PHP  | https://github.com/cloudfoundry/php-buildpack  | [PHP Application workflow](https://docs.appdynamics.com/display/PCF/PHP+Application+in+PCF+-+Monitoring+Workflow) |
+|  Python |  https://github.com/cloudfoundry/python-buildpack#develop | [Python Application Workflow] (https://docs.appdynamics.com/display/PCF/Python+Application+in+PCF+-+Monitoring+Workflow) |
+|  NodeJS |  https://github.com/cloudfoundry/nodejs-buildpack|  |
