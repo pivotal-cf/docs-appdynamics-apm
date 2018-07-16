@@ -105,6 +105,45 @@ any of the entered configurations.
 
 1. In the Installation Dashboard, click **Apply Changes** and wait for all the changes to get applied.
 
+
+
+## <a id='SSL'></a> Configuring SSL
+
+### <a id='SAAS'></a> SSL for SAAS Appdyanmics Controllers
+  
+Appdynamics SAAS controller use DigiCert Global Root CA. The tile automatically imports the DigiCert Global Root CA into the keystore
+used by appdynamics Machine agent and the dashboard application, if present. 
+  
+Just check the SSL checkbox in Appdynamics Machine agent configuration and we are all set. 
+  
+
+### <a id='OnPrem'></a> SSL for OnPrem Appdyanmics Controllers
+  
+For OnPremise controller deployments, please upload your the root certificate for the internal CA that signed the Controller certificate for your on-premises Controller
+in the secutiry configuration of the OpsManager Director. 
+  
+For example, for the case of **vSphere**, https://docs.pivotal.io/pivotalcf/2-0/customizing/vsphere-config.html#security-config
+
+Please make sure to follow the exact format while entering multiple certificates as shown in the example above 
+
+  <pre class='terminal'>
+  -----BEGIN CERTIFICATE-----
+ABCDEFGH12345678ABCDEFGH12345678ABCDEFGH12345678AB
+EFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABCDEF
+GH12345678ABCDEFGH12345678ABCDEFGH12345678...
+------END CERTIFICATE------
+-----BEGIN CERTIFICATE-----
+BCDEFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABB
+EFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABCDEF
+GH12345678ABCDEFGH12345678ABCDEFGH12345678...
+------END CERTIFICATE------
+-----BEGIN CERTIFICATE-----
+CDEFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABBB
+EFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABCDEF
+GH12345678ABCDEFGH12345678ABCDEFGH12345678...
+------END CERTIFICATE------
+</pre>
+  
 ## <a id='troubleshooting'></a> Troubleshooting
 
 Follow the steps listed in the [extensions troubleshooting document](https://community.appdynamics.com/t5/Knowledge-Base/How-to-troubleshoot-missing-custom-metrics-or-extensions-metrics/ta-p/28695) in order to troubleshoot your issue. These are a set of common issues that customers might have faced during the installation of the extension. If these do not solve your issue, follow the last step on the troubleshooting document to contact the support team.
