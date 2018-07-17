@@ -5,7 +5,7 @@ owner: Partners
 
 <p class="note"><strong>Note:</strong> For instructions for installing AppDynamics v1.x, see <a href="./installing_1_x.html">(Deprecated) Installing and Configuring AppDynamics APM (1.x version)</a>.</p>
 
-This topic describes how to install and configure Appdynamics APM monitoring in Pivotal Cloud Foundry.
+This topic describes how to install and configure Appdynamics APM monitoring in Pivotal Cloud Foundry (PCF).
 
 
 ## <a id='before-you-start'></a> Before You Start
@@ -32,7 +32,7 @@ Do the following:
 1. Go to the Applications page. At the top of the table, click **Create Application**.
   ![](./images/appd-create-app-01.png)
 
-1. In the Create Application dialog box, click **Create an Application manually**, enter the application name, and click **OK**.
+1. In the Create Application dialog box, click **Create an Application manually**, enter the application name, and click **OK**.<br>
   ![](./images/appd-create-app-02.png)
 
 1. In the Application Dashboard for the new app, go to **Tiers & Nodes**.
@@ -46,7 +46,7 @@ Do the following:
 1. Enter the tier name and description and click **Finish**.
   ![](./images/appd-create-app-05.png)
 
-Note the Application Name and Tier Name before proceeding. You will need this information when you set up the Service Broker tile.
+* Note the Application Name and Tier Name before proceeding. You will need this information when you set up the Service Broker tile.
 
 ### <a id='determine-app-id'></a> Determine the Tier ID
 
@@ -55,7 +55,7 @@ Note the Application Name and Tier Name before proceeding. You will need this in
 1. Examine the page URL and look for the "component=<number>" string. This number is the tier ID.
       ![](./images/appd-component-id.png)
 
-Note the Tier ID before proceeding. You will need this information when you set up the Service Broker tile.
+* Note the Tier ID before proceeding. You will need this information when you set up the Service Broker tile.
 
 
 ## <a id='set-up-the-service-broker-tile'></a> Set Up the Service Broker Tile
@@ -109,15 +109,15 @@ any of the entered configurations.
 
 ## <a id='SSL'></a> Configuring SSL
 
-### <a id='SAAS'></a> SSL for SAAS Appdyanmics Controllers
+### <a id='SAAS'></a> SSL for SAAS AppDyanmics Controllers
   
-Appdynamics SAAS controller use DigiCert Global Root CA. The tile automatically imports the DigiCert Global Root CA into the keystore
-used by appdynamics Machine agent and the dashboard application, if present. 
+AppDynamics SAAS controller use DigiCert Global Root CA. The tile automatically imports the DigiCert Global Root CA into the keystore
+used by AppDynamics Machine agent and the dashboard application, if present. 
   
-Just check the SSL checkbox in Appdynamics Machine agent configuration and we are all set. 
+Just check the SSL checkbox in AppDynamics Machine agent configuration and we are all set. 
   
 
-### <a id='OnPrem'></a> SSL for OnPrem Appdyanmics Controllers
+### <a id='OnPrem'></a> SSL for OnPrem AppDyanmics Controllers
   
 For OnPremise controller deployments, please upload your the root certificate for the internal CA that signed the Controller certificate for your on-premises Controller
 in the secutiry configuration of the OpsManager Director. 
