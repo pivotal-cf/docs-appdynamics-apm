@@ -5,14 +5,15 @@ owner: Partners
 
 This topic describes how to push and bind an application to an AppDynamics tile.
 
-## <a id='before-you-start'></a>Before You Start
+
+## <a id='before-you-start'></a> Before You Start
 
 1. Create a [Pivotal Network](https://network.pivotal.io) account if you do not have one.
 
 1. Install the Cloud Foundry Command Line Interface (cf CLI). See [Installing the cf CLI](https://docs.pivotal.io/pivotalcf/2-1/cf-cli/install-go-cli.html).
 
 
-## <a id='log-in-to-pivotal-cli'></a>Log in to the Pivotal CLI
+## <a id='log-in-to-pivotal-cli'></a> Log In to the Pivotal CLI
 
 1. Open a cf CLI or command-prompt window.
 
@@ -30,14 +31,15 @@ This topic describes how to push and bind an application to an AppDynamics tile.
 1. Enter your email address and Pivotal password when prompted.
 
 
-##<a id='push-the-application'></a> Push the Application
+## <a id='push-the-application'></a> Push the Application
 
 1. `cd` into the root directory of the application you want to deploy.
 
 1. Push the application and the [corresponding buildpack](using.html#buildpack-info):
   <pre class='terminal'>cf push <app-name> -b <url-to-appdynamics-buildpack></pre>
 
-## <a id='bind-the-service-plan-to-the-application'></a>Bind the Service Plan to the Application
+
+## <a id='bind-the-service-plan-to-the-application'></a> Bind the Service Plan to the Application
 
 1. Log in to Pivotal Apps Manager.
 
@@ -51,7 +53,8 @@ This topic describes how to push and bind an application to an AppDynamics tile.
   The Service tab confirms that the service is successfully bound to the application.
   ![](./images/appdash-04-bind-success.png)
 
-## <a id='restage-the-application'></a>Restage the Application
+
+## <a id='restage-the-application'></a> Restage the Application
 
 1. Run the following command:
   <pre class='terminal'>cf bind-service <application-name></pre>
@@ -62,7 +65,8 @@ This topic describes how to push and bind an application to an AppDynamics tile.
   #0   running   2018-02-15T02:06:03Z   0.0%   55.3M of 1G   341.7M of 1G
   </pre>
 
-## <a id='setting-proxy-properties'></a>Setting Proxy Properties
+
+## <a id='setting-proxy-properties'></a> Setting Proxy Properties
 
 If you are using a proxy server, the consumer application should specify the `http_proxy` or `https_proxy` as an environment variable for the application running on PCF to communicate with the proxy server. Do the following:
 
@@ -77,7 +81,8 @@ If you are using a proxy server, the consumer application should specify the `ht
 
 1. Log in to the Controller web UI, navigate to the Metric Browser, and verify that the application is being detected and monitored.
 
-## <a id='buildpack-info'></a>Supported Buildpacks and Sample Workflows
+
+## <a id='buildpack-info'></a> Supported Buildpacks and Sample Workflows
 
 The following buildpacks are supported in this release. The [AppDynamics documentation for Pivotal] (https://docs.appdynamics.com/display/PCF) includes several step-by-step example workflows with sample applications.
 
