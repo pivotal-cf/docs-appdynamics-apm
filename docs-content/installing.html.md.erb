@@ -14,7 +14,7 @@ Do the following:
 
 1. Create a [Pivotal Network](https://network.pivotal.io) account if you do not have one.
 
-1. [Set Up the AppDynamics Controller](#set-up-appd-controller).
+1. [Set up the AppDynamics Controller](#set-up-appd-controller).
 
 
 ## <a id='set-up-appd-controller'></a> Set Up the AppDynamics Controller
@@ -87,18 +87,18 @@ any of the entered configurations.
 1. In the **Settings** tab, click **AppDynamics Machine Agent Configuration**.
 
 1. Enter the following options. All of these fields are required. The [Standalone Machine Agent Configuration Property Reference](https://docs.appdynamics.com/display/LATEST/Standalone+Machine+Agent+Configuration+Property+Reference) page includes descriptions for these options.
-  * **Account Name** -- The account name used to access the Controller.
-  * **Account Access Key** -- In the Controller, click the gear icon  and choose **License > Account > Access Key**. If the Account Access Key includes one or more `$` characters, append a second `$` to every `$` included in the key string and surround the entire string with single quotes (').
-  * **Controller Host** Host name of the controller (e.g: 443-onprem-controller.e2e.appd-test.com:8090/controller).
-  * **Controller Port** Port on which controller is listening (e.g: `8090`).
-  * **SSL Enabled** -- Enable this if you have ssl enabled on the controller. The controller port must be `443` if enabled. Disabled by default
-  * **Application Name** -- Enter the application name you defined previously.
-  * **Tier Name** -- Enter the application and tier names you defined previously.
-  * **Tier ID** -- Enter the component ID you identified previously.
-  * **Node Name** -- Enter a name that corresponds to the Application Name, such as **_app-name_-node**.
-  * **User Name** -- Must be an AppDynamics user account that has permissions to create both custom metric dashboards and custom Health Rules in the target application.
-  * **Password** -- Password for the above AppDynamics user account.
-  * **Nozzle Certificate Authority** -- set it to **reverselogproxy**. Do not set it to anything other than **reverselogproxy**.
+  * **Account Name**: The account name used to access the Controller.
+  * **Account Access Key**: In the Controller, click the gear icon  and choose **License > Account > Access Key**. If the Account Access Key includes one or more `$` characters, append a second `$` to every `$` included in the key string and surround the entire string with single quotes (').
+  * **Controller Host**: Host name of the controller (e.g: 443-onprem-controller.e2e.appd-test.com:8090/controller).
+  * **Controller Port**: Port on which controller is listening (e.g: `8090`).
+  * **SSL Enabled**: Disabled by default. Enable this if you have SSL enabled on the controller. The controller port must be `443` if enabled.
+  * **Application Name**: Enter the application name you defined previously.
+  * **Tier Name**: Enter the application and tier names you defined previously.
+  * **Tier ID**: Enter the component ID you identified previously.
+  * **Node Name**: Enter a name that corresponds to the Application Name, such as **_app-name_-node**.
+  * **User Name**: Must be an AppDynamics user account that has permissions to create both custom metric dashboards and custom Health Rules in the target application.
+  * **Password**: Password for the above AppDynamics user account.
+  * **Nozzle Certificate Authority**: set it to **reverselogproxy**. Do not set it to anything other than **reverselogproxy**.
   ![](./images/machine-agent-2.png)
     
 1. Click **Save** to save the changes and return to the Installation Dashboard.
@@ -106,25 +106,21 @@ any of the entered configurations.
 1. In the Installation Dashboard, click **Apply Changes** and wait for all the changes to get applied.
 
 
-
 ## <a id='SSL'></a> Configuring SSL
 
 ### <a id='SAAS'></a> SSL for SAAS AppDyanmics Controllers
   
-AppDynamics SAAS controller use DigiCert Global Root CA. The tile automatically imports the DigiCert Global Root CA into the keystore
-used by AppDynamics Machine agent and the dashboard application, if present. 
+AppDynamics SAAS controller use DigiCert Global Root CA. The tile automatically imports the DigiCert Global Root CA into the keystore used by AppDynamics Machine agent and the dashboard application, if present. 
   
-Just check the SSL checkbox in AppDynamics Machine agent configuration and we are all set. 
-  
+Check the SSL checkbox in AppDynamics Machine agent configuration. 
 
-### <a id='OnPrem'></a> SSL for OnPrem AppDyanmics Controllers
+### <a id='OnPrem'></a> SSL for OnPremise AppDyanmics Controllers
   
-For OnPremise controller deployments, please upload your the root certificate for the internal CA that signed the Controller certificate for your on-premises Controller
-in the secutiry configuration of the OpsManager Director. 
+For OnPremise Controller deployments, upload the root certificate for the internal CA that signed the Controller certificate for your OnPremise Controller in the secutiry configuration of the OpsManager Director. 
   
-For example, for the case of **vSphere**, https://docs.pivotal.io/pivotalcf/2-0/customizing/vsphere-config.html#security-config
+For an example, see the [Security Page](https://docs.pivotal.io/pivotalcf/2-0/customizing/vsphere-config.html#security-config) section of the _Configuring Ops Manager Director on vSphere_ topic in the PCF documentation.
 
-Please make sure to follow the exact format while entering multiple certificates as shown in the example above 
+Make sure to follow the exact format below while entering multiple certificates.
 
   <pre class='terminal'>
   -----BEGIN CERTIFICATE-----
@@ -143,7 +139,8 @@ EFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABCDEF
 GH12345678ABCDEFGH12345678ABCDEFGH12345678...
 ------END CERTIFICATE------
 </pre>
-  
+
+
 ## <a id='troubleshooting'></a> Troubleshooting
 
-Follow the steps listed in the [extensions troubleshooting document](https://community.appdynamics.com/t5/Knowledge-Base/How-to-troubleshoot-missing-custom-metrics-or-extensions-metrics/ta-p/28695) in order to troubleshoot your issue. These are a set of common issues that customers might have faced during the installation of the extension. If these do not solve your issue, follow the last step on the troubleshooting document to contact the support team.
+Follow the steps in the [extensions troubleshooting document](https://community.appdynamics.com/t5/Knowledge-Base/How-to-troubleshoot-missing-custom-metrics-or-extensions-metrics/ta-p/28695) in order to troubleshoot your issue. These are a set of common issues that you might face during the installation of the extension. If taking these steps does not solve your issue, follow the last step in the troubleshooting document to contact the support team.
