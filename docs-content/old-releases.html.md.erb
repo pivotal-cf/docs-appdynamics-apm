@@ -3,12 +3,12 @@ title: AppDynamics Older Releases [Deprecated]
 owner: Partners
 ---
 
-Documentation for 1.x Appdynamics Releases.
+Documentation for AppDynamics v1.x releases.
 
 
-##<a id='Old releases'></a>Older releases
+## <a id='old-releases'></a>Older Releases
 
-### <a id='version'></a>v1.2.4
+### <a id='v1-2-4'></a> v1.2.4
 
 **Release Date: January 8, 2018**
 
@@ -19,24 +19,23 @@ Features included in this release:
 
 This topic describes how to upgrade to v1.2.3 of the AppDynamics APM tile for Pivotal Cloud Foundry (PCF).
 
-  
-### <a id='version'></a>v1.2.3
+### <a id='v1-2-3'></a> v1.2.3
 
 **Release Date: October 2, 2017**
 
 Features included in this release:
 
  - Fix for insufficient memory when using Java Buildpack 4.0+
-### <a id='version'></a>v1.2.2
+
+### <a id='v1-2-2'></a> v1.2.2
 
 **Release Date: September 22, 2017**
 
 Features included in this release:
 
  - Updates to stemcell 3445 to patch Ubuntu Linux kernel security vulnerability (USN-3385-2)
-  
 
-### <a id='version'></a>v1.2.1
+### <a id='v1-2-1'></a> v1.2.1
 
 **Release Date: May 16, 2017**
 
@@ -45,7 +44,7 @@ Features included in this release:
  - Fix for CVE-2017-4975
  - Update stem cell version to **3363.22**
  
- ### <a id='version'></a>v1.2.0
+### <a id='v1-2-0'></a> v1.2.0
 
 **Release Date: February 1, 2017**
 
@@ -53,9 +52,8 @@ Features included in this release:
 
  - Customize YAML file to specify which metrics to pull in from JMX bridge
  - Update stem cell version to v**3262.22**
- 
- 
-### <a id='version'></a>v1.1.2
+
+### <a id='v1-1-2'></a> v1.1.2
 
 **Release Date: September 8, 2016**
 
@@ -65,7 +63,7 @@ Features included in this release:
  - Updated the stem cell version to v**3146.20**
  - UI changes to the tile
  
-### <a id='version'></a>v1.1.1
+### <a id='v1-1-1'></a> v1.1.1
 
 **Release Date: July 26, 2016**
 
@@ -76,8 +74,7 @@ Features included in this release:
  - **Web Proxy Config** is now a separate configuration tab
  - Updated the stem cell version to **3146.12**
 
-
-### <a id='version'></a>v1.0.1
+### <a id='v1-0-1'></a> v1.0.1
 
 **Release Date: February 20, 2016**
 
@@ -89,7 +86,7 @@ Features included in this release:
  - Support for **OpenTSDB Firehose Nozzle**; support for all Cloud Foundry deployment metrics
  
  
-##<a id='installing'></a> AppDynamics 1.x Tile
+## <a id='installing'></a> Installing AppDynamics v1.x Tile
 
 1. Download the product file from the [AppDynamics Product page](https://network.pivotal.io/products/p-appdynamics) on the [Pivotal Network](https://network.pivotal.io/).
 
@@ -108,7 +105,7 @@ Features included in this release:
 
 1. Click **Apply Changes** to apply the configuration.
 
-###<a id='configuring'></a>Configure the AppDynamics Tile
+### <a id='configuring'></a> Configure the AppDynamics Tile
 
 1. From the **Ops Manager Installation Dashboard**, click the **AppDynamics Service Broker** tile.
     <%= image_tag("select.png") %>
@@ -169,7 +166,7 @@ Features included in this release:
 
 1. When finished configuring the AppDynamics tile and any other tile changes, return to the **Ops Manager Installation Dashboard** and click **Apply Changes**. 
 
-###<a id='bind-instance'></a>Create and Bind a Service Instance
+### <a id='bind-instance'></a> Create and Bind a Service Instance
 
 1. For new applications, use the `cf push` command to deploy your application, using the appropriate language buildpack.
   * Java:
@@ -198,6 +195,7 @@ Features included in this release:
 1. Confirm that your application node is reporting to the Controller by logging in to AppDynamics. Your application should appear in the **Applications** list or as a node in the Application Dashboard:
     <br><br>
     <%= image_tag("dashboard.png") %>
+
 1. Select **Top Business Transactions**, **Network Dashboard**, and **Transaction Snapshots** to display other views of the AppDynamics Application Dashboard.
     <%= image_tag("dashboard2.png") %>
     <%= image_tag("dashboard3.png") %>
@@ -206,10 +204,9 @@ Features included in this release:
 1. To check PCF Ops Metrics, check for an application named **AppDynamicsPCFOpsMetrics** in the controller UI. The Application Dashboard for this application should be empty, since it only reports metrics of PCF. To see the metrics, select **Home > AppDynamicsPCFOpsMetrics > Metric Browser > Application Infrastructure Performance > MachineAgentTier > Custom Metrics > CF**. This lists all underlying components of PCF such as CloudController and Router.
     <%= image_tag("view12.2.1.png") %>
 
-###<a id='http-proxy'></a>Configuration with HTTP Proxy
+### <a id='http-proxy'></a> Configuration with HTTP Proxy
 
-If the Cloud Foundry environment needs to use an HTTP(S) proxy for external outbound communication, the Service Broker itself does not need to know anything about the HTTP proxy, as it just relays the license keys to the consumer apps. The consumer application should specify the `http\_proxy` or `https\_proxy` as an environment variable for the agent to communicate externally
-with non-Java applications, and use `JAVA_OPTS` for Java applications.
+If the Cloud Foundry environment needs to use an HTTP(S) proxy for external outbound communication, the Service Broker itself does not need to know anything about the HTTP proxy, as it just relays the license keys to the consumer apps. The consumer application should specify the `http\_proxy` or `https\_proxy` as an environment variable for the agent to communicate externally with non-Java applications, and use `JAVA_OPTS` for Java applications.
 
 * Specify using `http\_proxy` for the AppDynamics non-Java application agent to talk to its controller via the proxy.
   <pre class='terminal'>
@@ -243,7 +240,7 @@ Whenever making changes to Cloud Foundry environment variables, you must restage
 
 You can set these environment variables either individually per app, or with environment variable groups set for all apps as part of staging, running environments, etcetera using the cf CLI.
 
-###<a id="env-var"></a>Environment Variable Groups
+### <a id="env-var"></a> Environment Variable Groups
 
 * `running-environment-variable-group`, `revg`: Retrieve the contents of the running environment variable group
 * `staging-environment-variable-group`, `sevg`: Retrieve the contents of the staging environment variable group
@@ -263,7 +260,8 @@ Example:
   "Staging" }'
 </pre>
 
-##<a id="machine-agent"></a>Troubleshooting 1.x Machine Agent
+
+## <a id="machine-agent"></a> Troubleshooting v1.x Machine Agent
 
 If the machine agent does not expose any metrics in the AppDynamics dashboard:
 
@@ -287,7 +285,8 @@ If the machine agent does not expose any metrics in the AppDynamics dashboard:
 
 Edit the above values as needed for IP addresses, passwords, proxy host, and port.
 
-##<a id="reference"></a>Further Reference
+
+## <a id="reference"></a> Further Reference
 
 For more information, see the following topics:
 
@@ -296,17 +295,17 @@ For more information, see the following topics:
 * [Cloud Foundry Buildpacks in Restricted Networks](http://blog.grogscave.net/2015/02/cloud-foundry-buildpacks-in-restricted.html), from Chris DeLashmutt's blog.
 
 
-## <a id="Analytics"></a>Appdynamics 1.x Transactional Analytics
+## <a id="Analytics"></a> AppDynamics v1.x Transactional Analytics
 
  - Transaction Analytics feature is supported on v1.1.1 and later.
  - If your AppDynamics controller has license for Analytics monitoring, you can monitor application analytics.
  - Supported Analytics Agent version: **4.1.8.0**.
  - Applications supported on Analytics Agent: **Java, .NET**.
- - The analytics agent is compatible with controller version 4.1.8.0 and above.
+ - The analytics agent is compatible with Controller v4.1.8.0 and above.
 
-### <a id="overview"></a>Overview
+### <a id="overview"></a> Overview
 
-The application agent forwards analytics data to the analytics agent, which sends the data to the event service. The controller queries the event service to fetch the analytics data and renders it on the controller dashboard. 
+The application agent forwards analytics data to the analytics agent, which sends the data to the event service. The Controller queries the event service to fetch the analytics data and renders it on the Controller dashboard. 
 
 ![Analytics Agent Working](../images/pdf1.png)
 
@@ -314,9 +313,9 @@ The application agent forwards analytics data to the analytics agent, which send
  - **Analytics Agent**: The Analytics Agent collects data from one or more app agents and sends it to the Events Service.
  - **Analytics Plugin** (AP) to the app agent: The Analytics Plugin extends app agent functionality so that it can collect and forward data to the Analytics Agent.
  - **Event Service**: The event service is an unstructured document store which acts as a place holder for analytics data. If you do not already have an event service running, contact AppDynamics support to get one.
- - **Controller**: The controller queries the event service and renders analytics data to the controller dashboard.
+ - **Controller**: The Controller queries the event service and renders analytics data to the Controller dashboard.
  
-### <a id="multi-node"></a>Deploying Analytics Agents to Multiple Nodes
+### <a id="multi-node"></a> Deploying Analytics Agents to Multiple Nodes
 
 A real-world scenario is unlikely to consist of a single monitored node, as shown in the diagram above. It usually consists of many applications deployed over many hosts.
 
@@ -328,7 +327,7 @@ In this example, AppServerHost1-3 collect only transaction data, and only app ag
  
 Follow the steps below to configure Transaction Analytics for your PCF applications.
 
-### <a id="step1"></a>Step 1: Configure Tile for Analytics
+#### <a id="step1"></a> Step 1: Configure Tile for Analytics
 
 1. In the **Analytics Agent** section of the AppDynamics tile, choose **Enable** under **Enable Transaction Analytics**.
   ![Analytics Config For Tile GUI](../images/Analytics1.png)  
@@ -348,7 +347,7 @@ Follow the steps below to configure Transaction Analytics for your PCF applicati
     OK
     name                       requested state   instances   memory   disk   url</pre>		                                      																																									      	
 
-### <a id="step2"></a>Step 2: Bind Application to Analytics Agent
+#### <a id="step2"></a>Step 2: Bind Application to Analytics Agent
 
 After deploying the tile, follow the steps below to bind an application with the analytics agent to collect analytics data.
 
@@ -361,18 +360,18 @@ After deploying the tile, follow the steps below to bind an application with the
 1. Restage the application for the changes to take effect.
     <pre class="terminal">$ cf restage TARGET-APP-NAME</pre> 
 
-### <a id="step3"></a>Step 3: Configure Controller to Fetch Data from Event Service
+#### <a id="step3"></a>Step 3: Configure Controller to Fetch Data from Event Service
 
- - **For customers using SaaS controllers**: Your controller is already configured to fetch data from a SaaS event service.
- - **For customers using an on-premise controller**: Log in to your controller as an admin and configure the event service URL and controller key for authentication, as shown below.
+ - **For customers using SaaS controllers**: Your Controller is already configured to fetch data from a SaaS event service.
+ - **For customers using an on-premise controller**: Log in to your Controller as an admin and configure the event service URL and controller key for authentication, as shown below.
 
 ![AdminPage](../images/ControllerAdminForAnalytics.png)
 
 For help with this configuration, contact AppDynamics support.
 
-### <a id="step4"></a>Step 4: Configure Analytics Collector on the Controller
+#### <a id="step4"></a> Step 4: Configure Analytics Collector on the Controller
 
-On your AppDynamics controller, follow these steps to configure the analytics collector for a target application.
+On your AppDynamics Controller, do the following to configure the analytics collector for a target application:
 
 1. Click **Analytics**. 
   ![ConfigureAnalyticsCollector](../images/Analytics3.png) 
@@ -389,7 +388,7 @@ On your AppDynamics controller, follow these steps to configure the analytics co
   - [Configure Transactions for GUID Injection](https://docs.appdynamics.com/display/PRO42/Business+Transaction+and+Log+Correlation): By configuring business transactions for GUID Injection, you can correlate logs to specific business transaction requests. This can be helpful when you see slow transactions and the call graph does not give you enough information to get to the root cause. You can use this feature to get the full context related to a failed or slow transaction.
    ![Optional Fields](../images/Analytics5.png) 
 
-### <a id="step5"></a> Step 5: Analyze Business Transactions Using Analytics
+#### <a id="step5"></a> Step 5: Analyze Business Transactions Using Analytics
 
 1. Generate some traffic for your application. 
 
@@ -398,19 +397,19 @@ On your AppDynamics controller, follow these steps to configure the analytics co
 
 1. Click **Add** to see a list of all configured business transactions.
   ![Analytics Data](../images/Analytics8.png)
- 
 
 This document describes how to configure a database agent and see database metrics on the AppDynamics controller.
 
-## <a id="DataBaseMonitoring"></a>Appdynamics 1.x DataBaseMonitoring
+
+## <a id="DataBaseMonitoring"></a> AppDynamics v1.x DataBaseMonitoring
 
  - If your AppDynamics controller has license for Database monitoring, you can monitor databases in PCF.
  - Supported database agent **v4.2.15.18**
  - Supported databases: 
   ![DBSupport](../images/DBSupport.png)
- - The database agent and controller compatibility is decided on the agent version. If you are using agent v4.2.15.18, the controller should be on version v4.2.x or higher.
+ - The database agent and Controller compatibility is decided on the agent version. If you are using agent v4.2.15.18, the controller should be on version v4.2.x or higher.
 
-### <a id="agent"></a>Step 1: Configure Tile for Database Agent
+### <a id="agent"></a> Step 1: Configure Tile for Database Agent
 
 1. You can configure any service plan to deploy database agents. To configure a database agent, do the following:
   1. Select the **Enable Database Monitoring** checkbox. 
@@ -429,11 +428,11 @@ This document describes how to configure a database agent and see database metri
       DBAgent-svcplan-2    started     1/1     1&nbsp;G     1&nbsp;G</pre>
       Here, `svcplan` is the name of the service plan configured to deploy two DB agents. 
 
-### <a id="collector"></a>Step 2: Configure Database Collector
+### <a id="collector"></a> Step 2: Configure Database Collector
 
 The database agent and the AppDynamics controller work together to monitor a database. The agent collects the data from the database server and passes it to the AppDynamics Controller for interpretation and display in the Controller UI. The database agent does not need to be installed on the same system hosting the database server.
 
-<p class="note"><strong>Note</strong>: Because each database agent starts with 1&nbsp;G of memory, AppDynamics reccommends configuring at most two DB collectors for each database agent app running in Pivotal Cloud Foundry (PCF).</p>
+<p class="note"><strong>Note:</strong> Because each database agent starts with 1&nbsp;G of memory, AppDynamics reccommends configuring at most two DB collectors for each database agent app running in Pivotal Cloud Foundry (PCF).</p>
 
 1. Open the AppDynamics controller and go to **Databases > Configuration > Collectors**.
   ![Database collector](../images/Database2.png) 
@@ -441,9 +440,6 @@ The database agent and the AppDynamics controller work together to monitor a dat
 1. Configure a database collector using the [Configure Database Collectors](https://docs.appdynamics.com/display/PRO41/Configure+Database+Collectors) topic from the AppDynamics docs.
   - For the **Database Agent** field in every collector, select the database agent name deployed in PCF. In the example image below, you choose **DBAgent-PCF-Public-Controller-1** as the **Database Agent** and not **Default DB Agent**.
     ![CollectorConfig](../images/Database3.png) 
+
 1. Once you configure and save the collector, generate some traffic on an application that includes database operations. After a couple of minutes, you can see database traffic on your AppDynamics Database Dashboard.
 ![DatabaseTraffic](../images/Database4.png)
-
-
- 
- 
