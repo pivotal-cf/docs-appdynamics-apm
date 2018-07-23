@@ -3,13 +3,14 @@ title: AppDynamics for Pivotal Cloud Foundry
 owner: Partners
 ---
 
-## <a id='overview'></a>Overview
+## <a id='overview'></a> Overview
 
 The AppDynamics integration with Pivotal Cloud Foundry (PCF) allows you to easily deploy AppDynamics-monitored applications on the [Pivotal Network](http://network.pivotal.io).
 
 AppDynamics APM supports performance monitoring of application metrics. AppDynamics agent code embedded or bundled with an application instruments the application code and publishes performance monitoring metrics and other details back to the Application Dashboard in the AppDynamics Controller web UI.
 
-##<a id='product-snapshot'></a>Product Snapshot ##
+
+## <a id='product-snapshot'></a> Product Snapshot
 
 <table class="nice">
     <th>Element</th>
@@ -44,19 +45,18 @@ AppDynamics APM supports performance monitoring of application metrics. AppDynam
 
 *  Upgrades from AppDynamics v1.x are not supported. If you previously installed AppDynamics v1.x, uninstall it and install the latest version
 
-* Please note that the tile cannot be used for OpsManager with PCF version before 2.0.7 since the Loggregator component (reverse_log_proxy) is needed 
-for extracting the KPI metrics is not exposed.
+* The tile cannot be used for OpsManager with PCF before v2.0.7, since the Loggregator component (reverse_log_proxy) needed for extracting the KPI metrics is not exposed.
     
 ### <a id="reqs"></a> Requirements
 
-* An AppDynamics Controller installation of version 4.4.x 
+* AppDynamics Controller v4.4.x
 * An AppDynamics account
 * Pivotal Cloud Foundry v2.0.7 or higher
 
-### <a id="feedback"></a>Feedback
+### <a id="feedback"></a> Feedback
 
 Please provide any bugs, feature requests, or questions to the [Pivotal Cloud Foundry Feedback list](mailto:pivotal-cf-feedback@pivotal.io).
 
-### <a id='license'></a>License
+### <a id='license'></a> License
 
 Users interested in AppDynamics can sign up for a [free trial license](https://portal.appdynamics.com/account/signup/signupForm).
