@@ -17,19 +17,19 @@ AppDynamics APM supports performance monitoring of application metrics. AppDynam
     <th>Details</th>
     <tr>
         <td>Version</td>
-        <td>v4.4.335</td>
+        <td>v4.4.337</td>
     </tr>
     <tr>
         <td>Release date</td>
-        <td>July 16, 2018</td>
+        <td>July 23, 2018</td>
     </tr>       
     <tr>        
         <td>Pivotal Cloud Foundry Operations Manager </td>      
-        <td>v2.0.7 or higher, v2.1.x, and v2.2.x</td>      
+        <td>v2.0.7 or higher, v2.1.x, and 2.2.x</td>      
     </tr>       
     <tr>        
         <td>Pivotal Application Service (formerly Elastic Runtime)</td>     
-        <td>v2.0.7 or higher, v2.1.x and v2.2.x</td>
+        <td>v2.0.7 or higher, v2.1.x, and v2.2.x</td>
     </tr>
     <tr>
         <td>IaaS support</td>
@@ -41,15 +41,16 @@ AppDynamics APM supports performance monitoring of application metrics. AppDynam
     </tr>
 </table>
 
-### <a id="limitations"></a>Limitations
+### <a id="limitations"></a> Limitations
 
-*  Upgrades from AppDynamics v1.x are not supported. If you previously installed AppDynamics v1.x, uninstall it and install the latest version
+* Upgrades from AppDynamics v1.x are not supported. If you previously installed AppDynamics v1.x, uninstall it and install the latest version.
 
-* The tile cannot be used for OpsManager with PCF before v2.0.7, since the Loggregator component (reverse_log_proxy) needed for extracting the KPI metrics is not exposed.
+* The tile cannot be used for OpsManager with cf < v2.0.7 since the Loggregator component (reverse_log_proxy) needed 
+for extracting the KPI metrics is not exposed.
     
 ### <a id="reqs"></a> Requirements
 
-* AppDynamics Controller v4.4.x
+* AppDynamics Controller v4.4.x 
 * An AppDynamics account
 * Pivotal Cloud Foundry v2.0.7 or higher
 
