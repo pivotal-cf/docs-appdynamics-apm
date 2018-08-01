@@ -6,14 +6,27 @@ owner: Partners
 <p class="note"><strong>Note:</strong> Upgrades from AppDynamics v1.x are not supported. If you previously installed AppDynamics v1.x, uninstall it and install the latest version.</p>
 
 
+## <a id='44335'></a> v4.4.337
+
+**Release Date:** July 23, 2018
+
+##### Features
+
+- Added Transactional Analytics Support.
+
+
+
+
 ## <a id='44335'></a> v4.4.335
 
 **Release Date:** July 16, 2018
 
 ##### Features
 
-- Simplified SSL configuration for SAAS Appdynamics controllers, but importing DigiCert Root CA automatically to key store. 
-- Dashboard improvements. 
+- Improvements in dashboard application
+- Simplified SSL enabled communication configuration between tile and AppDynamics Controller 
+- Set the certificate in the security-config of the OpsManager Director e.g: https://docs.pivotal.io/pivotalcf/2-0/customizing/vsphere-config.html#security-config and Tile will pick it up. 
+
 
 
 ## <a id='44322'></a> v4.4.322
@@ -22,9 +35,8 @@ owner: Partners
 
 ##### Features
 
-- Improvements in dashboard application
-- Simplified SSL enabled communication configuration between tile and Appdynamics Controller 
-- Set the certificate in the security-config of the OpsManager Director e.g: https://docs.pivotal.io/pivotalcf/2-0/customizing/vsphere-config.html#security-config and Tile will pick it up. 
+- Simplified SSL configuration for SAAS AppDynamics controllers, but importing DigiCert Root CA automatically to key store. 
+- Dashboard improvements. 
 
 
 ## <a id='44244'></a> v4.4.244
@@ -54,7 +66,7 @@ The tile contains:
 
 ### Limitations
 
-The tile requires:
+The tile requires having 
 
 - PCF Ops Manager: v2.0.7 or higher, or any v2.1.x or v2.2.x versions
 

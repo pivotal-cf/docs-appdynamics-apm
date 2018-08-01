@@ -13,17 +13,53 @@ This topic describes how to install and configure Appdynamics APM monitoring in 
 Do the following:
 
 1. Create a [Pivotal Network](https://network.pivotal.io) account if you do not have one.
+1. [Configure SSL](./installing.html#SSL).
+1. [Set up the AppDynamics Controller](./installing.html#set-up-appd-controller).
 
-1. [Set up the AppDynamics Controller](#set-up-appd-controller).
+<!-- DONE: Move this up to "Before you Start" This should be step 2. "if you are planning to use SSL, do the following:" If you're SAAS, do this; if you're on-prem, do this." Pavan to provide screenshots; needs to confirm/verify final steps. -->
+## <a id='SSL'></a> Configuring SSL
 
+If you are planning to use SSL, do the following based on the Controller type.
+
+### <a id='SAAS'></a> SSL for SAAS AppDynamics Controllers
+
+AppDynamics SAAS controller use DigiCert Global Root CA. The tile automatically imports the DigiCert Global Root CA into the keystore used by AppDynamics Machine agent and the dashboard application, if present.
+
+Check the SSL checkbox in AppDynamics Machine agent configuration.
+
+### <a id='OnPrem'></a> SSL for OnPremise AppDynamics Controllers
+
+For OnPremise Controller deployments, upload the root certificate for the internal CA that signed the Controller certificate for your OnPremise Controller in the secutiry configuration of the OpsManager Director.
+
+For an example, see the [Security Page](https://docs.pivotal.io/pivotalcf/2-0/customizing/vsphere-config.html#security-config) section of the _Configuring Ops Manager Director on vSphere_ topic in the PCF documentation.
+
+Make sure to follow the exact format below while entering multiple certificates.
+
+  <pre class='terminal'>
+  -----BEGIN CERTIFICATE-----
+ABCDEFGH12345678ABCDEFGH12345678ABCDEFGH12345678AB
+EFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABCDEF
+GH12345678ABCDEFGH12345678ABCDEFGH12345678...
+------END CERTIFICATE------
+-----BEGIN CERTIFICATE-----
+BCDEFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABB
+EFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABCDEF
+GH12345678ABCDEFGH12345678ABCDEFGH12345678...
+------END CERTIFICATE------
+-----BEGIN CERTIFICATE-----
+CDEFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABBB
+EFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABCDEF
+GH12345678ABCDEFGH12345678ABCDEFGH12345678...
+------END CERTIFICATE------
+</pre>
 
 ## <a id='set-up-appd-controller'></a> Set Up the AppDynamics Controller
 
 Do the following:
 
-1. [Define an Application and Tier in the Controller](#define-app-and-tier).
+1. [Define an Application and Tier in the Controller](./installing.html#define-app-and-tier).
 
-1. [Determine the Tier ID](#determine-app-id).
+1. [Determine the Tier ID](./installing.html#determine-app-id).
 
 ### <a id='define-app-and-tier'></a> Define an Application and Tier in the Controller
 
@@ -66,81 +102,86 @@ Do the following:
 
 1. Double-click the **AppDynamics** tile in the Installation Dashboard.
 
-1. In the **Settings** tab, click **AppDynamics Controller Configuration**. Then click **Add**.
-  ![](./images/install-02-appd-controller-config-add.png)
+### <a id='appd-controller-config'></a> AppDynamics Controller Setup
 
-1. Enter the following Service Plan options. All of these fields are required. The [Java Agent configuration page](https://docs.appdynamics.com/display/LATEST/Java+Agent+Configuration+Properties) page includes descriptions for these options.
-  * **Controller Configuration Name**
-  * **Controller Configuration Description**
-  * **Account Name** -- This is the account name used to access the Controller
-  * **Account Access Key** -- In the Controller, click the gear icon  and choose **License > Account > Access Key**. If the Account Access Key includes one or more `$` characters, append a second `$` to every `$` included in the key string and surround the entire string with single quotes (').
-  * **Controller Host**
-  * **Controller Port**
-  * **SSL Port** -- Do not enable.
+<!--
+  [//]: # TBD -- Update the following screenshot
+  TBD -- include an example
+  TBD -- Pavan/Jeft to review revised descriptions
+  DONE -- jeff - need to specify an account with a Machine Agent license attached to it. Need to tell users how to view the account info and determine that the account has the required license.
+  -->
+
+1. In the **Settings** tab, click **AppDynamics Controller Configuration**. Then click **Add**.
+![](./images/install-02-appd-controller-config-add.png)
+
+1. Enter the following Service Plan options. All of these fields are required.
+  * **Controller Configuration Name** -- A user-friendly name for this configuration profile. This name should include the Controller to which the Standalone Machine Agent reports.
+  * **Controller Configuration Description** -- A more complete description of this configuration profile.
+  * **Account Name** -- The account name used to access the Controller. You must specify an account with a valid App Agent license. To check this, do the following:
+       * In the Controller, click the gear icon (top right) and choose **License > Account > License**.
+       * In the **Account Usage** tab, under **APM Usage**, verify that the account has at least one available license unit for the type of application you are monitoring (Java, .NET, etc.).
+  * **Account Access Key** -- The account access key used to authenticate with the Controller. In the Controller, click the gear icon (top right) and choose **License > Account > Access Key**.
+  * **Controller Host** -- The host name or the IP address of the AppDynamics Controller. Example values are 192.168.1.22 or myhost or myhost.example.com. This is the same host that you use to access the AppDynamics browser-based user interface. For an on-premises Controller, use the value for Application Server Host Name that was configured when the Controller was installed. If you are using the AppDynamics SaaS Controller service, see the Welcome email from AppDynamics.
+  * **Controller Port** -- The HTTP (unencrypted) port used to access the AppDynamics Controller web interface. Defaults are 8090 (on-premise Controllers) and 80 (SaaS Controllers).
+  * **SSL Port** -- The HTTPS (encrypted) port used to access the AppDynamics Controller web interface. Defaults are 8181 (on-premise Controllers) and 443 (SaaS Controllers).
     ![](./images/install-03-controller-config-options.png)
 
-1. You can add multiple controller configurations by repeating steps 4 and 5. This will enable applications to bind to 
-any of the entered configurations.
+1. You can add multiple controller configurations by repeating steps 4 and 5. This will enable applications to bind to any of the entered configurations.
 
 1. Click **Save** to save the changes and return to the Installation Dashboard.
 
+<!--
+[//]: # DONE: Split App Agent, Machine Agent, and Analytics Agent into separate sections on the same page
+-->
+<!--
+[//]: # TBD -- Add note to the effect of "if you don't care about the machine agent, specify some random values" or something similar
+-->
+<!--
+[//]: # DONE -- Removed "The [Standalone Machine Agent Configuration Property Reference](https://docs.appdynamics.com/display/LATEST/Standalone+Machine+Agent+Configuration+Property+Reference) page includes descriptions for these options.""
+-->
+
+### <a id='appd-machine-agent-config'></a> AppDynamics Machine Agent Setup
+<!--
+[//]: # TBD --  Needs some context. When do you want to set up the Machine Agent? When you use the Firehose Dashboard? Other cases?
+-->
+<!--
+[//]: # DONE --  Needs an account with the appropriate license.
+-->
+<!--
+[//]: # DONE --  include link to section where app name, tier name, and tier ids are defined
+-->
 1. In the **Settings** tab, click **AppDynamics Machine Agent Configuration**.
+1. Enter the following options. All of these fields are required.
 
-1. Enter the following options. All of these fields are required. The [Standalone Machine Agent Configuration Property Reference](https://docs.appdynamics.com/display/LATEST/Standalone+Machine+Agent+Configuration+Property+Reference) page includes descriptions for these options.
-  * **Account Name**: The account name used to access the Controller.
-  * **Account Access Key**: In the Controller, click the gear icon  and choose **License > Account > Access Key**. If the Account Access Key includes one or more `$` characters, append a second `$` to every `$` included in the key string and surround the entire string with single quotes (').
-  * **Controller Host**: Host name of the controller (e.g: 443-onprem-controller.e2e.appd-test.com:8090/controller).
-  * **Controller Port**: Port on which controller is listening (e.g: `8090`).
-  * **SSL Enabled**: Disabled by default. Enable this if you have SSL enabled on the controller. The controller port must be `443` if enabled.
-  * **Application Name**: Enter the application name you defined previously.
-  * **Tier Name**: Enter the application and tier names you defined previously.
-  * **Tier ID**: Enter the component ID you identified previously.
-  * **Node Name**: Enter a name that corresponds to the Application Name, such as **_app-name_-node**.
-  * **User Name**: Must be an AppDynamics user account that has permissions to create both custom metric dashboards and custom Health Rules in the target application.
-  * **Password**: Password for the above AppDynamics user account.
-  * **Nozzle Certificate Authority**: set it to **reverselogproxy**. Do not set it to anything other than **reverselogproxy**.
-  ![](./images/machine-agent-2.png)
-    
+       * **Account Name** -- The account name used to access the Controller. You must specify an account with a valid App Agent license. To check this, do the following:
+            * In the Controller, click the gear icon (top right) and choose **License > Account > License**.
+            * In the **Account Usage** tab, under **APM Usage**, verify that the account has at least one available license unit for the type of application you are monitoring (Java, .NET, etc.).
+       * **Account Access Key** -- The account access key used to authenticate with the Controller. In the Controller, click the gear icon (top right) and choose **License > Account > Access Key**.
+       * **Controller Host** -- The host name or the IP address of the AppDynamics Controller. Example values are 192.168.1.22 or myhost or myhost.example.com. This is the same host that you use to access the AppDynamics browser-based user interface.
+       * **Controller Port**: Port on which controller is listening (e.g: `8090`).
+       * **SSL Enabled**: Disabled by default. Enable this if you have SSL enabled on the controller. The controller port must be `443` if enabled.
+       * **Application Name**, **Tier Name**, and **Tier ID**: Enter the application name, tier name, and tier ID you defined previously in [Define an Application and Tier in the Controller](./installing.html#define-app-and-tier).
+       * **Node Name**: Enter a name that corresponds to the Application Name, such as **_app-name_-node**.
+       * **User Name**: Must be an AppDynamics user account that has permissions to create both custom metric dashboards and custom Health Rules in the target application.
+       * **Password**: Password for the above AppDynamics user account.
+    (./images/machine-agent-2.png)
+
 1. Click **Save** to save the changes and return to the Installation Dashboard.
+
+<!--
+[//]: # TBD -- # Previous screenshot is outdated. Also, some options have been removed. Pavan will give latest tile, Doug to update
+-->
+<!--
+[//]: # TBD --  Jeff to provide screenshots of the AppD user role with the minimal required permissions. Need some final testing to confirm. Has the permissions to create dashboard and health rule. Might want to add some troubleshooting permissions. Jeff will provide final permissions and screenshots. This info will go into the Machine Agent section.
+-->
+
+### <a id='appd-machine-agent-config'></a> AppDynamics Analytics Agent Setup
+
+If you have an AppDynamics Analytics license, and want to and view transaction analytics on the AppDynamics controller, install the Analytics Agent as described in [Configuring Transaction Analytics] (./transaction_analytics.html). 
+<!--
+[//]: # DONE -- Pavan created new transaction_analytics.html.md.erb, need to add link here
+-->
+
+### <a id='appd-machine-agent-config'></a> Apply All Updated Settings
 
 1. In the Installation Dashboard, click **Apply Changes** and wait for all the changes to get applied.
-
-
-## <a id='SSL'></a> Configuring SSL
-
-### <a id='SAAS'></a> SSL for SAAS AppDyanmics Controllers
-  
-AppDynamics SAAS controller use DigiCert Global Root CA. The tile automatically imports the DigiCert Global Root CA into the keystore used by AppDynamics Machine agent and the dashboard application, if present. 
-  
-Check the SSL checkbox in AppDynamics Machine agent configuration. 
-
-### <a id='OnPrem'></a> SSL for OnPremise AppDyanmics Controllers
-  
-For OnPremise Controller deployments, upload the root certificate for the internal CA that signed the Controller certificate for your OnPremise Controller in the secutiry configuration of the OpsManager Director. 
-  
-For an example, see the [Security Page](https://docs.pivotal.io/pivotalcf/2-0/customizing/vsphere-config.html#security-config) section of the _Configuring Ops Manager Director on vSphere_ topic in the PCF documentation.
-
-Make sure to follow the exact format below while entering multiple certificates.
-
-  <pre class='terminal'>
-  -----BEGIN CERTIFICATE-----
-ABCDEFGH12345678ABCDEFGH12345678ABCDEFGH12345678AB
-EFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABCDEF
-GH12345678ABCDEFGH12345678ABCDEFGH12345678...
-------END CERTIFICATE------
------BEGIN CERTIFICATE-----
-BCDEFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABB
-EFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABCDEF
-GH12345678ABCDEFGH12345678ABCDEFGH12345678...
-------END CERTIFICATE------
------BEGIN CERTIFICATE-----
-CDEFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABBB
-EFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABCDEF
-GH12345678ABCDEFGH12345678ABCDEFGH12345678...
-------END CERTIFICATE------
-</pre>
-
-
-## <a id='troubleshooting'></a> Troubleshooting
-
-Follow the steps in the [extensions troubleshooting document](https://community.appdynamics.com/t5/Knowledge-Base/How-to-troubleshoot-missing-custom-metrics-or-extensions-metrics/ta-p/28695) in order to troubleshoot your issue. These are a set of common issues that you might face during the installation of the extension. If taking these steps does not solve your issue, follow the last step in the troubleshooting document to contact the support team.

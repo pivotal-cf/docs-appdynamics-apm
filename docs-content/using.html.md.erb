@@ -34,12 +34,24 @@ This topic describes how to push and bind an application to an AppDynamics tile.
 ## <a id='push-the-application'></a> Push the Application
 
 1. `cd` into the root directory of the application you want to deploy.
+<!-- DONE: buildpack text is not showing in generated text due to <> -->
+1. Push the application and the [corresponding buildpack](using.html#buildpack-info).
 
-1. Push the application and the [corresponding buildpack](using.html#buildpack-info):
-  <pre class='terminal'>cf push <app-name> -b <url-to-appdynamics-buildpack></pre>
+  - For .NET applications, enter:
+  <pre class='terminal'>cf push _app-name_ -b _dotnet-buildpack-name_</pre>
 
+  - For all other applications, enter:
+  <pre class='terminal'>cf push _app-name_ -b _url-to-buildpack_</pre>
+
+<!--
+[//]: # DONE: For .NET app, the cf push app-name -b .net-buildpack-name
+-->
 
 ## <a id='bind-the-service-plan-to-the-application'></a> Bind the Service Plan to the Application
+
+<!--
+[//]: TODO: Pavan to provide steps for doing this in CLI
+-->
 
 1. Log in to Pivotal Apps Manager.
 
@@ -57,16 +69,24 @@ This topic describes how to push and bind an application to an AppDynamics tile.
 ## <a id='restage-the-application'></a> Restage the Application
 
 1. Run the following command:
-  <pre class='terminal'>cf bind-service <application-name></pre>
+<!-- TODO: missing app name due to <> -->
+  <pre class='terminal'>cf bind-service _application-name_</pre>
 
 1. Check the resulting output and verify that the app is successfully deployed. The last lines should confirm that the state of the app is running.
+  <!-- TODO: text is out of proportion in outputted html page -->
   <pre class='terminal'>
-       state     since                  cpu    memory        disk           details
-  #0   running   2018-02-15T02:06:03Z   0.0%   55.3M of 1G   341.7M of 1G
+         state     since                  cpu    memory        disk           details
+   \#0   running   2018-02-15T02:06:03Z   0.0%   55.3M of 1G   341.7M of 1G
   </pre>
 
+<!--
+  [//]: DONE: Rename the following section to "Extending the Default Configuration"
+-->
+<!--
+[//]: TODO: Will add subsections about specifying the appd release, app tier, node name, other environment variables. This is a placeholder for now; Pavan and Jeff will provide info later.
+-->
 
-## <a id='setting-proxy-properties'></a> Setting Proxy Properties
+## <a id='setting-proxy-properties'></a> Extending the Default Configuration
 
 If you are using a proxy server, the consumer application should specify the `http_proxy` or `https_proxy` as an environment variable for the application running on PCF to communicate with the proxy server. Do the following:
 
@@ -83,12 +103,18 @@ If you are using a proxy server, the consumer application should specify the `ht
 
 
 ## <a id='buildpack-info'></a> Supported Buildpacks and Sample Workflows
+<!-- TODO: Add workflow for NodeJS to AppD Cloud doc -->
+<!-- DONE: Added not with link to Github repo with sample apps. -->
+<!-- DONE: Added rows for .NET and Go -->
 
 The following buildpacks are supported in this release. The [AppDynamics documentation for Pivotal] (https://docs.appdynamics.com/display/PCF) includes several step-by-step example workflows with sample applications.
+AppDynamics also supports a set of [sample applications] (https://github.com/Appdynamics/cloudfoundry-apps) that you can use with these workflows.
 
 |  Language | Buildpack  | Sample Workflow |
 |---|---|---|
 | Java  |  https://github.com/cloudfoundry/java-buildpack | [Java Application Workflow](https://docs.appdynamics.com/display/PCF/Java+Application+in+PCF+-+Monitoring+Workflow) |
+| .NET  |  https://github.com/cloudfoundry/dotnet-core-buildpack | [.NET Application Workflow](https://docs.appdynamics.com/display/PCF/.NET+Application+in+PCF+-+Monitoring+Workflow) |
 | PHP  | https://github.com/cloudfoundry/php-buildpack  | [PHP Application workflow](https://docs.appdynamics.com/display/PCF/PHP+Application+in+PCF+-+Monitoring+Workflow) |
 |  Python |  https://github.com/cloudfoundry/python-buildpack#develop | [Python Application Workflow] (https://docs.appdynamics.com/display/PCF/Python+Application+in+PCF+-+Monitoring+Workflow) |
-|  NodeJS |  https://github.com/cloudfoundry/nodejs-buildpack|  |
+|  NodeJS |  https://github.com/cloudfoundry/nodejs-buildpack |
+|  Go |  https://github.com/cloudfoundry/go-buildpack  |
