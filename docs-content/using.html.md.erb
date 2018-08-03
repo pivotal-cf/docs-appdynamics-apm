@@ -36,10 +36,8 @@ This topic describes how to push and bind an application to an AppDynamics tile.
 1. `cd` into the root directory of the application you want to deploy.
 <!-- DONE: buildpack text is not showing in generated text due to <> -->
 1. Push the application and the [corresponding buildpack](using.html#buildpack-info).
-
   - For .NET applications, enter:
   <pre class='terminal'>cf push _app-name_ -b _dotnet-buildpack-name_</pre>
-
   - For all other applications, enter:
   <pre class='terminal'>cf push _app-name_ -b _url-to-buildpack_</pre>
 
@@ -82,7 +80,7 @@ This topic describes how to push and bind an application to an AppDynamics tile.
 
 ## <a id='customize-names'></a> Customizing App, Tier, and Node Names
 
-Appdynamics Buildpacks autogenerates App/Tier/Node names by looking into the deployed environment. To customize this autogeneration, you can enter `cf set-env {APP} {ENVNAME} {ENVVALUE}` to set the configuration environment variables.
+AppDynamics Buildpacks auto-generates App/Tier/Node names by looking into the deployed environment. To customize this auto-generation, you can enter `cf set-env {APP} {ENVNAME} {ENVVALUE}` to set the configuration environment variables.
 
 | AGENT |	APPLICATION ENV VARIABLE |	TIER ENV VARIABLE |	NODE ENV VARIABLE |
 | --- | --- | --- | --- |
@@ -90,7 +88,6 @@ Appdynamics Buildpacks autogenerates App/Tier/Node names by looking into the dep
 | Java |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME |	APPDYNAMICS_AGENT_NODE_NAME |
 | NodeJS |	APPDYNAMICS_AGENT_APPLICATION_NAME|	APPDYNAMICS_AGENT_TIER_NAME | APPDYNAMICS_AGENT_NODE_NAME |
 | Golang |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
-
 
 
 ## <a id='setting-proxy-properties'></a> Extending the Default Configuration
@@ -111,8 +108,8 @@ If you are using a proxy server, the consumer application should specify the `ht
 
 ## <a id='buildpack-info'></a> Supported Buildpacks and Sample Workflows
 
-The following buildpacks are supported in this release. The [AppDynamics documentation for Pivotal] (https://docs.appdynamics.com/display/PCF) includes several step-by-step example workflows with sample applications.
-AppDynamics also supports a set of [sample applications] (https://github.com/Appdynamics/cloudfoundry-apps) that you can use with these workflows.
+The following buildpacks are supported in this release. The [AppDynamics documentation for Pivotal](https://docs.appdynamics.com/display/PCF) includes several step-by-step example workflows with sample applications.
+AppDynamics also supports a set of [sample applications](https://github.com/Appdynamics/cloudfoundry-apps) that you can use with these workflows.
 
 |  Language | Buildpack  | Sample Workflow |
 |---|---|---|
