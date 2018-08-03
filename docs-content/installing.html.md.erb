@@ -94,12 +94,27 @@ Do the following:
 * Note the Tier ID before proceeding. You will need this information when you set up the Service Broker tile.
 
 ### <a id='dashboard-user'></a> Set Permissions for AppDynamics User Account to Publish dashboards
+<!-- DONE: Add Jeff's screenshots here, plus procedure for creating/setting permissions on account -->
 
-1.
+1. In the AppDynamics Controller UI, choose Settings (gear icon, top right) > Administration.
 
-<!-- Add Jeff's screenshots here, plus procedure for creating/setting permissions on account --> 
+1. Go to the Roles tab and create a role with a descriptive name such as "PCF KPI Role."
 
+1. Go to the Applications sub-tab and do the following:
 
+     1. Add the application you defined previously in [Define an Application and Tier in the Controller](./installing.html#define-app-and-tier).
+     
+     1. Under Custom Permissions for Applications/Tiers, add the application you defined previously.
+
+     1. Check the View option for the application.
+
+     1. Click the Edit link for the application. In Edit Permissions, select Configure Health Rules.
+
+1. Go to the Dashboards sub-tab and select the Can Create Dashboards option.
+
+1. Save the role.
+
+1. Go to the Users tab, select the user of interest, and add the role you just created.
 
 ## <a id='set-up-the-service-broker-tile'></a> Set Up the Service Broker Tile
 
