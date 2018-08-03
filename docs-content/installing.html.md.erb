@@ -29,7 +29,7 @@ Check the SSL checkbox in AppDynamics Machine agent configuration.
 
 ### <a id='OnPrem'></a> SSL for OnPremise AppDynamics Controllers
 
-For OnPremise Controller deployments, upload the root certificate for the internal CA that signed the Controller certificate for your OnPremise Controller in the secutiry configuration of the OpsManager Director.
+For OnPremise Controller deployments, upload the root certificate for the internal CA that signed the Controller certificate for your OnPremise Controller in the security configuration of BOSH Director.
 
 For an example, see the [Security Page](https://docs.pivotal.io/pivotalcf/2-0/customizing/vsphere-config.html#security-config) section of the _Configuring Ops Manager Director on vSphere_ topic in the PCF documentation.
 
@@ -52,6 +52,7 @@ EFGH12345678ABCDEFGH12345678ABCDEFGH12345678ABCDEF
 GH12345678ABCDEFGH12345678ABCDEFGH12345678...
 ------END CERTIFICATE------
 </pre>
+
 
 ## <a id='set-up-appd-controller'></a> Set Up the AppDynamics Controller
 
@@ -100,7 +101,6 @@ Do the following:
 <!-- Add Jeff's screenshots here, plus procedure for creating/setting permissions on account --> 
 
 
-
 ## <a id='set-up-the-service-broker-tile'></a> Set Up the Service Broker Tile
 
 1. Log in to Ops Manager.
@@ -122,15 +122,15 @@ Do the following:
 ![](./images/install-02-appd-controller-config-add.png)
 
 1. Enter the following Service Plan options. All of these fields are required.
-  * **Controller Configuration Name** -- A user-friendly name for this configuration profile. This name should include the Controller to which the Standalone Machine Agent reports.
-  * **Controller Configuration Description** -- A more complete description of this configuration profile.
-  * **Account Name** -- The account name used to access the Controller. You must specify an account with a valid App Agent license. To check this, do the following:
+  * **Controller Configuration Name**: A user-friendly name for this configuration profile. This name should include the Controller to which the Standalone Machine Agent reports.
+  * **Controller Configuration Description**: A more complete description of this configuration profile.
+  * **Account Name**: The account name used to access the Controller. You must specify an account with a valid App Agent license. To check this, do the following:
        * In the Controller, click the gear icon (top right) and choose **License > Account > License**.
        * In the **Account Usage** tab, under **APM Usage**, verify that the account has at least one available license unit for the type of application you are monitoring (Java, .NET, etc.).
-  * **Account Access Key** -- The account access key used to authenticate with the Controller. In the Controller, click the gear icon (top right) and choose **License > Account > Access Key**.
-  * **Controller Host** -- The host name or the IP address of the AppDynamics Controller. Example values are 192.168.1.22 or myhost or myhost.example.com. This is the same host that you use to access the AppDynamics browser-based user interface. For an on-premises Controller, use the value for Application Server Host Name that was configured when the Controller was installed. If you are using the AppDynamics SaaS Controller service, see the Welcome email from AppDynamics.
-  * **Controller Port** -- The HTTP (unencrypted) port used to access the AppDynamics Controller web interface. Defaults are 8090 (on-premise Controllers) and 80 (SaaS Controllers).
-  * **SSL Port** -- The HTTPS (encrypted) port used to access the AppDynamics Controller web interface. Defaults are 8181 (on-premise Controllers) and 443 (SaaS Controllers).
+  * **Account Access Key**: The account access key used to authenticate with the Controller. In the Controller, click the gear icon (top right) and choose **License > Account > Access Key**.
+  * **Controller Host**: The host name or the IP address of the AppDynamics Controller. Example values are `192.168.1.22`, `myhost`, or `myhost.example.com`. This is the same host that you use to access the AppDynamics browser-based user interface. For an on-premises Controller, use the value for Application Server Host Name that was configured when the Controller was installed. If you are using the AppDynamics SaaS Controller service, see the Welcome email from AppDynamics.
+  * **Controller Port**: The HTTP (unencrypted) port used to access the AppDynamics Controller web interface. Defaults are `8090` (on-premise Controllers) and `80` (SaaS Controllers).
+  * **SSL Port**: The HTTPS (encrypted) port used to access the AppDynamics Controller web interface. Defaults are `8181` (on-premise Controllers) and `443` (SaaS Controllers).
     ![](./images/install-03-controller-config-options.png)
 
 1. You can add multiple controller configurations by repeating steps 4 and 5. This will enable applications to bind to any of the entered configurations.
@@ -158,19 +158,19 @@ Do the following:
 [//]: # DONE --  include link to section where app name, tier name, and tier ids are defined
 -->
 1. In the **Settings** tab, click **AppDynamics Machine Agent Configuration**.
-1. Enter the following options. All of these fields are required.
 
-       * **Account Name** -- The account name used to access the Controller. You must specify an account with a valid App Agent license. To check this, do the following:
-            * In the Controller, click the gear icon (top right) and choose **License > Account > License**.
-            * In the **Account Usage** tab, under **APM Usage**, verify that the account has at least one available license unit for the type of application you are monitoring (Java, .NET, etc.).
-       * **Account Access Key** -- The account access key used to authenticate with the Controller. In the Controller, click the gear icon (top right) and choose **License > Account > Access Key**.
-       * **Controller Host** -- The host name or the IP address of the AppDynamics Controller. Example values are 192.168.1.22 or myhost or myhost.example.com. This is the same host that you use to access the AppDynamics browser-based user interface.
-       * **Controller Port**: Port on which controller is listening (e.g: `8090`).
-       * **SSL Enabled**: Disabled by default. Enable this if you have SSL enabled on the controller. The controller port must be `443` if enabled.
-       * **Application Name**, **Tier Name**, and **Tier ID**: Enter the application name, tier name, and tier ID you defined previously in [Define an Application and Tier in the Controller](./installing.html#define-app-and-tier).
-       * **Node Name**: Enter a name that corresponds to the Application Name, such as **_app-name_-node**.
-       * **User Name**: Must be an AppDynamics user account that has permissions to create both custom metric dashboards and custom Health Rules in the target application.
-       * **Password**: Password for the above AppDynamics user account.
+1. Complete the following fields. All of these fields are required.
+   * **Account Name**: The account name used to access the Controller. You must specify an account with a valid App Agent license. To check this, do the following:
+     * In the Controller, click the gear icon (top right) and choose **License > Account > License**.
+     * In the **Account Usage** tab, under **APM Usage**, verify that the account has at least one available license unit for the type of application you are monitoring (Java, .NET, etc.).
+   * **Account Access Key**: The account access key used to authenticate with the Controller. In the Controller, click the gear icon (top right) and choose **License > Account > Access Key**.
+   * **Controller Host**: The host name or the IP address of the AppDynamics Controller. Example values are 192.168.1.22 or myhost or myhost.example.com. This is the same host that you use to access the AppDynamics browser-based user interface.
+   * **Controller Port**: Port on which controller is listening (e.g: `8090`).
+   * **SSL Enabled**: Disabled by default. Enable this if you have SSL enabled on the controller. The controller port must be `443` if enabled.
+   * **Application Name**, **Tier Name**, and **Tier ID**: Enter the application name, tier name, and tier ID you defined previously in [Define an Application and Tier in the Controller](./installing.html#define-app-and-tier).
+   * **Node Name**: Enter a name that corresponds to the Application Name, such as **_app-name_-node**.
+   * **User Name**: Must be an AppDynamics user account that has permissions to create both custom metric dashboards and custom Health Rules in the target application.
+   * **Password**: Password for the above AppDynamics user account.
     (./images/machine-agent-2.png)
 
 1. Click **Save** to save the changes and return to the Installation Dashboard.
@@ -179,10 +179,9 @@ Do the following:
 [//]: # TBD -- # Previous screenshot is outdated. Also, some options have been removed. Pavan will give latest tile, Doug to update
 -->
 
-
 ### <a id='appd-machine-agent-config'></a> AppDynamics Analytics Agent Setup
 
-If you have an AppDynamics Analytics license, and want to and view transaction analytics on the AppDynamics controller, install the Analytics Agent as described in [Configuring Transaction Analytics] (./transaction_analytics.html).
+If you have an AppDynamics Analytics license and want to view transaction analytics on the AppDynamics Controller, install the Analytics Agent as described in [Configuring Transaction Analytics](./analytics.html).
 <!--
 [//]: # DONE -- Pavan created new transaction_analytics.html.md.erb, need to add link here
 -->
