@@ -36,10 +36,8 @@ This topic describes how to push and bind an application to an AppDynamics tile.
 1. `cd` into the root directory of the application you want to deploy.
 <!-- DONE: buildpack text is not showing in generated text due to <> -->
 1. Push the application and the [corresponding buildpack](using.html#buildpack-info).
-
   - For .NET applications, enter:
   <pre class='terminal'>cf push _app-name_ -b _dotnet-buildpack-name_</pre>
-
   - For all other applications, enter:
   <pre class='terminal'>cf push _app-name_ -b _url-to-buildpack_</pre>
 
@@ -67,24 +65,30 @@ This topic describes how to push and bind an application to an AppDynamics tile.
 
 
 ## <a id='restage-the-application'></a> Restage the Application
+<!-- DONE: missing app name due to <> -->
+<!-- DONE: text is out of proportion in outputted html page -->
 
 1. Run the following command:
-<!-- TODO: missing app name due to <> -->
   <pre class='terminal'>cf bind-service _application-name_</pre>
 
 1. Check the resulting output and verify that the app is successfully deployed. The last lines should confirm that the state of the app is running.
-  <!-- TODO: text is out of proportion in outputted html page -->
   <pre class='terminal'>
          state     since                  cpu    memory        disk           details
    \#0   running   2018-02-15T02:06:03Z   0.0%   55.3M of 1G   341.7M of 1G
   </pre>
 
-<!--
-  [//]: DONE: Rename the following section to "Extending the Default Configuration"
--->
-<!--
-[//]: TODO: Will add subsections about specifying the appd release, app tier, node name, other environment variables. This is a placeholder for now; Pavan and Jeff will provide info later.
--->
+
+## <a id='customize-names'></a> Customizing App, Tier, and Node Names
+
+AppDynamics Buildpacks auto-generates App/Tier/Node names by looking into the deployed environment. To customize this auto-generation, you can enter `cf set-env {APP} {ENVNAME} {ENVVALUE}` to set the configuration environment variables.
+
+| AGENT |	APPLICATION ENV VARIABLE |	TIER ENV VARIABLE |	NODE ENV VARIABLE |
+| --- | --- | --- | --- |
+| Python |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
+| Java |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME |	APPDYNAMICS_AGENT_NODE_NAME |
+| NodeJS |	APPDYNAMICS_AGENT_APPLICATION_NAME|	APPDYNAMICS_AGENT_TIER_NAME | APPDYNAMICS_AGENT_NODE_NAME |
+| Golang |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
+
 
 ## <a id='setting-proxy-properties'></a> Extending the Default Configuration
 
@@ -103,12 +107,9 @@ If you are using a proxy server, the consumer application should specify the `ht
 
 
 ## <a id='buildpack-info'></a> Supported Buildpacks and Sample Workflows
-<!-- TODO: Add workflow for NodeJS to AppD Cloud doc -->
-<!-- DONE: Added not with link to Github repo with sample apps. -->
-<!-- DONE: Added rows for .NET and Go -->
 
-The following buildpacks are supported in this release. The [AppDynamics documentation for Pivotal] (https://docs.appdynamics.com/display/PCF) includes several step-by-step example workflows with sample applications.
-AppDynamics also supports a set of [sample applications] (https://github.com/Appdynamics/cloudfoundry-apps) that you can use with these workflows.
+The following buildpacks are supported in this release. The [AppDynamics documentation for Pivotal](https://docs.appdynamics.com/display/PCF) includes several step-by-step example workflows with sample applications.
+AppDynamics also supports a set of [sample applications](https://github.com/Appdynamics/cloudfoundry-apps) that you can use with these workflows.
 
 |  Language | Buildpack  | Sample Workflow |
 |---|---|---|
@@ -116,5 +117,5 @@ AppDynamics also supports a set of [sample applications] (https://github.com/App
 | .NET  |  https://github.com/cloudfoundry/dotnet-core-buildpack | [.NET Application Workflow](https://docs.appdynamics.com/display/PCF/.NET+Application+in+PCF+-+Monitoring+Workflow) |
 | PHP  | https://github.com/cloudfoundry/php-buildpack  | [PHP Application workflow](https://docs.appdynamics.com/display/PCF/PHP+Application+in+PCF+-+Monitoring+Workflow) |
 |  Python |  https://github.com/cloudfoundry/python-buildpack#develop | [Python Application Workflow] (https://docs.appdynamics.com/display/PCF/Python+Application+in+PCF+-+Monitoring+Workflow) |
-|  NodeJS |  https://github.com/cloudfoundry/nodejs-buildpack |
+|  NodeJS |  https://github.com/cloudfoundry/nodejs-buildpack | [NodeJS Application Workflow] (https://github.com/Appdynamics/cloudfoundry-apps/blob/master/cf-nodejs/README.md ) |
 |  Go |  https://github.com/cloudfoundry/go-buildpack  |

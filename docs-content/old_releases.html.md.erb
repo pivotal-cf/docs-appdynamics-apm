@@ -90,7 +90,7 @@ Features included in this release:
 
 1. Download the product file from the [AppDynamics Product page](https://network.pivotal.io/products/p-appdynamics) on the [Pivotal Network](https://network.pivotal.io/).
 
-1. Log in to the PCF Operations Manager (Ops Manager).
+1. Log in to PCF Ops Manager.
 
 1. Click **Import a Product** and import the AppDynamics product file.
     <%= image_tag("import-product.png") %>
@@ -123,7 +123,6 @@ Features included in this release:
     1. Click **Add** on the far right of the Service Plan screen to create a new service plan.
     1. Enter the **Account Name** and **Account Access Key** from the license page along with controller binding credentials (`ip`, `port`, `ssl-enabled`). The plan name and plan description are user-defined.
         <%= image_tag("create-plan.png") %>
-
     1. (Optional) Create additional service plans for the same account key.
     1. Follow the instructions in the [Configuring Database Monitoring](database_monitoring.html) topic to complete the database fields.
     1. Click **Save** to save the information for this plan.
@@ -136,7 +135,7 @@ Features included in this release:
         <%= image_tag("machine-agent.png") %>
     1. If you do not want to override the default configuration, select **Disable**. If you want to override the default configuration, select **Enable** and specify the metrics that you want to pull in from JMX Bridge in your Cloud Foundry `config.yml` file. Use this [template](https://github.com/Appdynamics/cloud-foundry-extension/blob/PCF-Service-Broker/conf/config.yaml) to override the `config.yml` file.
         <%= image_tag("OverrideJMX.png") %>
-    1. Fill in the JMX Bridge Server IP and Port (default: 44444).
+    1. Fill in the JMX Bridge Server IP and Port (default: `44444`).
         <%= image_tag("JMX_Bridge.png") %>
     1. Fill in the credentials to connect to the server. Select the **JMX Authentication** checkbox.
     1. The AppDynamics tile does not support communication with JMX Bridge over SSL. In the **JMX Provider** section of the JMX Bridge tile, uncheck the **Enable SSL** checkbox.
@@ -223,7 +222,7 @@ If the Cloud Foundry environment needs to use an HTTP(S) proxy for external outb
   -D appdynamics.http.proxyPort=8080 "
   </pre>
 
-* If a Java application also needs to talk through a proxy, provide standard Java http arguments.
+* If a Java application also needs to talk through a proxy, provide standard Java HTTP arguments.
   <pre class='terminal'>
   $ cf set-env APPNAME JAVA_OPTS "
   -D test.value=barbar -D appdynamics.http.proxyHost=proxy.customer.com
@@ -325,7 +324,7 @@ There must be at least one Analytics Agent in the monitored environment, althoug
 
 In this example, AppServerHost1-3 collect only transaction data, and only app agents are required. Each one connects to the Analytics Agent on AppServerHost4. The analytics agent forwards the transaction analytics data to the event service. Finally, the controller fetches the analytics data from the event service and renders it to the controller analytics dashboard.
 
-Follow the steps below to configure Transaction Analytics for your PCF applications.
+Follow the steps below to configure Transaction Analytics for your PCF apps.
 
 #### <a id="step1"></a> Step 1: Configure Tile for Analytics
 
@@ -385,7 +384,7 @@ On your AppDynamics Controller, do the following to configure the analytics coll
 
 1. (Optional) Configure the **HTTP Data Collectors** and **Transactions for GUID Injection** fields. For more information, see the AppDynamics documentation:
   - [Configure HTTP Data Collectors](https://docs.appdynamics.com/display/PRO42/Configuring+Transaction+Analytics): This enables collection of additional business data using HTTP Data Collectors.
-  - [Configure Transactions for GUID Injection](https://docs.appdynamics.com/display/PRO42/Business+Transaction+and+Log+Correlation): By configuring business transactions for GUID Injection, you can correlate logs to specific business transaction requests. This can be helpful when you see slow transactions and the call graph does not give you enough information to get to the root cause. You can use this feature to get the full context related to a failed or slow transaction.
+  - [Configure Transactions for GUID Injection](https://docs.appdynamics.com/display/PRO42/Business+Transaction+and+Log+Correlation): By configuring business transactions for GUID injection, you can correlate logs to specific business transaction requests. This can be helpful when you see slow transactions and the call graph does not give you enough information to get to the root cause. You can use this feature to get the full context related to a failed or slow transaction.
    ![Optional Fields](../images/Analytics5.png)
 
 #### <a id="step5"></a> Step 5: Analyze Business Transactions Using Analytics
@@ -407,7 +406,7 @@ This document describes how to configure a database agent and see database metri
  - Supported database agent **v4.2.15.18**
  - Supported databases:
   ![DBSupport](../images/DBSupport.png)
- - The database agent and Controller compatibility is decided on the agent version. If you are using agent v4.2.15.18, the controller should be on version v4.2.x or higher.
+ - The database agent and Controller compatibility is decided on the agent version. If you are using agent v4.2.15.18, the controller should be on v4.2.x or higher.
 
 ### <a id="agent"></a> Step 1: Configure Tile for Database Agent
 
