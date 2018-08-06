@@ -81,7 +81,7 @@ Override the following environment by running `cf set-env APP ENVNAME ENVVALUE`.
 
 ### <a id='s6'></a> How do I configure the Java Buildpack to fetch a particular agent version?
 
-By default, Buildpack fetches the latest available agent entry in the [index.yml](packages.appdynamics.com/java/index.yml) file. You can override the default behavior by setting [these variables](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-app_dynamics_agent.md#configuration).
+By default, Buildpack fetches the latest available agent entry in the [index.yml](https://packages.appdynamics.com/java/index.yml) file. You can override the default behavior by setting [these variables](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-app_dynamics_agent.md#configuration).
   * To use a specific version, set the env JBP_CONFIG_APP_DYNAMICS_AGENT by running `cf set-env YOUR_APP_NAME JBP_CONFIG_APP_DYNAMICS_AGENT 'version: 4.4.111'`.
   * To use another package index, set the env JBP_CONFIG_APP_DYNAMICS_AGENT by running `cf set-env YOUR_APP_NAME JBP_CONFIG_APP_DYNAMICS_AGENT 'repository_root: "https://exmple.duckdns.org"' `
 
