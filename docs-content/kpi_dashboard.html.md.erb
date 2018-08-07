@@ -101,7 +101,7 @@ The PCF Dashboard Generator will write the dashboard and health rules to the con
 
 When the PCF Dashboard Generator is deployed in PCF, or run from the commandline with the --start_service option, it will expose a publish endpoint that accepts POST requests. In PCF, the URL would be:
 
-http(s)://<pcf route>/pcf-dash/publish?overwrite_hrs=false&recreate_dashboard=false
+http(s)://pcf-route/pcf-dash/publish?overwrite_hrs=false&recreate_dashboard=false
 
 The overwrite_hrs and recreate_dashboard parameters can be set to `true` to overwrite existing health rules (back up existing health rules if necessary) or recreate the dashboard (a pre-existing dashboard is not deleted)
 
