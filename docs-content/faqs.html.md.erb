@@ -52,6 +52,10 @@ owner: Partners
   * You can use the java_buildpack shipped with CF environments directly. The AppDynamics support has been merged. Any java_buildpack version released after Nov 2017 should work.
   * In addition, you must place the AppDynamics agent downloaded from packages.appdynamics.com/java/index.yml. See `https://github.com/cloudfoundry/java-buildpack#offline-package`
 
+### <a id='s4'></a> I have a deployment with no internet access. How do I push the applications?
+  * You can use the java_buildpack shipped with CF environments directly. The AppDynamics support has been merged. Any java_buildpack version released after Nov 2017 should work.
+  * In addition, you must place the AppDynamics agent downloaded from packages.appdynamics.com/java/index.yml. See `https://github.com/cloudfoundry/java-buildpack#offline-package`
+
 ### <a id='s5'></a> How do I customize AppName, TierName, NodeName?
   * AppDynamics Buildpacks autogenerates App/Tier/Node names by looking into the deployed environment. You can customize this autogeneration by setting the configuration environment variables.
   * To override the following environment, enter `cf set-env {APP} {ENVNAME} {ENVVALUE}`
@@ -75,6 +79,7 @@ owner: Partners
   * If you are using the default package index, verify that the version in question is present in the output of the following command:
     +  `curl -sSL https://packages.appdynamics.com/java/index.yml -H "user-agent: Ruby" -H "accept-encoding: gzip;q=1.0,deflate;q=0.6,identity;q=0.3" -H "accept: */*"`
   * If it does not show up in the output, reach out to AppDynamics Support (or) #java-buildpack channel of cloudfoundry slack
+
 
 ### <a id='s8'></a> My application push fails. What do I provide to AppDynamics Support?
 
