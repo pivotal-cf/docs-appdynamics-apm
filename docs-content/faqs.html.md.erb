@@ -39,14 +39,19 @@ owner: Partners
 ### <a id='s3'></a> What language buildpacks have AppDynamics support included?
   * The following buildpacks are supported. The [AppDynamics documentation for Pivotal] (https://docs.appdynamics.com/display/PCF) includes several step-by-step example workflows with sample applications.
 
-    |  Language | Buildpack  | Sample Workflow | Sample Application|
-    |---|---|---|---|
-    | Java  |  https://github.com/cloudfoundry/java-buildpack | [Java Application Workflow](https://docs.appdynamics.com/display/PCF/Java+Application+in+PCF+-+Monitoring+Workflow) | https://github.com/Appdynamics/cloudfoundry-apps/tree/master/cf-java-sample |
-    | PHP  | https://github.com/cloudfoundry/php-buildpack  | [PHP Application workflow](https://docs.appdynamics.com/display/PCF/PHP+Application+in+PCF+-+Monitoring+Workflow) | |
-    |  Python |  https://github.com/cloudfoundry/python-buildpack#develop | [Python Application Workflow](https://docs.appdynamics.com/display/PCF/Python+Application+in+PCF+-+Monitoring+Workflow) | https://github.com/Appdynamics/cloudfoundry-apps/tree/master/cf-python |
-    |  NodeJS |  https://github.com/cloudfoundry/nodejs-buildpack|   [Node JS Application Workflow](https://docs.appdynamics.com/display/PCF/Python+Application+in+PCF+-+Monitoring+Workflow)| https://github.com/Appdynamics/cloudfoundry-apps/tree/master/cf-nodejs |
-    | GoLang  | https://github.com/cloudfoundry/go-buildpack  | | |
-    |  .NET |  https://github.com/Appdynamics/hwc-buildpack  |  [.NET Application Workflow](https://github.com/Appdynamics/cloudfoundry-apps/tree/master/cf-NET-sample)| https://github.com/Appdynamics/cloudfoundry-apps/tree/master/cf-NET-sample|
+|  Language |Workflow | Cloud Foundry Buildpack |
+|---|---|---|
+| Java  | [Java Application Workflow](https://docs.appdynamics.com/display/PCF/Java+Application+in+PCF+-+Monitoring+Workflow) | [Java buildpack](https://github.com/cloudfoundry/java-buildpack)  |
+| .NET  | [.NET Application Workflow](https://docs.appdynamics.com/display/PCF/.NET+Application+in+PCF+-+Monitoring+Workflow)  | [.NET buildpack](https://github.com/Appdynamics/hwc-buildpack) |
+| PHP  | [PHP Application Workflow](https://docs.appdynamics.com/display/PCF/PHP+Application+in+PCF+-+Monitoring+Workflow) | [PHP buildpack] (https://github.com/cloudfoundry/php-buildpack)  |
+| Python  | [Python Application Workflow](https://docs.appdynamics.com/display/PCF/PHP+Application+in+PCF+-+Monitoring+Workflow) | [Python buildpack] (https://github.com/cloudfoundry/python-buildpack#develop)  |
+| NodeJS | | [NodeJS buildpack] (https://github.com/cloudfoundry/nodejs-buildpack)  |
+|  Go | | [Cloud Foundry buildpack] (https://github.com/cloudfoundry/go-buildpack)  |
+
+
+### <a id='s4'></a> I have a deployment with no internet access. How do I push the applications?
+  * You can use the java_buildpack shipped with CF environments directly. The AppDynamics support has been merged. Any java_buildpack version released after Nov 2017 should work.
+  * In addition, you must place the AppDynamics agent downloaded from packages.appdynamics.com/java/index.yml. See `https://github.com/cloudfoundry/java-buildpack#offline-package`
 
 ### <a id='s4'></a> I have a deployment with no internet access. How do I push the applications?
   * You can use the java_buildpack shipped with CF environments directly. The AppDynamics support has been merged. Any java_buildpack version released after Nov 2017 should work.
@@ -60,12 +65,15 @@ owner: Partners
   * AppDynamics Buildpacks autogenerates App/Tier/Node names by looking into the deployed environment. You can customize this autogeneration by setting the configuration environment variables.
   * To override the following environment, enter `cf set-env {APP} {ENVNAME} {ENVVALUE}`
 
-    |AGENT|	APPLICATION ENV VARIABLE|	TIER ENV VARIABLE|	NODE ENV VARIABLE|
-    |---|---|---|---|
-    |Python|	APPD_APP_NAME|	APPD_TIER_NAME|	APPD_NODE_NAME|
-    |Java|	APPDYNAMICS_AGENT_APPLICATION_NAME|	APPDYNAMICS_AGENT_TIER_NAME|	APPDYNAMICS_AGENT_NODE_NAME|
-    |NodeJS|	APPDYNAMICS_AGENT_APPLICATION_NAME|	APPDYNAMICS_AGENT_TIER_NAME| APPDYNAMICS_AGENT_NODE_NAME|
-    |Golang|	APPD_APP_NAME|	APPD_TIER_NAME|	APPD_NODE_NAME|
+| AGENT |	APPLICATION ENV VARIABLE |	TIER ENV VARIABLE |	NODE ENV VARIABLE |
+| --- | --- | --- | --- |
+| Python |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
+| Java |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME |	APPDYNAMICS_AGENT_NODE_NAME |
+| NodeJS |	APPDYNAMICS_AGENT_APPLICATION_NAME|	APPDYNAMICS_AGENT_TIER_NAME | APPDYNAMICS_AGENT_NODE_NAME |
+| Golang |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
+
+
+
 
 ### <a id='s6'></a> How do I configure the Java Buildpack to fetch a particular agent version?
   * By default, Buildpack fetches the latest available agent entry in `packages.appdynamics.com/java/index.yml `
@@ -100,13 +108,11 @@ owner: Partners
       + cat /proc/{pid}/environ
       + Agent logs
 
-    | AGENT  | LOGS  |
-    | ------------ | ------------ |
-    |  NODE.JS  | /tmp/appd/{hash} |
-    | JAVA   |  {WIP} |
-    |   Python |  {WIP} |
-    |PHP| {WIP}|
-    |GoLang| {WIP}|
+| AGENT  | LOGS  |
+| ------------ | ------------ |
+|  NODE.JS  | /tmp/appd/{hash} |
+| JAVA   | /app/.java-buildpack/app_dynamics_agent/ver<agent_version>/logs  |
+
 
 
 ## <a id='MA FAQS'></a> AppDynamics Machine Agent - Platform Metrics FAQs
