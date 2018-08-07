@@ -93,7 +93,7 @@ The generated health rules are based on a template that assumes three Diego Cell
 
 - Remaining Disk Available
 
-- Overwrite Behavior
+### <a id='overwrite-behavior'></a> Overwrite Behavior
 
 The PCF Dashboard Generator will write the dashboard and health rules to the controller and application configured in the Appd Tile only if they do not exist. If you wish to recreate the dashboard and overwrite the existing health rules you can either rename or delete the existing dashboard and health rules, or supply the appropriate overwrite/recreate flag.
 
@@ -106,11 +106,5 @@ http(s)://<pcf route>/pcf-dash/publish?overwrite_hrs=false&recreate_dashboard=fa
 The overwrite_hrs and recreate_dashboard parameters can be set to `true` to overwrite existing health rules (back up existing health rules if necessary) or recreate the dashboard (a pre-existing dashboard is not deleted)
 
 <!--
-[//]: # TBD -- Need more info or links re last point....
--->
-<!--
-[//]: # TBD --
-Port config info from https://github.com/Appdynamics/pcf-dash-generator/blob/master/README.md to this page
-(some info in github readme might be replicated on this page)
-Then remove the  References link:
+[//]: # TODO -- Need more info or links re last point....
 -->
