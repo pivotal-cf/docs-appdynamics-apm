@@ -5,30 +5,27 @@ owner: Partners
 
 <p class="note"><strong>Note:</strong> For instructions for installing AppDynamics v1.x, see <a href="./installing_1_x.html">(Deprecated) Installing and Configuring AppDynamics APM (1.x version)</a>.</p>
 
-This topic describes how to install and configure Appdynamics APM monitoring in Pivotal Cloud Foundry (PCF).
+This topic describes how to install and configure AppDynamics APM monitoring in Pivotal Cloud Foundry (PCF).
 
 
 ## <a id='before-you-start'></a> Before You Start
 
-Do the following:
+Create a [Pivotal Network](https://network.pivotal.io) account if you do not have one.
 
-1. Create a [Pivotal Network](https://network.pivotal.io) account if you do not have one.
-1. [Configure SSL](./installing.html#SSL).
-1. [Set up the AppDynamics Controller](./installing.html#set-up-appd-controller).
 
 ## <a id='SSL'></a> Configuring SSL
 
 If you are planning to use SSL, do the following based on the Controller type.
 
-### <a id='SAAS'></a> SSL for SAAS AppDynamics Controllers
+### <a id='SAAS'></a> SSL for SaaS AppDynamics Controllers
 
-AppDynamics SAAS controller use DigiCert Global Root CA. The tile automatically imports the DigiCert Global Root CA into the keystore used by AppDynamics Machine agent and the dashboard application, if present.
+AppDynamics SaaS controller use DigiCert Global Root CA. The tile automatically imports the DigiCert Global Root CA into the keystore used by AppDynamics Machine Agent and the dashboard app, if present.
 
-Check the SSL checkbox in AppDynamics Machine agent configuration.
+Enable the SSL checkbox in AppDynamics Machine Agent configuration.
 
 ### <a id='OnPrem'></a> SSL for OnPremise AppDynamics Controllers
 
-For OnPremise Controller deployments, upload the root certificate for the internal CA that signed the Controller certificate for your OnPremise Controller in the secutiry configuration of the OpsManager Director.
+For OnPremise Controller deployments, upload the root certificate for the internal CA that signed the Controller certificate for your OnPremise Controller in the secutiry configuration of the BOSH Director.
 
 For an example, see the [Security Page](https://docs.pivotal.io/pivotalcf/2-0/customizing/vsphere-config.html#security-config) section of the _Configuring Ops Manager Director on vSphere_ topic in the PCF documentation.
 
@@ -52,67 +49,59 @@ GH12345678ABCDEFGH12345678ABCDEFGH12345678...
 ------END CERTIFICATE------
 </pre>
 
+
 ## <a id='set-up-appd-controller'></a> Set Up the AppDynamics Controller
 
-Do the following:
-
-1. [Define an Application and Tier in the Controller](./installing.html#define-app-and-tier).
-
-1. [Determine the Tier ID](./installing.html#determine-app-id).
-
-### <a id='define-app-and-tier'></a> Define an Application and Tier in the Controller
+### <a id='define-app-and-tier'></a> Define an App and Tier in the Controller
 
 1. Log in to the Controller.
 
 1. Go to the Applications page. At the top of the table, click **Create Application**.
   ![](./images/appd-create-app-01.png)
 
-1. In the Create Application dialog box, click **Create an Application manually**, enter the application name, and click **OK**.<br>
+1. In the Create Application dialog box, click **Create an Application manually**, enter the app name, and click **OK**.<br>
   ![](./images/appd-create-app-02.png)
 
 1. In the Application Dashboard for the new app, go to **Tiers & Nodes**.
 
-1. Click the Actions button at the top of the table and choose **Create App Server Tier**.
+1. Click **Actions** at the top of the table and choose **Create App Server Tier**.
   ![](./images/appd-create-app-03.png)
 
-1. Select the application type and click **Next**.
+1. Select the app type and click **Next**.
   ![](./images/appd-create-app-04.png)
 
 1. Enter the tier name and description and click **Finish**.
   ![](./images/appd-create-app-05.png)
 
-* Note the Application Name and Tier Name before proceeding. You will need this information when you set up the Service Broker tile.
+Note the Application Name and Tier Name before proceeding. You will need this information when you set up the Service Broker tile.
 
 ### <a id='determine-app-id'></a> Determine the Tier ID
 
-1. In the Tiers & Nodes table for the application you just created, right-click on the tier and choose **View**.
+1. In the **Tiers & Nodes** table for the application you just created, right-click on the tier and choose **View**.
 
-1. Examine the page URL and look for the "component=<number>" string. This number is the tier ID.
+1. Examine the page URL and look for the `component=<number>` string. This number is the tier ID.
       ![](./images/appd-component-id.png)
 
-* Note the Tier ID before proceeding. You will need this information when you set up the Service Broker tile.
+Note the Tier ID before proceeding. You will need this information when you set up the Service Broker tile.
 
 ### <a id='dashboard-user'></a> Set Permissions for AppDynamics User Account to Publish Dashboards
 
-1. In the AppDynamics Controller UI, choose Settings (gear icon, top right) > Administration.
+1. In the AppDynamics Controller UI, navigate to **Settings > Administration**.
 
 1. Go to the **Roles** tab and create a role with a descriptive name such as "PCF KPI Role."
 
 1. Go to the **Applications** sub-tab and do the following:
+     1. Add the app you defined previously in [Define an Application and Tier in the Controller](#define-app-and-tier).
+     1. Under **Custom Permissions for Applications/Tiers**, add the app you defined previously.
+     1. Check the **View** option for the app.
+     1. Click the **Edit** link for the app. In **Edit Permissions**, select **Configure Health Rules**.
 
-     1. Add the application you defined previously in [Define an Application and Tier in the Controller](./installing.html#define-app-and-tier).
-
-     1. Under **Custom Permissions for Applications/Tiers**, add the application you defined previously.
-
-     1. Check the **View** option for the application.
-
-     1. Click the **Edit** link for the application. In Edit Permissions, select **Configure Health Rules**.
-
-1. Go to the **Dashboards** sub-tab and select the **Can Create Dashboards** option.
+1. Go to the **Dashboards** sub-tab and select **Can Create Dashboards**.
 
 1. Save the role.
 
 1. Go to the **Users** tab, select the user of interest, and add the role you just created.
+
 
 ## <a id='set-up-the-service-broker-tile'></a> Set Up the Service Broker Tile
 
@@ -141,7 +130,7 @@ Do the following:
        * In the Controller, click the gear icon (top right) and choose **License > Account > License**.
        * In the **Account Usage** tab, under **APM Usage**, verify that the account has at least one available license unit for the type of application you are monitoring (Java, .NET, etc.).
   * **Account Access Key** -- The account access key used to authenticate with the Controller. In the Controller, click the gear icon (top right) and choose **License > Account > Access Key**.
-  * **Controller Host** -- The host name or the IP address of the AppDynamics Controller. Example values are 192.168.1.22 or myhost or myhost.example.com. This is the same host that you use to access the AppDynamics browser-based user interface. For an on-premises Controller, use the value for Application Server Host Name that was configured when the Controller was installed. If you are using the AppDynamics SaaS Controller service, see the Welcome email from AppDynamics.
+  * **Controller Host** -- The host name or the IP address of the AppDynamics Controller. Example values are 192.168.1.22 or myhost or myhost.example.com. This is the same host that you use to access the AppDynamics browser-based user interface. For an on-premises Controller, use the value for Application Server Host Name that was configured when the Controller was installed. If you are using the AppDynamics SaaS Controller service, see the welcome email from AppDynamics.
   * **Controller Port** -- The HTTP (unencrypted) port used to access the AppDynamics Controller web interface. Defaults are 8090 (on-premise Controllers) and 80 (SaaS Controllers).
   * **SSL Port** -- The HTTPS (encrypted) port used to access the AppDynamics Controller web interface. Defaults are 8181 (on-premise Controllers) and 443 (SaaS Controllers).
     ![](./images/install-03-controller-config-options.png)
@@ -150,17 +139,16 @@ Do the following:
 
 1. Click **Save** to save the changes and return to the Installation Dashboard.
 
-
 ### <a id='appd-machine-agent-config'></a> AppDynamics Machine Agent Setup
 <!--
 [//]: # TODO -- Needs some context. When do you want to set up the Machine Agent? When you use the Firehose Dashboard? Other cases?
 -->
 
 1. In the **Settings** tab, click **AppDynamics Machine Agent Configuration**.
-1. Enter the following options. All of these fields are required.
 
+1. Enter the following options. All of these fields are required.
        1. **Account Name** -- The account name used to access the Controller. You must specify an account with a valid App Agent license. To check this, do the following:
-            * In the Controller, click the gear icon (top right) and choose **License > Account > License**.
+            * In the Controller, click the gear icon (top right) and navigate to **License > Account > License**.
             * In the **Account Usage** tab, under **APM Usage**, verify that the account has at least one available license unit for the type of application you are monitoring (Java, .NET, etc.).
        1. **Account Access Key** -- The account access key used to authenticate with the Controller. In the Controller, click the gear icon (top right) and choose **License > Account > Access Key**.
        1. **Controller Host** -- The host name or the IP address of the AppDynamics Controller. Example values are 192.168.1.22 or myhost or myhost.example.com. This is the same host that you use to access the AppDynamics browser-based user interface.
@@ -178,11 +166,9 @@ Do the following:
 [//]: # TODO -- # Previous screenshot is outdated. Also, some options have been removed. Pavan will give latest tile, Doug to update
 -->
 
-
 ### <a id='appd-machine-agent-config'></a> AppDynamics Analytics Agent Setup
 
-If you have an AppDynamics Analytics license, and want to and view transaction analytics on the AppDynamics controller, install the Analytics Agent as described in [Configuring Transaction Analytics] (./transaction_analytics.html).
-
+If you have an AppDynamics Analytics license, and want to and view transaction analytics on the AppDynamics controller, install the Analytics Agent as described in [Configuring Transaction Analytics](./transaction_analytics.html).
 
 ### <a id='appd-machine-agent-config'></a> Apply All Updated Settings
 
