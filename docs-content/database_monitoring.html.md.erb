@@ -5,15 +5,17 @@ owner: Partners
 
 This document describes how to configure a database agent and see database metrics on the AppDynamics controller.
 
-## <a id="snapshot"></a>Feature Snapshot
 
- - If your AppDynamics controller has license for Database monitoring, you can monitor databases in PCF.
+## <a id="snapshot"></a> Feature Snapshot
+
+ - If your AppDynamics controller has license for database monitoring, you can monitor databases in PCF.
  - Supported database agent **v4.2.15.18**
  - Supported databases: 
   ![DBSupport](../images/DBSupport.png)
  - The database agent and controller compatibility is decided on the agent version. If you are using agent v4.2.15.18, the controller should be on version v4.2.x or higher.
 
-## <a id="agent"></a>Step 1: Configure Tile for Database Agent
+
+## <a id="agent"></a> Step 1: Configure Tile for Database Agent
 
 1. You can configure any service plan to deploy database agents. To configure a database agent, do the following:
   1. Select the **Enable Database Monitoring** checkbox. 
@@ -32,17 +34,19 @@ This document describes how to configure a database agent and see database metri
       DBAgent-svcplan-2    started     1/1     1&nbsp;G     1&nbsp;G</pre>
       Here, `svcplan` is the name of the service plan configured to deploy two DB agents. 
 
-## <a id="collector"></a>Step 2: Configure Database Collector
+
+## <a id="collector"></a> Step 2: Configure Database Collector
 
 The database agent and the AppDynamics controller work together to monitor a database. The agent collects the data from the database server and passes it to the AppDynamics Controller for interpretation and display in the Controller UI. The database agent does not need to be installed on the same system hosting the database server.
 
-<p class="note"><strong>Note</strong>: Because each database agent starts with 1&nbsp;G of memory, AppDynamics reccommends configuring at most two DB collectors for each database agent app running in Pivotal Cloud Foundry (PCF).</p>
+<p class="note"><strong>Note:</strong> Because each database agent starts with 1&nbsp;G of memory, AppDynamics reccommends configuring at most two database collectors for each database agent app running in Pivotal Cloud Foundry (PCF).</p>
 
 1. Open the AppDynamics controller and go to **Databases > Configuration > Collectors**.
   ![Database collector](../images/Database2.png) 
 
 1. Configure a database collector using the [Configure Database Collectors](https://docs.appdynamics.com/display/PRO41/Configure+Database+Collectors) topic from the AppDynamics docs.
   - For the **Database Agent** field in every collector, select the database agent name deployed in PCF. In the example image below, you choose **DBAgent-PCF-Public-Controller-1** as the **Database Agent** and not **Default DB Agent**.
-    ![CollectorConfig](../images/Database3.png) 
+  ![CollectorConfig](../images/Database3.png) 
+
 1. Once you configure and save the collector, generate some traffic on an application that includes database operations. After a couple of minutes, you can see database traffic on your AppDynamics Database Dashboard.
-![DatabaseTraffic](../images/Database4.png)
+  ![DatabaseTraffic](../images/Database4.png)
