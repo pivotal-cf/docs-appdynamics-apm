@@ -147,17 +147,17 @@ Note the Tier ID before proceeding. You will need this information when you set 
 1. In the **Settings** tab, click **AppDynamics Machine Agent Configuration**.
 
 1. Enter the following options. All of these fields are required.
-       1. **Account Name** -- The account name used to access the Controller. You must specify an account with a valid App Agent license. To check this, do the following:
+       * **Account Name** -- The account name used to access the Controller. You must specify an account with a valid App Agent license. To check this, do the following:
             * In the Controller, click the gear icon (top right) and navigate to **License > Account > License**.
             * In the **Account Usage** tab, under **APM Usage**, verify that the account has at least one available license unit for the type of application you are monitoring (Java, .NET, etc.).
-       1. **Account Access Key** -- The account access key used to authenticate with the Controller. In the Controller, click the gear icon (top right) and choose **License > Account > Access Key**.
-       1. **Controller Host** -- The host name or the IP address of the AppDynamics Controller. Example values are 192.168.1.22 or myhost or myhost.example.com. This is the same host that you use to access the AppDynamics browser-based user interface.
-       1. **Controller Port** -- Port on which controller is listening (e.g: `8090`).
-       1. **SSL Enabled**: Disabled by default. Enable this if you have SSL enabled on the controller. The controller port must be `443` if enabled.
-       1. **Application Name**, **Tier Name**, and **Tier ID** -- Enter the application name, tier name, and tier ID you defined previously in [Define an Application and Tier in the Controller](./installing.html#define-app-and-tier).
-       1. **Node Name** -- Enter a name that corresponds to the Application Name, such as **_app-name_-node**.
-       1. **User Name** -- Must be an AppDynamics user account that has permissions to create both custom metric dashboards and custom Health Rules in the target application.
-       1. **Password** -- Password for the above AppDynamics user account.
+       * **Account Access Key** -- The account access key used to authenticate with the Controller. In the Controller, click the gear icon (top right) and choose **License > Account > Access Key**.
+       * **Controller Host** -- The host name or the IP address of the AppDynamics Controller. Example values are 192.168.1.22 or myhost or myhost.example.com. This is the same host that you use to access the AppDynamics browser-based user interface.
+       * **Controller Port** -- Port on which controller is listening (e.g: `8090`).
+       * **SSL Enabled**: Disabled by default. Enable this if you have SSL enabled on the controller. The controller port must be `443` if enabled.
+       * **Application Name**, **Tier Name**, and **Tier ID** -- Enter the application name, tier name, and tier ID you defined previously in [Define an Application and Tier in the Controller](./installing.html#define-app-and-tier).
+       * **Node Name** -- Enter a name that corresponds to the Application Name, such as **_app-name_-node**.
+       * **User Name** -- Must be an AppDynamics user account that has permissions to create both custom metric dashboards and custom Health Rules in the target application.
+       * **Password** -- Password for the above AppDynamics user account.
           ![](./images/machine-agent-2.png)
 
 1. Click **Save** to save the changes and return to the Installation Dashboard.
