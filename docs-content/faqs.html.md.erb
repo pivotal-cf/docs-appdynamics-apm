@@ -33,6 +33,32 @@ Enable all SSL checkboxes in Tile Configuration Forms.
 
 Collect the error logs from the OpsManager installation page and provide the entire deployment log.
 
+### <a id='g6'></a> I am on 1.x tile and planning to move to 4.4.x versions, should I uninstall the old tile and install the new?
+
+Yes, this is done becuase we had to rewrite the platform metrics framework to use the new Firehose nozzle as opposed to older JMX bridge.
+The new mechanism enables appdynamics to collect even thorough information about the cloudfoundry health.
+
+### <a id='g7'></a> Will my applications that are bound to older appdynamics service broker instances loose instrumentation while I uninstall old tile and install new tile?
+
+No. The applications are oblivious to tile installs and uninstalls. Once the applications are bound, the appdynamics configuration
+will be present till the applications are restaged. So the applications will continue to be instrumented as if nothing happened.
+
+### <a id='g8'></a> What are the steps to carry out 1.x to 4.x transition?
+
+1. Note down the names of appdynamics service instances and their corresponding plans (appdynamics controller configuration) before uninstall of old service broker
+
+1. Uninstall the old tile (Applications will still be instrumented. The uninstall will not have any impact )
+
+1. Install the new tile with the plans recorded in step i
+
+1. Create service instances using new broker recorded in step i 
+
+
+### <a id='g9'></a> Ok, I have carried out the procedure above. I want to restage my application what shall I do?
+
+You can restage the application right away! No more additional steps are required. Applications are completely oblivious to the uninstall and install once 
+the above procedure is carried out.
+
 
 ## <a id='SBFAQS'></a> AppDynamics Service Broker and Buildpacks - APM FAQs
 
