@@ -33,31 +33,27 @@ Enable all SSL checkboxes in Tile Configuration Forms.
 
 Collect the error logs from the OpsManager installation page and provide the entire deployment log.
 
-### <a id='g6'></a> I am on 1.x tile and planning to move to 4.4.x versions, should I uninstall the old tile and install the new?
+### <a id='g6'></a> I am using the v1.x tile and planning to upgrade to v4.4.x. Should I uninstall v1.x before installing v4.4.x?
 
-Yes, this is done becuase we had to rewrite the platform metrics framework to use the new Firehose nozzle as opposed to older JMX bridge.
-The new mechanism enables appdynamics to collect even thorough information about the cloudfoundry health.
+Yes, since the platform metrics framework has been rewritten to use the new Firehose nozzle instead of JMX Bridge.
 
-### <a id='g7'></a> Will my applications that are bound to older appdynamics service broker instances loose instrumentation while I uninstall old tile and install new tile?
+### <a id='g7'></a> Will my apps that are bound to older AppDynamics Service Broker instances lose instrumentation while I uninstall v1.x and install v4.4.x?
 
-No. The applications are oblivious to tile installs and uninstalls. Once the applications are bound, the appdynamics configuration
-will be present till the applications are restaged. So the applications will continue to be instrumented as if nothing happened.
+No. The apps are oblivious to tile installs and uninstalls. Once the apps are bound, the AppDynamics configuration will be present until the apps are restaged.
 
-### <a id='g8'></a> What are the steps to carry out 1.x to 4.x transition?
+### <a id='g8'></a> How do I upgrade from v1.x to v4.4.x?
 
-1. Note down the names of appdynamics service instances and their corresponding plans (appdynamics controller configuration) before uninstall of old service broker
+1. Record the names of your AppDynamics service instances and their corresponding plans before uninstalling your v1.x tile installation.
 
-1. Uninstall the old tile (Applications will still be instrumented. The uninstall will not have any impact )
+1. Uninstall your v1.x tile installation.
 
-1. Install the new tile with the plans recorded in step i
+1. Install the v4.4.x tile with the plans you recorded.
 
-1. Create service instances using new broker recorded in step i 
+1. Create service instances for the plans you recorded.
 
+### <a id='g9'></a> I have carried out the procedure above. How do I restage my apps?
 
-### <a id='g9'></a> Ok, I have carried out the procedure above. I want to restage my application what shall I do?
-
-You can restage the application right away! No more additional steps are required. Applications are completely oblivious to the uninstall and install once 
-the above procedure is carried out.
+No additional steps are required to restage apps.
 
 
 ## <a id='SBFAQS'></a> AppDynamics Service Broker and Buildpacks - APM FAQs
