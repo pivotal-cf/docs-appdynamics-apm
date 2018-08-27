@@ -14,7 +14,7 @@ This document describes how to configure an analytics agent and view transaction
 
 ## <a id="step1"></a> Step 1: Configure Tile for Analytics
 
-1. Paste in the **Global Account Name** and **Access Key** from the AppDynamics Controller license page. 
+1. Paste in the **Global Account Name** and **Access Key** from the AppDynamics Controller license page.
   ![License Page](../images/Analytics1.png)
 
 1. Specify the AppDynamics **Analytics Event Service URL** if you already have one. If you do not have one, contact AppDynamics support. The Analytics Event Service URL is in the following format: `http://analytics-event-service.com:80`.
@@ -24,15 +24,15 @@ This document describes how to configure an analytics agent and view transaction
 1. After the tile updates successfully, get the route of the appdanalytics application by running the following command:
     <pre class="terminal">
 
-    pavan.krishna@OSXLTPKrishna:~/docs-appdynamics (master)$ cf target -o appdynamics-org
+    $ cf target -o appdynamics-org
     api endpoint:   https://api.sys.pie-20.cfplatformeng.com
     api version:    2.103.0
     user:           admin
     org:            appdynamics-org
     space:          appdynamics-space
-    
-    
-    pavan.krishna@OSXLTPKrishna:~/docs-appdynamics (master)$ cf apps
+
+
+    $ cf apps
     Getting apps in org appdynamics-org / space appdynamics-space as admin...
     OK
 
@@ -43,7 +43,7 @@ This document describes how to configure an analytics agent and view transaction
     appdservice-4.4.337        started           1/1         256M     1G     appdservice.cfapps.pie-20.cfplatformeng.com
     spring-music               started           3/3         1G       1G     spring-music-quick-hedgehog.cfapps.pie-20.cfplatformeng.com
 
-</pre>		                                      																																									      	
+</pre>
 
 
 ## <a id="step2"></a> Step 2: Bind Application to Analytics Agent
@@ -57,7 +57,7 @@ After deploying the tile, follow the steps below to bind an application with the
     In the example above, `appdanalytics.cfapps.pie-20.cfplatformeng.com` is the URL of the analytics agent running in the **AppDynamicsPCFOpsMetrics-service-org** org.
 
 1. Restage the application for the changes to take effect.
-    <pre class="terminal">$ cf restage TARGET-APP-NAME</pre> 
+    <pre class="terminal">$ cf restage TARGET-APP-NAME</pre>
 
 
 ## <a id="step3"></a> Step 3: Configure Controller to Fetch Data from Event Service
@@ -74,17 +74,17 @@ For help with this configuration, contact AppDynamics support.
 
 On your AppDynamics controller, follow these steps to configure the analytics collector for a target application.
 
-1. Click **Analytics**. 
-  ![ConfigureAnalyticsCollector](../images/Analytics3.png) 
+1. Click **Analytics**.
+  ![ConfigureAnalyticsCollector](../images/Analytics3.png)
 
-1. From the **Configure Analytics for Applications** drop-down, choose the same target application for which you set the Java system property in the previous step. 
+1. From the **Configure Analytics for Applications** drop-down, choose the same target application for which you set the Java system property in the previous step.
 
-1. Select the checkbox to enable analytics data. 
+1. Select the checkbox to enable analytics data.
 
 1. Add transactions for which you wish to report analytics data.
-  ![enter image description here](../images/Analytics4.png) 
+  ![enter image description here](../images/Analytics4.png)
 
-1. (Optional) Configure the **HTTP Data Collectors** and **Transactions for GUID Injection** fields. For more information, see the AppDynamics documentation:    
+1. (Optional) Configure the **HTTP Data Collectors** and **Transactions for GUID Injection** fields. For more information, see the AppDynamics documentation:
   - [Configure HTTP Data Collectors](https://docs.appdynamics.com/display/PRO42/Configuring+Transaction+Analytics): This enables collection of additional business data using HTTP data collectors.
   - [Configure Transactions for GUID Injection](https://docs.appdynamics.com/display/PRO42/Business+Transaction+and+Log+Correlation): By configuring business transactions for GUID injection, you can correlate logs to specific business transaction requests. This can be helpful when you see slow transactions and the call graph does not give you enough information to get to the root cause. You can use this feature to get the full context related to a failed or slow transaction.
    ![Optional Fields](../images/Analytics5.png)
