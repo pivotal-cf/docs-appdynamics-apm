@@ -50,59 +50,6 @@ GH12345678ABCDEFGH12345678ABCDEFGH12345678...
 </pre>
 
 
-## <a id='set-up-appd-controller'></a> Set Up the AppDynamics Controller
-
-### <a id='define-app-and-tier'></a> Define an App and Tier in the Controller
-
-1. Log in to the Controller.
-
-1. Go to the Applications page. At the top of the table, click **Create Application**.
-  ![](./images/appd-create-app-01.png)
-
-1. In the Create Application dialog box, click **Create an Application manually**, enter the app name, and click **OK**.<br>
-  ![](./images/appd-create-app-02.png)
-
-1. In the Application Dashboard for the new app, go to **Tiers & Nodes**.
-
-1. Click **Actions** at the top of the table and choose **Create App Server Tier**.
-  ![](./images/appd-create-app-03.png)
-
-1. Select the app type and click **Next**.
-  ![](./images/appd-create-app-04.png)
-
-1. Enter the tier name and description and click **Finish**.
-  ![](./images/appd-create-app-05.png)
-
-Note the Application Name and Tier Name before proceeding. You will need this information when you set up the Service Broker tile.
-
-### <a id='determine-app-id'></a> Determine the Tier ID
-
-1. In the **Tiers & Nodes** table for the application you just created, right-click on the tier and choose **View**.
-
-1. Examine the page URL and look for the `component=<number>` string. This number is the tier ID.
-      ![](./images/appd-component-id.png)
-
-Note the Tier ID before proceeding. You will need this information when you set up the Service Broker tile.
-
-### <a id='dashboard-user'></a> Set Permissions for AppDynamics User Account to Publish Dashboards
-
-1. In the AppDynamics Controller UI, navigate to **Settings > Administration**.
-
-1. Go to the **Roles** tab and create a role with a descriptive name such as "PCF KPI Role."
-
-1. Go to the **Applications** sub-tab and do the following:
-     1. Add the app you defined previously in [Define an Application and Tier in the Controller](#define-app-and-tier).
-     1. Under **Custom Permissions for Applications/Tiers**, add the app you defined previously.
-     1. Check the **View** option for the app.
-     1. Click the **Edit** link for the app. In **Edit Permissions**, select **Configure Health Rules**.
-
-1. Go to the **Dashboards** sub-tab and select **Can Create Dashboards**.
-
-1. Save the role.
-
-1. Go to the **Users** tab, select the user of interest, and add the role you just created.
-
-
 ## <a id='set-up-the-service-broker-tile'></a> Set Up the Service Broker Tile
 
 1. Log in to Ops Manager.
@@ -136,29 +83,6 @@ Note the Tier ID before proceeding. You will need this information when you set 
     ![](./images/install-03-controller-config-options.png)
 
 1. You can add multiple controller configurations by repeating steps 4 and 5. This will enable applications to bind to any of the entered configurations.
-
-1. Click **Save** to save the changes and return to the Installation Dashboard.
-
-### <a id='appd-machine-agent-config'></a> AppDynamics Machine Agent Setup
-<!--
-[//]: # TODO -- Needs some context. When do you want to set up the Machine Agent? When you use the Firehose Dashboard? Other cases?
--->
-
-1. In the **Settings** tab, click **AppDynamics Machine Agent Configuration**.
-
-1. Enter the following options. All of these fields are required.
-       * **Account Name** -- The account name used to access the Controller. You must specify an account with a valid App Agent license. To check this, do the following:
-            * In the Controller, click the gear icon (top right) and navigate to **License > Account > License**.
-            * In the **Account Usage** tab, under **APM Usage**, verify that the account has at least one available license unit for the type of application you are monitoring (Java, .NET, etc.).
-       * **Account Access Key** -- The account access key used to authenticate with the Controller. In the Controller, click the gear icon (top right) and choose **License > Account > Access Key**.
-       * **Controller Host** -- The host name or the IP address of the AppDynamics Controller. Example values are 192.168.1.22 or myhost or myhost.example.com. This is the same host that you use to access the AppDynamics browser-based user interface.
-       * **Controller Port** -- Port on which controller is listening (e.g: `8090`).
-       * **SSL Enabled**: Disabled by default. Enable this if you have SSL enabled on the controller. The controller port must be `443` if enabled.
-       * **Application Name**, **Tier Name**, and **Tier ID** -- Enter the application name, tier name, and tier ID you defined previously in [Define an Application and Tier in the Controller](./installing.html#define-app-and-tier).
-       * **Node Name** -- Enter a name that corresponds to the Application Name, such as **_app-name_-node**.
-       * **User Name** -- Must be an AppDynamics user account that has permissions to create both custom metric dashboards and custom Health Rules in the target application.
-       * **Password** -- Password for the above AppDynamics user account.
-          ![](./images/machine-agent-2.png)
 
 1. Click **Save** to save the changes and return to the Installation Dashboard.
 
