@@ -8,16 +8,11 @@ owner: Partners
 ### <a id='g1'></a> What is included in the AppDynamics Tile?
 
 * **AppDynamics Service Broker** -- for application instrumentation
-
-* **AppDynamics Machine Agent** -- for collecting PCF metrics through a custom nozzle from Loggregator
-
-* **AppDynamics PCF Dashboard** -- an auto-generated custom dashboard that creates health rules for the above PCF metrics and neatly presents the resulting data
-
 * **AppDynamics Analytics** -- for transaction analytics
 
-### <a id='g2'></a> I am only interested in APM. Should I configure Machine Agent and Transaction Analytics?
+### <a id='g2'></a> I am only interested in APM. Should I configure  Transaction Analytics?
 
-For now, provide dummy values in the tile forms. We are working with Pivotal to release a lighter APM-only product soon.
+For now, provide dummy values in the tile forms. We are working with Pivotal to have selective deployment option. 
 
 ### <a id='g3'></a> How do I configure SSL (On-Prem Controller deployment)?
 
@@ -139,4 +134,78 @@ Run `cf env application` and see if the `VCAP_SERVICES` environment variable has
 | AGENT  | LOGS  |
 | ------------ | ------------ |
 |  NODE.JS  | /tmp/appd/{hash} |
-| JAVA   | /app/.java-buildpack/app_dynamics_agent/ver<agent_version>/logs  |
+| JAVA   | /app/.java-buildpack/app_dynamics_agent/ver<agent_version>/logs |
+
+### <a id='s12'></a> What should I send to AppDynamics Support?
+
+## <a id='AAFAQS'></a> Transactional Analytics Agent FAQs
+
+### <a id='t1'></a> How do I configure Analytics Agent?
+
+Please refer these [Configuration instructions](https://docs.pivotal.io/partners/appdynamics/analytics.html)
+
+### <a id='t2'></a> How is Analytics Agent Packaged?
+
+We package `Standalone Analytics Agent` into tile. When the tile is installed it runs as java application on the 
+elastic runtime of the PCF cloud.
+
+### <a id='t3'></a> What analytics are supported?
+
+Only transactional analytics are supported as of now. 
+
+### <a id='t4'></a> How do I enable transactional anaytics for an application?
+
+  * Install the tile, this deploys the analytics agent on the elastic runtime of the PCF cloud
+  * The analytics agent listens on a URL, note down the url. 
+  * For the application we want the transactional analytics set the environment variable `JAVA_OPTS: "-Dappdynamics.analytics.agent.url=http://<analytics-url>/v1/sinks/bt" ` 
+  * Restage the application. 
+
+### <a id='t5'></a> What needs to be done to enable SSL communication between applications and AppDynamics Analytics Service/Controller?
+  * No additional configuration is required
+  * Analytics agent container uses certificates imported into containers automatically by the BOSH director just like any other Java application container 
+  * A key store is automatically created and managed by the standard java buildpack which analytics agent container is built of
+  * The certficate issued by BOSH director is present in /etc/ssl/certs/ca-certificates.crt
+
+### <a id='t6'></a> How do we troubleshoot? 
+  * Check the logs 
+  * Check for any errors
+
+<pre class="terminal">
+  $  cf ssh appdanalytics-4.5.470 -c "cat /home/vcap/app/analytics-agent/logs/analytics-agent.log"
+</pre>
+
+<pre class="terminal">
+  $ cf ssh appdanalytics-4.5.470 -c "cat /home/vcap/app/analytics-agent/logs/analytics-agent-http.log"
+</pre>
+
+### <a id='t7'></a> There are SSL errors in the logs? How do we check the certificate
+  * This certificate is automatically generated and imported into container by PCF OpsManager Security Manager
+  * If you are using an OnPrem Controller with SSL installation. Make sure you have included the entire certificate chain in the security config of the OpsManager director tile
+  * To verify if the certificate is properly imported.  Check the certficate chain `/etc/ssl/certs/ca-certificates.crt` in the container and verify if the relevant certficate is present in the chain
+
+<pre class="terminal">
+  $  cf ssh appdanalytics-4.5.470 -c "cat /etc/ssl/certs/ca-certificates.crt"
+</pre>
+
+
+### <a id='t8'></a> How is the Keystore created from the crt file?
+  * We use the standard java buildpack to create the analytics agent container. 
+  * As for any java container, the buildpack automatically creates the TrustManager for `/etc/ssl/certs/ca-certificates.crt` and watches it. 
+
+<pre class="terminal">
+  $  cf ssh appdanalytics-4.5.470 -c "grep -i TrustManager ~/app/analytics-agent/logs/*.log"
+/home/vcap/app/analytics-agent/logs/analytics-agent.log:[2018-09-29T02:51:59,022Z]  [INFO ]  [main]  [o.c.s.CloudFoundryContainerTrustManagerFactory$PKIXFactory]  Adding System Trust Manager
+/home/vcap/app/analytics-agent/logs/analytics-agent.log:[2018-09-29T02:51:59,022Z]  [INFO ]  [main]  [o.c.s.CloudFoundryContainerTrustManagerFactory$PKIXFactory]  Adding TrustManager for /etc/ssl/certs/ca-certificates.crt
+/home/vcap/app/analytics-agent/logs/analytics-agent.log:[2018-09-29T02:51:59,211Z]  [INFO ]  [main]  [o.c.s.FileWatchingX509ExtendedTrustManager]  Initialized TrustManager for /etc/ssl/certs/ca-certificates.crt
+</pre>
+
+### <a id='t9'></a> What do we provide AppDynamics support?
+* Analytics Agent container logs 
+
+<pre class="terminal">
+  $  cf ssh appdanalytics-4.5.470 -c "cat /home/vcap/app/analytics-agent/logs/analytics-agent.log"
+</pre>
+
+<pre class="terminal">
+  $ cf ssh appdanalytics-4.5.470 -c "cat /home/vcap/app/analytics-agent/logs/analytics-agent-http.log"
+</pre>
