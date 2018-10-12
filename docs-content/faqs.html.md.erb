@@ -7,8 +7,8 @@ owner: Partners
 
 ### <a id='g1'></a> What is included in the AppDynamics Tile?
 
-* **AppDynamics Service Broker** -- for application instrumentation
-* **AppDynamics Analytics** -- for transaction analytics
+* **AppDynamics Service Broker** --- for application instrumentation
+* **AppDynamics Analytics** --- for transaction analytics
 
 ### <a id='g2'></a> I am only interested in APM. Should I configure  Transaction Analytics?
 
@@ -162,7 +162,7 @@ Only transactional analytics are supported as of now.
 ### <a id='t5'></a> What needs to be done to enable SSL communication between applications and AppDynamics Analytics Service/Controller?
   * No additional configuration is required
   * Analytics agent container uses certificates imported into containers automatically by the BOSH director just like any other Java application container
-  * A key store is automatically created and managed by the standard java buildpack which analytics agent container is built of
+  * A key store is automatically created and managed by the standard Java buildpack which analytics agent container is built of
   * The certficate issued by BOSH director is present in /etc/ssl/certs/ca-certificates.crt
 
 ### <a id='t6'></a> How do we troubleshoot?
@@ -188,8 +188,8 @@ Only transactional analytics are supported as of now.
 
 
 ### <a id='t8'></a> How is the Keystore created from the crt file?
-  * AppDynamics uses the standard java buildpack to create the analytics agent container.
-  * As for any java container, the buildpack automatically creates the TrustManager for `/etc/ssl/certs/ca-certificates.crt` and watches it.
+  * AppDynamics uses the standard Java buildpack to create the analytics agent container.
+  * As for any Java container, the buildpack automatically creates the TrustManager for `/etc/ssl/certs/ca-certificates.crt` and watches it.
 
 <pre class="terminal">
   $  cf ssh appdanalytics-4.5.470 -c "grep -i TrustManager ~/app/analytics-agent/logs/*.log"
