@@ -17,7 +17,12 @@ AppDynamics and Pivotal are working to have selective deployment option.
 
 ### <a id='g3'></a> How do I configure SSL (On-Prem Controller deployment)?
 
-Make sure you have included the entire certificate chain in the security config of the OpsManager director tile. This will ensure that all BOSH deployments and Diego cells can access those certificates automatically while doing SSL validation. AppDynamics deployments automatically reads the certificates, and imports them into correct keystores. No additional steps are needed. Follow the exact format with no comments, as specified in the Pivotal OpsManager documentation. Enable all SSL checkboxes in Tile Configuration Forms.
+Make sure you have included the entire certificate chain in the security config of the BOSH Director tile.
+This ensures that all BOSH deployments and Diego cells can access those certificates automatically while doing SSL validation.
+AppDynamics deployments automatically reads the certificates and imports them into correct keystores.
+No additional steps are needed.
+Follow the exact format with no comments, as specified in the Pivotal Opsi Manager documentation.
+Enable all SSL checkboxes in Tile Configuration Forms.
 
 ### <a id='g4'></a> How do I configure SSL (SaaS deployment)?
 
@@ -27,7 +32,7 @@ Enable all SSL checkboxes in Tile Configuration Forms.
 
 ### <a id='g5'></a> My installation failed. What should I send to AppDynamics Support?
 
-Collect the error logs from the OpsManager installation page and provide the entire deployment log.
+Collect the error logs from the Ops Manager installation page and provide the entire deployment log.
 
 ### <a id='g6'></a> I am using the v1.x tile and planning to upgrade to v4.4.x. Should I uninstall v1.x before installing v4.4.x?
 
@@ -35,7 +40,8 @@ Yes, since the platform metrics framework has been rewritten to use the new Fire
 
 ### <a id='g7'></a> Will my apps that are bound to older AppDynamics Service Broker instances lose instrumentation while I uninstall v1.x and install v4.4.x?
 
-No. The apps are oblivious to tile installs and uninstalls. Once the apps are bound, the AppDynamics configuration will be present until the apps are restaged.
+No. The apps are oblivious to tile installs and uninstalls.
+After the apps are bound, the AppDynamics configuration are present until the apps are restaged.
 
 ### <a id='g8'></a> How do I upgrade from v1.x to v4.4.x?
 
@@ -141,31 +147,34 @@ Run `cf env application` and see if the `VCAP_SERVICES` environment variable has
 
 ### <a id='t1'></a> How do I configure Analytics Agent?
 
-Please refer these [Configuration instructions](https://docs.pivotal.io/partners/appdynamics/analytics.html)
+See [Configuring Transaction Analytics](./analytics.html).
 
 ### <a id='t2'></a> How is Analytics Agent Packaged?
 
 AppDynamics packages `Standalone Analytics Agent` into the tile.
-When the tile is installed, it runs as a Java application on Pivotal Application Service.
+When the tile is installed, it runs as a Java application on Pivotal Application Service (PAS).
 
 ### <a id='t3'></a> What analytics are supported?
 
-Only transactional analytics are supported as of now.
+Only transactional analytics are supported.
 
-### <a id='t4'></a> How do I enable transactional anaytics for an application?
+### <a id='t4'></a> How do I enable transactional analytics for an application?
 
-  * Install the tile, this deploys the analytics agent on the elastic runtime of the PCF cloud
-  * The analytics agent listens on a URL, note down the url.
-  * For the application we want the transactional analytics set the environment variable `JAVA_OPTS: "-Dappdynamics.analytics.agent.url=http://<analytics-url>/v1/sinks/bt" `
+  * Install the tile. This deploys the analytics agent on PAS.
+  * The analytics agent listens on a URL, record the URL.
+  * For the application, set the `JAVA_OPTS` environment variable as follows:
+
+     `JAVA_OPTS: "-Dappdynamics.analytics.agent.url=http://<analytics-url>/v1/sinks/bt" `
   * Restage the application.
 
-### <a id='t5'></a> What needs to be done to enable SSL communication between applications and AppDynamics Analytics Service/Controller?
+### <a id='t5'></a> What needs to be done to enable SSL communication between applications and the AppDynamics Analytics Service/Controller?
   * No additional configuration is required
-  * Analytics agent container uses certificates imported into containers automatically by the BOSH director just like any other Java application container
-  * A key store is automatically created and managed by the standard Java buildpack which analytics agent container is built of
-  * The certficate issued by BOSH director is present in /etc/ssl/certs/ca-certificates.crt
+  * The analytics agent container uses certificates imported into containers automatically
+    by the BOSH director just like any other Java application container
+  * A keystore is automatically created and managed by the standard Java buildpack
+  * The certificate issued by BOSH director is present in /etc/ssl/certs/ca-certificates.crt
 
-### <a id='t6'></a> How do we troubleshoot?
+### <a id='t6'></a> How do I troubleshoot?
   * Check the logs
   * Check for any errors
 
@@ -177,17 +186,20 @@ Only transactional analytics are supported as of now.
   $ cf ssh appdanalytics-4.5.470 -c "cat /home/vcap/app/analytics-agent/logs/analytics-agent-http.log"
 </pre>
 
-### <a id='t7'></a> There are SSL errors in the logs? How do we check the certificate
-  * This certificate is automatically generated and imported into container by PCF OpsManager Security Manager
-  * If you are using an OnPrem Controller with SSL installation. Make sure you have included the entire certificate chain in the security config of the OpsManager director tile
-  * To verify if the certificate is properly imported.  Check the certficate chain `/etc/ssl/certs/ca-certificates.crt` in the container and verify if the relevant certficate is present in the chain
+### <a id='t7'></a> There are SSL errors in the logs? How do I check the certificate?
+  * This certificate is automatically generated and imported into the container by PCF Ops Manager
+  * If you are using On-Prem Controller with SSL installation.
+     Make sure you have included the entire certificate chain in the security config of the BOSH Director tile.
+  * To verify that the certificate is properly imported,
+    check that the certficate chain `/etc/ssl/certs/ca-certificates.crt` is in the container
+    and verify that the relevant certficate is present in the chain.
 
 <pre class="terminal">
   $  cf ssh appdanalytics-4.5.470 -c "cat /etc/ssl/certs/ca-certificates.crt"
 </pre>
 
 
-### <a id='t8'></a> How is the Keystore created from the crt file?
+### <a id='t8'></a> How is the keystore created from the CRT file?
   * AppDynamics uses the standard Java buildpack to create the analytics agent container.
   * As for any Java container, the buildpack automatically creates the TrustManager for `/etc/ssl/certs/ca-certificates.crt` and watches it.
 
