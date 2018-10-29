@@ -13,6 +13,11 @@ Starting v4.5.454 of the tile AppDynamics Application Monitoring for PCF  we wil
 <p class="note"><strong>Note:</strong> For now, only .NET HWC support is included in the buildpack but eventually we plan to move all of the appdynamics APM logic from standard cloudfoundry build packs to this appdynamics buildpack for configuring our agents. 
 </p>
 
+<p class="note"><strong>Note:</strong> 
+This apprach requires <i>.profile</i> and <i>.profile.d</i> support, and therfore only HWC Buildpack (v3.0 or higher) can be used along with <i>appdbuildpack</i> to leverage multibuildpack feature
+</p>
+
+
 <p class="note"><strong>Note:</strong>  Although this workflow describes the procedure of hwc .NET applications instrumentation using appdbuildpack using multi buildpack approach. The workflow is same across any language application (once the support is added for the other languages). 
 </p>
 
