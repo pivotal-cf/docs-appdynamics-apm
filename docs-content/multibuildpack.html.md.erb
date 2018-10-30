@@ -77,13 +77,14 @@ For example, In case of the above .NET scenario, we can override logging configu
 So far our approach for adding appdynamics support to APM was to add features to individual standard CF buildpacks. This involves adding the feature and submitting a Pull Request.
 
 1. The turn around time for adding new features was long. Usually any feature we add used to take around 1-2 months. With this new extension buildpack approach, the turn around time is significantly reduced to days. 
-2. On top of that we were restricted by the design of the standard buildpack. Any AppDynamics configuration features we were designing were top be worked out around the constraints set by the standard buildpack design. This new buildpack enables us to design new features without any restrictions as it is totally independent of standard buildpacks. This means we can provide really interesting features that will significantly improve user experience. One example is adding the Advanced configuration files as mentioned above.  
+2. This new buildpack enables us to design new features swiftly as it is totally independent of standard buildpacks. One example is adding the Advanced configuration files as mentioned above.  
 3. Also this will provide a single unified workflow across all AppDynamics agents
+
 For now, we are releasing support only for .NET HWC applications but the later releases will include support for .NET core, JAVA, Python, PHP and GoLang
 
 
 ## <a id='Sample Application'></a> Sample Application
 
-As always, you can find a sample .NET application demonstrating this multi buildpack approach in out GitHub. 
+As always, you can find a sample .NET application demonstrating this multi buildpack approach in our GitHub space. 
 
 https://github.com/Appdynamics/cloudfoundry-apps/tree/master/cf-NET-sample
