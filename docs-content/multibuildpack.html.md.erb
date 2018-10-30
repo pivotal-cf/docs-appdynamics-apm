@@ -3,11 +3,11 @@ title: AppDynamics Extension BuildPack (MultiBuildPack Approach) <New!>
 owner: Partners
 ---
 
-Starting v4.5.514 of the tile AppDynamics Application Monitoring for PCF  we will be shipping an Appdynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard build packs using cloud foundry's multi buildpack workflow. The buildpack serves as a single point for AppDynamics APM support eventually.
+Starting with the v4.5.514 of the tile AppDynamics Application Monitoring for PCF  we will be shipping an Appdynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard build packs using cloud foundry's multi buildpack workflow. The buildpack serves as a single point for AppDynamics APM support eventually.
 
 ## <a id='Workflow'></a> Workflow
 
-<p class="note"><strong>Note:</strong> Must use cf CLI v6.38 or late for using multi buildpacks
+<p class="note"><strong>Note:</strong> Must use cf CLI v6.38 or later for using multi buildpacks.
 
 </p>
 
@@ -18,11 +18,11 @@ Starting v4.5.514 of the tile AppDynamics Application Monitoring for PCF  we wil
 
 Minimal Requirements: PASW 2.2, HWC Buildpack v3.0 or higher.
 
-This approach requires <i>.profile</i> and <i>.profile.d</i> support, and therefore only HWC Buildpack (v3.0 or higher) can be used along with <i>appdbuildpack</i> to leverage multibuildpack feature
+This approach requires <i>.profile</i> and <i>.profile.d</i> support, and therefore only HWC Buildpack (v3.0 or higher) can be used along with <i>appdbuildpack</i> to leverage the multibuildpack feature.
 </p>
 
 
-<p class="note"><strong>Note:</strong>  Although this workflow describes the procedure of hwc .NET applications instrumentation using appdbuildpack with the multi buildpack approach, the workflow is same across any 
+<p class="note"><strong>Note:</strong>  Although this workflow describes the procedure of HWC .NET applications, instrumentation using appdbuildpack with the multi buildpack approach, the workflow is same across any 
 language application (once the support is added for the other languages). 
 </p>
 
