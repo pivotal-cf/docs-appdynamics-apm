@@ -57,7 +57,8 @@ Please refer to the [official hwc buildpack page](https://docs.cloudfoundry.org/
     $ cf push -b appdbuildpack -b hwc_buildpack -s windows2016
     </pre>
 
-That is it! the <b><i>appdbuildpack</i></b> will take care of [downloading the AppDynamics .NET agent from NuGET](https://nuget.org/packages/AppDynamics.Agent.Distrib.Micro.Windows/) and configuring it based on the controller information represented by bound <i>"appdynamics service instance"</i>
+<b><i>appdbuildpack</i></b> will [fetch the AppDynamics .NET agent from NuGET](https://nuget.org/packages/AppDynamics.Agent.Distrib.Micro.Windows/) 
+and configure the agent based on the controller information represented by bound <i>"appdynamics service instance"</i>
 
 ![](./images/net_instrumentation.png)
 
@@ -68,9 +69,10 @@ make a folder called <b><i>vendor</i></b>  in the folder that contains <i>manife
 
 2. [Download the AppDynamics .NET agent from NuGET](https://nuget.org/packages/AppDynamics.Agent.Distrib.Micro.Windows/) and copy the <b>appdynamics.agent.distrib.micro.windows-{version}.nupkg</b> into <b><i>vendor</i></b>  folder. Buildpack will pick up the bits from vendor instead of going out to NuGet.
 
-3. Any advanced agent configuration files are also picked by this buildpack. This solves the restrictions we used to have with standard buildpacks, where only basic Controller information and App/Tier/Node information is configured. 
+3. Any advanced configuration files for the agents are also picked by this buildpack. This solves the restrictions we used to have with standard buildpacks, where only basic Controller information and App/Tier/Node information is configured. 
 
-For example, In case of the above .NET scenario, we can override logging configuration by copying a the logging configuration file [AppDynamicsAgentLog.config](https://docs.appdynamics.com/display/PRO45/.NET+Agent+Logging) in the folder containing manifest.yml and push the application. That is it! This new buildpack really simplifies the workflows involved with overriding advanced configuration.
+For example, In case of the above .NET scenario, we can override logging configuration by dropping a custom logging configuration file [AppDynamicsAgentLog.config](https://docs.appdynamics.com/display/PRO45/.NET+Agent+Logging)
+in the folder containing manifest.yml and push the application. That is it! This new buildpack really simplifies the workflows involved with overriding advanced configuration.
 
 
 ## <a id='Why this Design'></a> Why this Design
