@@ -54,7 +54,7 @@ Please refer to the [official hwc buildpack page](https://docs.cloudfoundry.org/
 
 4. Now push your .NET hwc application with appdbuildpack and hwc_buildpack.
     <pre class='terminal'>
-    $ cf push -b appd_buildpack -b hwc_buildpack -s windows2016
+    $ cf push -b appdbuildpack -b hwc_buildpack -s windows2016
     </pre>
 
 That is it! the <b><i>appdbuildpack</i></b> will take care of [downloading the AppDynamics .NET agent from NuGET](https://nuget.org/packages/AppDynamics.Agent.Distrib.Micro.Windows/) and configuring it based on the controller information represented by bound <i>"appdynamics service instance"</i>
