@@ -71,17 +71,19 @@ and configure the agent based on the controller information represented by bound
 
 2. Any advanced configuration files for the agents are also picked by this buildpack. This solves the restrictions we used to have with standard buildpacks, where only basic Controller information and App/Tier/Node information is configured. 
 
-For example, In case of the above .NET scenario, we can override logging configuration by dropping a custom logging configuration file [AppDynamicsAgentLog.config](https://docs.appdynamics.com/display/PRO45/.NET+Agent+Logging)
-in the folder containing manifest.yml and push the application. That is it! This new buildpack really simplifies the workflows involved with overriding advanced configuration.
+    1. For example, In the above .NET workflow, we can override logging configuration by dropping a custom logging configuration file [AppDynamicsAgentLog.config](https://docs.appdynamics.com/display/PRO45/.NET+Agent+Logging)
+in the folder containing manifest.yml and push the application. This buildpack simplifies the workflows involved with overriding advanced configuration.
 
 
-## <a id='Why this Design'></a> Why this Design
+## <a id='Why this Design'></a> Advantages using this approach
 
-So far our approach for adding appdynamics support to APM was to add features to individual standard CF buildpacks. This involves adding the feature and submitting a Pull Request.
 
-1. The turn around time for adding new features was long. Usually any feature we add used to take around 1-2 months. With this new extension buildpack approach, the turn around time is significantly reduced to days. 
-2. Also this will provide a single unified workflow across all AppDynamics agents
+1. So far our approach for adding appdynamics support to APM was to add features to individual standard CF buildpacks. This involves adding the feature and submitting a Pull Request.
+The turn around time was long. This new extension buildpack enables us to  add features swiftly.  
 
+2. This approach lets us add advanced features easily, now that we are decoupled from standard buildpacks. For e.g: See overriding logging configuration mentioned above.
+
+3. This approach will provide a single unified workflow across all language applications instrumentation using AppDynamics APM agents.
 For now, we are releasing support only for .NET HWC applications but the later releases will include support for .NET core, JAVA, Python, PHP and GoLang
 
 
