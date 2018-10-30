@@ -1,11 +1,11 @@
 ---
-title: AppDynamics for Pivotal Cloud Foundry
+title: AppDynamics Application Monitoring for Pivotal Cloud Foundry
 owner: Partners
 ---
 
 ## <a id='overview'></a> Overview
 
-The AppDynamics integration with Pivotal Cloud Foundry (PCF) allows you to easily deploy AppDynamics-monitored applications on the [Pivotal Network](http://network.pivotal.io).
+The [AppDynamics Application Monitoring for Pivotal Cloud Foundry](https://network.pivotal.io/products/p-appdynamics/) (PCF) allows you to easily deploy AppDynamics-monitored applications on the [Pivotal Network](http://network.pivotal.io). AppDynamics [Platform Monitoring for PCF](https://network.pivotal.io/products/appdynamics-platform/) provides visibility into the PCF platform where your AppDynamics-monitored applications are deployed.
 
 AppDynamics APM supports performance monitoring of application metrics. AppDynamics agent code embedded or bundled with an application instruments the application code and publishes performance monitoring metrics and other details back to the Application Dashboard in the AppDynamics Controller web UI.
 
@@ -22,13 +22,13 @@ AppDynamics APM supports performance monitoring of application metrics. AppDynam
     <tr>
         <td>Release date</td>
         <td>October 1, 2018</td>
-    </tr>       
-    <tr>        
-        <td>Pivotal Cloud Foundry Operations Manager </td>      
-        <td>v2.0.7 or higher, v2.1.x, and 2.2.x</td>      
-    </tr>       
-    <tr>        
-        <td>Pivotal Application Service (formerly Elastic Runtime)</td>     
+    </tr>
+    <tr>
+        <td>Pivotal Cloud Foundry Operations Manager </td>
+        <td>v2.0.7 or higher, v2.1.x, and 2.2.x</td>
+    </tr>
+    <tr>
+        <td>Pivotal Application Service (formerly Elastic Runtime)</td>
         <td>v2.0.7 or higher, v2.1.x, and v2.2.x</td>
     </tr>
     <tr>
@@ -46,10 +46,10 @@ AppDynamics APM supports performance monitoring of application metrics. AppDynam
 * Upgrades from AppDynamics v1.x are not supported. If you previously installed AppDynamics v1.x, uninstall it and install the latest version.
 
 * The tile cannot be used for Ops Manager with any Cloud Foundry version lower than v2.0.7, since the Loggregator component (reverse_log_proxy) needed for extracting the KPI metrics is not exposed.
-    
+
 ### <a id="reqs"></a> Requirements
 
-* AppDynamics Controller v4.4.x 
+* AppDynamics Controller v4.4.x
 * An AppDynamics account
 * Pivotal Cloud Foundry v2.0.7 or higher
 
