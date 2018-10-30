@@ -18,14 +18,14 @@ Starting v4.5.454 of the tile AppDynamics Application Monitoring for PCF  we wil
 
 Minimal Requirements: PASW 2.2, HWC Buildpack v3.0 or higher.
 
-This apprach requires <i>.profile</i> and <i>.profile.d</i> support, and therefore only HWC Buildpack (v3.0 or higher) can be used along with <i>appdbuildpack</i> to leverage multibuildpack feature
+This approach requires <i>.profile</i> and <i>.profile.d</i> support, and therefore only HWC Buildpack (v3.0 or higher) can be used along with <i>appdbuildpack</i> to leverage multibuildpack feature
 </p>
 
 
-<p class="note"><strong>Note:</strong>  Although this workflow describes the procedure of hwc .NET applications instrumentation using appdbuildpack using multi buildpack approach. The workflow is same across any language application (once the support is added for the other languages). 
+<p class="note"><strong>Note:</strong>  Although this workflow describes the procedure of hwc .NET applications instrumentation using appdbuildpack with the multi buildpack approach. The workflow is same across any language application (once the support is added for the other languages). 
 </p>
 
-Please refer [official hwc buildpack page](https://docs.cloudfoundry.org/buildpacks/hwc/index.html) for the procedure to push .NET apps to cloudfoundry. 
+Please refer to the [official hwc buildpack page](https://docs.cloudfoundry.org/buildpacks/hwc/index.html) for the procedure to push .NET apps to cloudfoundry. 
 
 
 1. Install/Upgrade AppDynamics Application Monitoring for PCF tile to version  v4.5.454 or higher.  No additional configuration is needed !
@@ -40,7 +40,7 @@ Please refer [official hwc buildpack page](https://docs.cloudfoundry.org/buildpa
     appdbuildpack            25         true      false    appdynamics_buildpack-v4.5.514.zip
     </pre>
 
-3. Configure your application to bind to appdynamics service exposed by the tile. Edit manifest.yml
+3. Configure your application to bind to the AppDynamics service exposed by the tile. Edit manifest.yml
 
     ~~~yaml
     ---
