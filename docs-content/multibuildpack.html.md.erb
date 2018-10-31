@@ -1,29 +1,21 @@
 ---
-title: AppDynamics Extension BuildPack (Multi BuildPack Approach) <New!>
+title: AppDynamics Extension BuildPack (MultiBuildPack Approach)
 owner: Partners
 ---
 
 Starting with the v4.5.514 of the tile AppDynamics Application Monitoring for PCF we will be shipping an Appdynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard build packs using Cloud Foundry's multi buildpack workflow. Eventually, these multi buildpacks will serve as a single point for AppDynamics APM support.
 
+## <a id='Pre Requistites'></a> Pre-Requisites
+    
+  1. Must use cf CLI v6.38 or later for using multi buildpacks.
+  1. Minimal Requirements: PASW 2.2, HWC Buildpack v3.0 or higher. This approach requires <i>.profile</i> and <i>.profile.d</i> support, and therefore only HWC Buildpack (v3.0 or higher) can be used along with <i>appdbuildpack</i> to leverage the multibuildpack feature.
+
+    
 ## <a id='Workflow'></a> Workflow
 
-<p class="note"><strong>Note:</strong> Must use cf CLI v6.38 or later for using multi buildpacks.
 
-</p>
+<p class="note"><strong>Note:</strong>  For now, only .NET HWC support is included in the buildpack but eventually we plan to move all of the appdynamics APM logic from standard cloudfoundry build packs to this appdynamics buildpack for configuring our agents. The workflow can be applied to any language application (once the support is added) 
 
-<p class="note"><strong>Note:</strong> Currently only .NET HWC support is included in the buildpack. In the near future, we will move all AppDynamics APM logic from standard Cloud Foundry build packs to this AppDynamics buildpack for configuring our agents.
-</p>
-
-<p class="note"><strong>Note:</strong>
-
-Minimal Requirements: PASW 2.2, HWC Buildpack v3.0 or higher.
-
-This multi buildpack approach requires <i>.profile</i> and <i>.profile.d</i> support, and therefore only HWC Buildpack (v3.0 or higher) can be used along with <i>appdbuildpack</i> to leverage the multi buildpack feature.
-</p>
-
-
-<p class="note"><strong>Note:</strong>  Although this instrumentation workflow using appdbuildpack with the multi buildpack approach describes the procedure of HWC .NET applications, the procedure will be the same across any
-language application.
 </p>
 
 Please refer to the [official hwc buildpack page](https://docs.cloudfoundry.org/buildpacks/hwc/index.html) for the procedure to push .NET apps to Cloud Foundry.
