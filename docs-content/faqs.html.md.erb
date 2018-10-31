@@ -7,16 +7,22 @@ owner: Partners
 
 ### <a id='g1'></a> What is included in the AppDynamics Tile?
 
-* **AppDynamics Service Broker** -- for application instrumentation
-* **AppDynamics Analytics** -- for transaction analytics
+* **AppDynamics Service Broker** --- for application instrumentation
+* **AppDynamics Analytics** --- for transaction analytics
 
 ### <a id='g2'></a> I am only interested in APM. Should I configure  Transaction Analytics?
 
-For now, provide dummy values in the tile forms. We are working with Pivotal to have selective deployment option. 
+For now, provide dummy values in the tile forms.
+AppDynamics and Pivotal are working to have selective deployment option.
 
 ### <a id='g3'></a> How do I configure SSL (On-Prem Controller deployment)?
 
-Make sure you have included the entire certificate chain in the security config of the OpsManager director tile. This will ensure that all BOSH deployments and Diego cells can access those certificates automatically while doing SSL validation. AppDynamics deployments automatically reads the certificates, and imports them into correct keystores. No additional steps are needed. Follow the exact format with no comments, as specified in the Pivotal OpsManager documentation. Enable all SSL checkboxes in Tile Configuration Forms.
+Make sure you have included the entire certificate chain in the security config of the BOSH Director tile.
+This ensures that all BOSH deployments and Diego cells can access those certificates automatically while doing SSL validation.
+AppDynamics deployments automatically reads the certificates and imports them into correct keystores.
+No additional steps are needed.
+Follow the exact format with no comments, as specified in the Pivotal Opsi Manager documentation.
+Enable all SSL checkboxes in Tile Configuration Forms.
 
 ### <a id='g4'></a> How do I configure SSL (SaaS deployment)?
 
@@ -26,7 +32,7 @@ Enable all SSL checkboxes in Tile Configuration Forms.
 
 ### <a id='g5'></a> My installation failed. What should I send to AppDynamics Support?
 
-Collect the error logs from the OpsManager installation page and provide the entire deployment log.
+Collect the error logs from the Ops Manager installation page and provide the entire deployment log.
 
 ### <a id='g6'></a> I am using the v1.x tile and planning to upgrade to v4.4.x. Should I uninstall v1.x before installing v4.4.x?
 
@@ -34,7 +40,8 @@ Yes, since the platform metrics framework has been rewritten to use the new Fire
 
 ### <a id='g7'></a> Will my apps that are bound to older AppDynamics Service Broker instances lose instrumentation while I uninstall v1.x and install v4.4.x?
 
-No. The apps are oblivious to tile installs and uninstalls. Once the apps are bound, the AppDynamics configuration will be present until the apps are restaged.
+No. The apps are oblivious to tile installs and uninstalls.
+After the apps are bound, the AppDynamics configuration are present until the apps are restaged.
 
 ### <a id='g8'></a> How do I upgrade from v1.x to v4.4.x?
 
@@ -55,7 +62,10 @@ No additional steps are required to restage apps.
 
 ### <a id='s1'></a> What is AppDynamics Service Broker?
 
-AppDynamics Service Broker implements [Service Broker API](https://github.com/openservicebrokerapi/servicebroker) and provides a [credential service](https://docs.pivotal.io/pivotalcf/2-2/services/overview.html) for apps to bind. When bound, the necessary AppDynamics configuration is automatically imported into the app environment for buildpacks to read and configure AppDynamics agents.
+AppDynamics Service Broker implements [Service Broker API](https://github.com/openservicebrokerapi/servicebroker)
+and provides a [credential service](https://docs.pivotal.io/pivotalcf/services/overview.html) for apps to bind.
+When bound, the necessary AppDynamics configuration is automatically imported into the app environment
+for buildpacks to read and configure AppDynamics agents.
 
 ### <a id='s2'></a> Can I bind apps to AppDynamics without the Service Broker and still instrument apps?
 
@@ -99,11 +109,18 @@ To override the following environment, run `cf set-env APP ENV-NAME ENV-VALUE`.
 
 ### <a id='s6'></a> How do I configure the Java buildpack to fetch a particular agent version?
 
-By default, Buildpack fetches the latest available agent entry in `packages.appdynamics.com/java/index.yml`. You can override the default behavior by setting these variables specified under [Configuration](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-app_dynamics_agent.md#configuration) in the [AppDynamics Agent Framework README](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-app_dynamics_agent.md).
+By default, Buildpack fetches the latest available agent entry in `packages.appdynamics.com/java/index.yml`.
+You can override the default behavior by setting these variables specified under
+[Configuration](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-app_dynamics_agent.md#configuration)
+in the [AppDynamics Agent Framework README](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-app_dynamics_agent.md).
+
   * To use a specific version, set the env JBP_CONFIG_APP_DYNAMICS_AGENT:
-     + `cf set-env YOUR-APP-NAME JBP_CONFIG_APP_DYNAMICS_AGENT '{version: 4.4.111}'`
+
+     `cf set-env YOUR-APP-NAME JBP_CONFIG_APP_DYNAMICS_AGENT '{version: 4.4.111}'`
+
   * To use another package index, set the env JBP_CONFIG_APP_DYNAMICS_AGENT:
-     + `cf set-env YOUR-APP-NAME JBP_CONFIG_APP_DYNAMICS_AGENT '{repository_root: "https://exmple.duckdns.org"}' `
+
+     `cf set-env YOUR-APP-NAME JBP_CONFIG_APP_DYNAMICS_AGENT '{repository_root: "https://exmple.duckdns.org"}' `
 
 ### <a id='s7'></a> The Java buildpack does not fetch a particular agent version. What should I do?
 
@@ -136,38 +153,39 @@ Run `cf env application` and see if the `VCAP_SERVICES` environment variable has
 |  NODE.JS  | /tmp/appd/{hash} |
 | JAVA   | /app/.java-buildpack/app_dynamics_agent/ver<agent_version>/logs |
 
-### <a id='s12'></a> What should I send to AppDynamics Support?
-
 ## <a id='AAFAQS'></a> Transactional Analytics Agent FAQs
 
 ### <a id='t1'></a> How do I configure Analytics Agent?
 
-Please refer these [Configuration instructions](https://docs.pivotal.io/partners/appdynamics/analytics.html)
+See [Configuring Transaction Analytics](./analytics.html).
 
 ### <a id='t2'></a> How is Analytics Agent Packaged?
 
-We package `Standalone Analytics Agent` into tile. When the tile is installed it runs as java application on the 
-elastic runtime of the PCF cloud.
+AppDynamics packages `Standalone Analytics Agent` into the tile.
+When the tile is installed, it runs as a Java application on Pivotal Application Service (PAS).
 
 ### <a id='t3'></a> What analytics are supported?
 
-Only transactional analytics are supported as of now. 
+Only transactional analytics are supported.
 
-### <a id='t4'></a> How do I enable transactional anaytics for an application?
+### <a id='t4'></a> How do I enable transactional analytics for an application?
 
-  * Install the tile, this deploys the analytics agent on the elastic runtime of the PCF cloud
-  * The analytics agent listens on a URL, note down the url. 
-  * For the application we want the transactional analytics set the environment variable `JAVA_OPTS: "-Dappdynamics.analytics.agent.url=http://<analytics-url>/v1/sinks/bt" ` 
-  * Restage the application. 
+  * Install the tile. This deploys the analytics agent on PAS.
+  * The analytics agent listens on a URL, record the URL.
+  * For the application, set the `JAVA_OPTS` environment variable as follows:
 
-### <a id='t5'></a> What needs to be done to enable SSL communication between applications and AppDynamics Analytics Service/Controller?
+     `JAVA_OPTS: "-Dappdynamics.analytics.agent.url=http://<analytics-url>/v1/sinks/bt" `
+  * Restage the application.
+
+### <a id='t5'></a> What needs to be done to enable SSL communication between applications and the AppDynamics Analytics Service/Controller?
   * No additional configuration is required
-  * Analytics agent container uses certificates imported into containers automatically by the BOSH director just like any other Java application container 
-  * A key store is automatically created and managed by the standard java buildpack which analytics agent container is built of
-  * The certficate issued by BOSH director is present in /etc/ssl/certs/ca-certificates.crt
+  * The analytics agent container uses certificates imported into containers automatically
+    by the BOSH director just like any other Java application container
+  * A keystore is automatically created and managed by the standard Java buildpack
+  * The certificate issued by BOSH director is present in /etc/ssl/certs/ca-certificates.crt
 
-### <a id='t6'></a> How do we troubleshoot? 
-  * Check the logs 
+### <a id='t6'></a> How do I troubleshoot?
+  * Check the logs
   * Check for any errors
 
 <pre class="terminal">
@@ -178,19 +196,22 @@ Only transactional analytics are supported as of now.
   $ cf ssh appdanalytics-4.5.470 -c "cat /home/vcap/app/analytics-agent/logs/analytics-agent-http.log"
 </pre>
 
-### <a id='t7'></a> There are SSL errors in the logs? How do we check the certificate
-  * This certificate is automatically generated and imported into container by PCF OpsManager Security Manager
-  * If you are using an OnPrem Controller with SSL installation. Make sure you have included the entire certificate chain in the security config of the OpsManager director tile
-  * To verify if the certificate is properly imported.  Check the certficate chain `/etc/ssl/certs/ca-certificates.crt` in the container and verify if the relevant certficate is present in the chain
+### <a id='t7'></a> There are SSL errors in the logs? How do I check the certificate?
+  * This certificate is automatically generated and imported into the container by PCF Ops Manager
+  * If you are using On-Prem Controller with SSL installation.
+     Make sure you have included the entire certificate chain in the security config of the BOSH Director tile.
+  * To verify that the certificate is properly imported,
+    check that the certficate chain `/etc/ssl/certs/ca-certificates.crt` is in the container
+    and verify that the relevant certficate is present in the chain.
 
 <pre class="terminal">
   $  cf ssh appdanalytics-4.5.470 -c "cat /etc/ssl/certs/ca-certificates.crt"
 </pre>
 
 
-### <a id='t8'></a> How is the Keystore created from the crt file?
-  * We use the standard java buildpack to create the analytics agent container. 
-  * As for any java container, the buildpack automatically creates the TrustManager for `/etc/ssl/certs/ca-certificates.crt` and watches it. 
+### <a id='t8'></a> How is the keystore created from the CRT file?
+  * AppDynamics uses the standard Java buildpack to create the analytics agent container.
+  * As for any Java container, the buildpack automatically creates the TrustManager for `/etc/ssl/certs/ca-certificates.crt` and watches it.
 
 <pre class="terminal">
   $  cf ssh appdanalytics-4.5.470 -c "grep -i TrustManager ~/app/analytics-agent/logs/*.log"
@@ -200,7 +221,7 @@ Only transactional analytics are supported as of now.
 </pre>
 
 ### <a id='t9'></a> What do we provide AppDynamics support?
-* Analytics Agent container logs 
+* Analytics Agent container logs
 
 <pre class="terminal">
   $  cf ssh appdanalytics-4.5.470 -c "cat /home/vcap/app/analytics-agent/logs/analytics-agent.log"

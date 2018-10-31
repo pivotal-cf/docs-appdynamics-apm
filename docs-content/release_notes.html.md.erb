@@ -5,7 +5,15 @@ owner: Partners
 
 <p class="note"><strong>Note:</strong> Upgrades from AppDynamics v1.x are not supported. If you previously installed AppDynamics v1.x, uninstall it and install the latest version.</p>
 
-## <a id='44407'></a> 4.5.470
+## <a id='45514'></a> 4.5.514
+
+**Release Date:** October 30, 2018
+
+- Added AppDynamics Buildpack 
+- [.NET applications supported by hwc buildpack](https://docs.cloudfoundry.org/buildpacks/hwc/index.html) can be instrumented now by using the AppDynamics Buildpack in tandem with hwc_buildpack (v3.0 or higher) using MultiBuildPack approach.
+- Must use cf CLI v6.38 or higher and HWC Buildpack v3.0 or higher for using multi buildpacks
+
+## <a id='45470'></a> 4.5.470
 
 **Release Date:** October 1, 2018
 
@@ -55,7 +63,8 @@ owner: Partners
 
 - Improvements in dashboard application
 - Simplified SSL enabled communication configuration between tile and AppDynamics Controller 
-- Set the certificate in the security-config of the OpsManager Director e.g: https://docs.pivotal.io/pivotalcf/2-0/customizing/vsphere-config.html#security-config and Tile will pick it up. 
+- Set the certificate in the security-config of the BOSH Director and the tile will pick it up.
+  For information, see [Security Page](https://docs.pivotal.io/pivotalcf/customizing/vsphere-config.html#security-config).
 
 
 ## <a id='44322'></a> v4.4.322
