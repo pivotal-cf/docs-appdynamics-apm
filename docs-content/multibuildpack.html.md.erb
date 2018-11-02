@@ -8,7 +8,7 @@ Starting with the v4.5.514 of the tile AppDynamics Application Monitoring for PC
 ## <a id='Pre Requistites'></a> Pre-Requisites
     
   1. Must use cf CLI v6.38 or later for using multi buildpacks.
-  1. Minimal Requirements: PASW 2.2, HWC Buildpack v3.0 or higher. This approach requires <i>.profile</i> and <i>.profile.d</i> support, and therefore only HWC Buildpack (v3.0 or higher) can be used along with <i>appdbuildpack</i> to leverage the multibuildpack feature.
+  1. Minimal Requirements: PASW 2.2, HWC Buildpack v3.0 or later. This approach requires <i>.profile</i> and <i>.profile.d</i> support, and therefore only HWC Buildpack (v3.0 or later) can be used along with <i>appdbuildpack</i> to leverage the multibuildpack feature.
 
     
 ## <a id='Workflow'></a> Workflow
@@ -21,7 +21,7 @@ Starting with the v4.5.514 of the tile AppDynamics Application Monitoring for PC
 Please refer to the [official hwc buildpack page](https://docs.cloudfoundry.org/buildpacks/hwc/index.html) for the procedure to push .NET apps to Cloud Foundry.
 
 
-1. Install/Upgrade AppDynamics Application Monitoring for PCF tile to version v4.5.454 or higher. No additional configuration is needed!
+1. Install/Upgrade AppDynamics Application Monitoring for PCF tile to version v4.5.454 or later. No additional configuration is needed!
 2. Once the tile is installed a buildpack with the name <b>appdbuildpack</b> appears in your cf environment buildpacks
     <pre class='terminal'>
     $ cf buildpacks
