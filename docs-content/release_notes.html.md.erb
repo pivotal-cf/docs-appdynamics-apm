@@ -10,8 +10,8 @@ owner: Partners
 **Release Date:** October 30, 2018
 
 - Added AppDynamics Buildpack 
-- [.NET applications supported by hwc buildpack](https://docs.cloudfoundry.org/buildpacks/hwc/index.html) can be instrumented now by using the AppDynamics Buildpack in tandem with hwc_buildpack (v3.0 or higher) using MultiBuildPack approach.
-- Must use cf CLI v6.38 or higher and HWC Buildpack v3.0 or higher for using multi buildpacks
+- [.NET applications supported by hwc buildpack](https://docs.cloudfoundry.org/buildpacks/hwc/index.html) can be instrumented now by using the AppDynamics Buildpack in tandem with hwc_buildpack (v3.0 or later) using MultiBuildPack approach.
+- Must use cf CLI v6.38 or later and HWC Buildpack v3.0 or later for using multi buildpacks
 
 ## <a id='45470'></a> 4.5.470
 
@@ -106,9 +106,9 @@ The tile contains:
 
 The tile requires having 
 
-- PCF Ops Manager: v2.0.7 or higher, or any v2.1.x or v2.2.x versions
+- PCF Ops Manager: v2.0.7 or later, or any v2.1.x or v2.2.x versions
 
-<p class="note"><strong>Note:</strong> The tile cannot be used for OpsManager with Cloud Foundry versions higher than v2.0.7, since the Loggregator component (reverse_log_proxy) needed for extracting the KPI metrics is not exposed.</p>
+<p class="note"><strong>Note:</strong> The tile cannot be used for OpsManager with Cloud Foundry versions later than v2.0.7, since the Loggregator component (reverse_log_proxy) needed for extracting the KPI metrics is not exposed.</p>
 
 
 ## <a id='44135'></a> v4.4.135
@@ -133,7 +133,7 @@ This is to enable installs of customers without access to standard pypi.org serv
 
 * New Service Broker implements OpenServiceBrokerApi(2.11)
 * Lighter on Memory Requirement
-* Works only with PCF v2.0 or higher
+* Works only with PCF v2.0 or later
 
 ##### Limitations
 
