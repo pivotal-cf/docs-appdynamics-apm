@@ -1,28 +1,27 @@
 ---
-title: AppDynamics Extension BuildPack (MultiBuildPack Approach)
+title: AppDynamics Extension Buildpack (MultiBuildpack Approach)
 owner: Partners
 ---
 
-Starting with the v4.5.514 of the tile AppDynamics Application Monitoring for PCF we will be shipping an Appdynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard build packs using Cloud Foundry's multi buildpack workflow. Eventually, these multi buildpacks will serve as a single point for AppDynamics APM support.
+Starting with the v4.5.514 of the tile AppDynamics Application Monitoring for PCF  we will be shipping an Appdynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard build packs using cloud foundry's multi buildpack workflow. The buildpack serves as a single point for AppDynamics APM support eventually.
 
-## <a id='Pre Requistites'></a> Pre-Requisites
-    
+## <a id='Prerequistites'></a> Prerequisites
+
   1. Must use cf CLI v6.38 or later for using multi buildpacks.
-  1. Minimal Requirements: PASW 2.2, HWC Buildpack v3.0 or later. This approach requires <i>.profile</i> and <i>.profile.d</i> support, and therefore only HWC Buildpack (v3.0 or later) can be used along with <i>appdbuildpack</i> to leverage the multibuildpack feature.
+  1. Minimal Requirements: PASW 2.2, HWC Buildpack v3.0 or higher. This approach requires <i>.profile</i> and <i>.profile.d</i> support, and therefore only HWC Buildpack (v3.0 or higher) can be used along with <i>appdbuildpack</i> to leverage the multibuildpack feature.
 
-    
+
 ## <a id='Workflow'></a> Workflow
 
 
-<p class="note"><strong>Note:</strong>  For now, only .NET HWC support is included in the buildpack but eventually we plan to move all of the appdynamics APM logic from standard cloudfoundry build packs to this appdynamics buildpack for configuring our agents. The workflow can be applied to any language application (once the support is added) 
-
+<p class="note"><strong>Note:</strong>  For now, only .NET HWC support is included in the buildpack but eventually we plan to move all of the appdynamics APM logic from standard cloudfoundry build packs to this appdynamics buildpack for configuring our agents. The workflow can be applied to any language application (once the support is added)
 </p>
 
-For how to push .NET apps to Cloud Foundry,
-see [HWC Buildpack](https://docs.cloudfoundry.org/buildpacks/hwc/index.html) in the Cloud Foundry documentation.
+Please refer to the [official hwc buildpack page](https://docs.cloudfoundry.org/buildpacks/hwc/index.html) for the procedure to push .NET apps to cloudfoundry.
 
-1. Install/Upgrade AppDynamics Application Monitoring for PCF tile to version v4.5.454 or later. No additional configuration is needed!
-2. Once the tile is installed a buildpack with the name <b>appdbuildpack</b> appears in your cf environment buildpacks
+
+1. Install/Upgrade AppDynamics Application Monitoring for PCF tile to version  v4.5.454 or higher.  No additional configuration is needed !
+2. Once the tile is installed a buildpack with name <b>appdbuildpack</b> should be available to you in your cf environment buildpacks
     <pre class='terminal'>
     $ cf buildpacks
     Getting buildpacks...
@@ -33,7 +32,7 @@ see [HWC Buildpack](https://docs.cloudfoundry.org/buildpacks/hwc/index.html) in 
     appdbuildpack            25         true      false    appdynamics_buildpack-v4.5.514.zip
     </pre>
 
-3. Configure your application to bind to the AppDynamics service exposed by the tile by editing the `manifest.yml` file.
+3. Configure your application to bind to the AppDynamics service exposed by the tile. Edit manifest.yml
 
     ~~~yaml
     ---
@@ -44,40 +43,40 @@ see [HWC Buildpack](https://docs.cloudfoundry.org/buildpacks/hwc/index.html) in 
       - <appdynamics service instance>
     ~~~
 
-4. Push your .NET hwc application with `appdbuildpack` and `hwc_buildpack`.
+4. Now push your .NET hwc application with appdbuildpack and hwc_buildpack.
     <pre class='terminal'>
     $ cf push -b appdbuildpack -b hwc_buildpack -s windows2016
     </pre>
 
 <b><i>appdbuildpack</i></b> will [fetch the AppDynamics .NET agent from NuGET](https://nuget.org/packages/AppDynamics.Agent.Distrib.Micro.Windows/)
-and configure the agent based on the controller information represented by the bound <i>"appdynamics service instance"</i>
+and configure the agent based on the controller information represented by bound <i>"appdynamics service instance"</i>
 
 ![](./images/net_instrumentation.png)
 
 ## <a id='Advanced Features'></a> Advanced Features
 
-1. In case you are operating in a private cloud foundation without internet access to NuGET.
-    1. Create a folder called <b><i>vendor</i></b> in the folder that contains <i>manifest.yml</i>. For .NET applications this is also the folder where the `web.config` file is present.
+1. In case you are operating in private cloud foundation with no internet access to NuGET
+    1. Make a folder called <b><i>vendor</i></b>  in the folder that contains <i>manifest.yml </i>. For .NET applications this is also the folder where web.config is present.
 
-    2. [Download AppDynamics .NET agent from NuGET](https://nuget.org/packages/AppDynamics.Agent.Distrib.Micro.Windows/) and copy the <b>appdynamics.agent.distrib.micro.windows-{version}.nupkg</b> into <b><i>vendor</i></b>  folder. Buildpack will pick up the bits from the vendor instead of going out to the internet to access the NuGet package manager.
+    2. [Download AppDynamics .NET agent from NuGET](https://nuget.org/packages/AppDynamics.Agent.Distrib.Micro.Windows/) and copy the <b>appdynamics.agent.distrib.micro.windows-{version}.nupkg</b> into <b><i>vendor</i></b>  folder. Buildpack will pick up the bits from vendor instead of going out to NuGet.
 
-2. Any advanced configuration files for the agents are also picked by this buildpack. This solves the restrictions that used to exist with standard buildpacks, where only basic Controller information and App/Tier/Node information were configured.
+2. Any advanced configuration files for the agents are also picked by this buildpack. This solves the restrictions we used to have with standard buildpacks, where only basic Controller information and App/Tier/Node information is configured.
 
-    1. For example, In the above .NET workflow, you can now override logging configuration by dropping a custom logging configuration file [AppDynamicsAgentLog.config](https://docs.appdynamics.com/display/PRO45/.NET+Agent+Logging)
-in the folder containing `manifest.yml` and push the application. This buildpack simplifies the workflows involved with overriding advanced configuration.
+    1. For example, In the above .NET workflow, we can override logging configuration by dropping a custom logging configuration file [AppDynamicsAgentLog.config](https://docs.appdynamics.com/display/PRO45/.NET+Agent+Logging)
+in the folder containing manifest.yml and push the application. This buildpack simplifies the workflows involved with overriding advanced configuration.
 
 
 ## <a id='Why this Design'></a> Advantages using this approach
 
 
-1. Up until now, our approach for adding AppDynamics support to APM was to add features to individual standard CF buildpacks. This involves adding the feature and submitting a Pull Request.
+1. So far the AppDynamics approach for adding appdynamics support to APM was to add features to individual standard CF buildpacks. This involves adding the feature and submitting a Pull Request.
 The turn around time was long. This new extension buildpack enables us to add features swiftly.
 
-2. This new multi buildpack approach lets us add advanced features easily, now that we are decoupled from standard buildpacks. For example: Overriding logging configuration, as mentioned above.
+2. This approach lets us add advanced features easily, now that we are decoupled from standard buildpacks. For e.g: See overriding logging configuration mentioned above.
 
-3. The multi buildpack approach provides a single unified workflow to instrument a variety of applications, regardless of the buildpack type, using AppDynamics
+3. This approach will provide a single unified workflow to instrument variety of applications regardless of the buildpack type using AppDynamics.
 
-At this time, we are releasing support only for .NET HWC applications, but later releases will include support for .NET core, JAVA, Python, PHP and GoLang.
+For now, we are releasing support only for .NET HWC applications but the later releases will include support for .NET core, JAVA, Python, PHP, and GoLang.
 
 
 ## <a id='Sample Application'></a> Sample Application
