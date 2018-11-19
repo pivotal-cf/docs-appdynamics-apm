@@ -56,7 +56,7 @@ and configure the agent based on the controller information represented by bound
 ## <a id='Advanced Features'></a> Advanced Features
 
 1. In case you are operating in private cloud foundation with no internet access to NuGET
-    1. make a folder called <b><i>vendor</i></b>  in the folder that contains <i>manifest.yml </i>. For .NET applications this is also the folder where web.config is present.
+    1. Make a folder called <b><i>vendor</i></b>  in the folder that contains <i>manifest.yml </i>. For .NET applications this is also the folder where web.config is present.
 
     2. [Download AppDynamics .NET agent from NuGET](https://nuget.org/packages/AppDynamics.Agent.Distrib.Micro.Windows/) and copy the <b>appdynamics.agent.distrib.micro.windows-{version}.nupkg</b> into <b><i>vendor</i></b>  folder. Buildpack will pick up the bits from vendor instead of going out to NuGet.
 
@@ -69,14 +69,14 @@ in the folder containing manifest.yml and push the application. This buildpack s
 ## <a id='Why this Design'></a> Advantages using this approach
 
 
-1. So far our approach for adding appdynamics support to APM was to add features to individual standard CF buildpacks. This involves adding the feature and submitting a Pull Request.
-The turn around time was long. This new extension buildpack enables us to  add features swiftly.
+1. So far the AppDynamics approach for adding appdynamics support to APM was to add features to individual standard CF buildpacks. This involves adding the feature and submitting a Pull Request.
+The turn around time was long. This new extension buildpack enables us to add features swiftly.
 
 2. This approach lets us add advanced features easily, now that we are decoupled from standard buildpacks. For e.g: See overriding logging configuration mentioned above.
 
-3. This approach will provide a single unified workflow to instrument variety of applications regardless of the buildpack type using AppDynamics
+3. This approach will provide a single unified workflow to instrument variety of applications regardless of the buildpack type using AppDynamics.
 
-For now, we are releasing support only for .NET HWC applications but the later releases will include support for .NET core, JAVA, Python, PHP and GoLang
+For now, we are releasing support only for .NET HWC applications but the later releases will include support for .NET core, JAVA, Python, PHP, and GoLang.
 
 
 ## <a id='Sample Application'></a> Sample Application
