@@ -1,0 +1,116 @@
+---
+title: Java Workflow with AppDynamics Extension Buildpack (MultiBuildpack Approach)
+owner: Partners
+---
+
+Starting with the v4.5.556 of the tile AppDynamics Application Monitoring for PCF  we will be shipping an
+Appdynamics extension buildpack `appdbuildpack` that can be used in tandem with `java_buildpack` using
+cloud foundry's multi buildpack workflow. 
+
+<p class="note"><strong>Note:</strong>  
+Although, the buildpack is designed to work with standard java_buildpack, for now we have a slight requirement to use forked version
+of the buildpack https://github.com/Appdynamics/java-buildpack.git temporarily till the fork is merged to cloudfoundry java_buildpack.
+</p>
+
+## <a id='Prerequistites'></a> Prerequisites
+1. Install Appdynamics Application Performance Monitoring for PCF tile `v4.5.556`
+
+
+## <a id='Workflow'></a> Workflow
+
+1. Install/Upgrade AppDynamics Application Monitoring for PCF tile to version  `v4.5.556` or higher.
+   No additional configuration is needed!
+
+2. Verify if `appdbuildpack` is present through your cf cli 
+    <pre class='terminal'>
+    $ cf buildpacks
+    Getting buildpacks...
+
+    buildpack                        position   enabled   locked   filename                                             stack
+    appdbuildpack                    13         true      false    appdynamics_buildpack-v4.5.556.zip
+    </pre>
+
+2. Set the following in manifest.yml to use 
+
+   - buildpacks: `appdbuildpack` and `java_buildpack`
+   - AppDynamics service broker instance: `appd` in this example
+   - environment variable  `APPD_AGENT: java`
+
+    <pre class='terminal'>
+        ---
+        applications:
+        - name: spring-music
+        memory: 1G
+        random-route: true
+        path: build/libs/cf-java-sample-1.0.jar
+        buildpacks:
+        - appdbuildpack
+        - https://github.com/Appdynamics/java-buildpack.git
+        env:
+        APPD_AGENT: java
+        services:
+        - appd
+    </pre>
+
+3.  Push the application
+    <pre class='terminal'>
+    $ cf push
+    </pre>
+
+
+Applying the `appdbuildpack` in tandem with `java_buildpack` will make sure to filter sensitive information reported in
+<b><i>VCAP_*</i></b> environment variables.
+
+
+## <a id='Advanced Configuration'></a> Advanced Configuration
+
+In addition to the above, the extension buildpack facilitates doing any advanced configuration of AppDynamics Java Agent and it is staright forward
+For doing that, 
+
+1. Add a folder `appdynamics/conf</b> with the any of the below advanced configuration files which we would like to override to the artifact that is
+   getting pushed (jar/war/zip file)
+
+- app-agent-config.xml
+- controller-info.xml
+- custom-activity-correlation.xml
+- service-endpoints.xml
+- transactions.xml
+- logging/log4j2.xml
+
+2 . For example: To add that folder to a jar file, user `jar -uf` command
+    <pre class='terminal'>
+    $ jar -uf build/libs/cf-java-sample-1.0.jar appdynamics
+    </pre>
+
+3. verify if the folder is present in the artifact 
+    <pre class='terminal'>
+    $jar -tf build/libs/cf-java-sample-1.0.jar | grep appdynamics
+    appdynamics/
+    appdynamics/conf/
+    appdynamics/conf/transactions.xml
+    appdynamics/conf/app-agent-config.xml
+    appdynamics/conf/custom-interceptors.xml
+    </pre>    
+
+4. Follow the above procedure to push the application with `appdbuildpack` and `java_buildpack`
+        <pre class='terminal'>
+        ---
+        applications:
+        - name: spring-music
+        memory: 1G
+        random-route: true
+        path: build/libs/cf-java-sample-1.0.jar
+        buildpacks:
+        - appdbuildpack
+        - https://github.com/Appdynamics/java-buildpack.git
+        env:
+        APPD_AGENT: java
+        services:
+        - appd
+        </pre>
+
+       <pre class='terminal'>
+        $cf push 
+       </pre>
+
+
