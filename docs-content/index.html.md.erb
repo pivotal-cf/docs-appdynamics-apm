@@ -1,13 +1,13 @@
 ---
-title: AppDynamics Application Performance Monitoring for Pivotal Cloud Foundry
+title: AppDynamics Application Performance Monitoring for PCF
 owner: Partners
 ---
 
 ## <a id='overview'></a> Overview
 
-The [AppDynamics Application Monitoring for Pivotal Cloud Foundry](https://network.pivotal.io/products/p-appdynamics/) (PCF) allows you to easily deploy AppDynamics-monitored applications on [Pivotal Cloud Foundry](https://pivotal.io/platform) using an AppDynamics marketplace service. AppDynamics [Platform Monitoring for PCF](https://network.pivotal.io/products/appdynamics-platform/) provides visibility into the PCF platform where your AppDynamics-monitored applications are deployed.
+The [AppDynamics Application Performance Monitoring (APM) for Pivotal Cloud Foundry](https://network.pivotal.io/products/p-appdynamics/) (PCF) allows you to easily deploy AppDynamics-monitored applications on [Pivotal Cloud Foundry](https://pivotal.io/platform) using an AppDynamics marketplace service. AppDynamics [Platform Monitoring for PCF](https://network.pivotal.io/products/appdynamics-platform/) provides visibility into the PCF platform where your AppDynamics-monitored applications are deployed.
 
-AppDynamics Application Performance Monitoring for PCF supports performance monitoring of application metrics. AppDynamics agent code embedded or bundled with an application instruments the application code and publishes performance monitoring metrics and other details back to the Application Dashboard in the AppDynamics Controller web UI.
+AppDynamics APM for PCF supports performance monitoring of application metrics. AppDynamics agent code embedded or bundled with an application instruments the application code and publishes performance monitoring metrics and other details back to the Application Dashboard in the AppDynamics Controller web UI.
 
 
 ## <a id='product-snapshot'></a> Product Snapshot
@@ -22,13 +22,13 @@ AppDynamics Application Performance Monitoring for PCF supports performance moni
     <tr>
         <td>Release date</td>
         <td>December 11, 2018</td>
-    </tr>       
-    <tr>        
-        <td>Pivotal Cloud Foundry Operations Manager </td>      
-        <td>v2.0.7 or later, v2.1.x, v2.2.x, and v2.3.x</td>      
-    </tr>       
-    <tr>        
-        <td>Pivotal Application Service (formerly Elastic Runtime)</td>     
+    </tr>
+    <tr>
+        <td>Pivotal Cloud Foundry Operations Manager </td>
+        <td>v2.0.7 or later, v2.1.x, v2.2.x, and v2.3.x</td>
+    </tr>
+    <tr>
+        <td>Pivotal Application Service (formerly Elastic Runtime)</td>
         <td>v2.0.7 or later, v2.1.x, v2.2.x, and v2.3.x</td>
     </tr>
     <tr>
@@ -43,8 +43,8 @@ AppDynamics Application Performance Monitoring for PCF supports performance moni
 
 ## <a id="limitations"></a> Limitations
 
-* Starting with v4.5.545, AppDynamics Analytics is managed in a separate tile published on Pivotal Network.
-  Install the Analytics tile separately.
+* Starting with v4.5.545, AppDynamics Analytics is managed in a separate tile, the AppDynamics Application Analytics for PCF Tile, published on the Pivotal Network.
+  Install the AppDynamics Application Analytics for PCF tile separately.
 * Upgrades from AppDynamics v1.x are not supported. If you previously installed AppDynamics v1.x, uninstall it and install the latest version.
 * The tile cannot be used for Ops Manager with any Cloud Foundry version lower than v2.0.7,
   because the Loggregator component (reverse_log_proxy) needed for extracting the KPI metrics is not exposed.

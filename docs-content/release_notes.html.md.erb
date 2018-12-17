@@ -1,5 +1,5 @@
 ---
-title: Release Notes for AppDynamics Tile
+title: Release Notes for AppDynamics Application Performance Monitoring for PCF Tile
 owner: Partners
 ---
 
@@ -10,18 +10,16 @@ owner: Partners
 
 **Release Date:** December 11, 2018
 
-- Java support added to AppDynamics Extension Buildpack.
-- AppDynamics Extension Buildpack supports advanced configuration for AppDynamics Java Agent.
-- When AppDynamics Extension Buildpack is used  with `java_buildpack`,
-  sensitive information is automatically masked.
+- Java support added to the AppDynamics Extension Buildpack.
+- AppDynamics Extension Buildpack now supports Advanced configuration for the AppDynamics Java Agent.
+- When AppDynamics Extension Buildpack is used in tandem with the `java_buildpack` sensitive information is automatically masked.
 
 ## <a id='45545'></a> 4.5.545
 
 **Release Date:** November 28, 2018
 
-- Analytics Agent is no longer part of this tile.
-- AppDynamics Analytics Agent is released as a separate tile on Pivotal Network.
-
+- The AppDynamics Application Analytics Agent is no longer part of this tile.
+- AppDynamics Application Analytics for PCF is released as a separate tile on the Pivotal Network.
 
 ## <a id='45514'></a> 4.5.541
 
@@ -33,7 +31,7 @@ owner: Partners
 
 **Release Date:** October 30, 2018
 
-- Added AppDynamics Buildpack 
+- Added AppDynamics Buildpack
 - [.NET applications supported by hwc buildpack](https://docs.cloudfoundry.org/buildpacks/hwc/index.html) can be instrumented now by using the AppDynamics Buildpack in tandem with hwc_buildpack (v3.0 or later) using MultiBuildPack approach.
 - Must use cf CLI v6.38 or later and HWC Buildpack v3.0 or later for using multi buildpacks
 
@@ -42,7 +40,7 @@ owner: Partners
 **Release Date:** October 1, 2018
 
 - Maintenance release
-- Analytics Agent uses TrustStore created automatically by the buildpack.  
+- Analytics Agent uses TrustStore created automatically by the buildpack.
 
 
 ## <a id='44407'></a> 4.5.460
@@ -86,8 +84,8 @@ owner: Partners
 ##### Features
 
 - Improvements in dashboard application
-- Simplified SSL enabled communication configuration between tile and AppDynamics Controller 
-- Set the certificate in the security-config of the BOSH Director and the tile will pick it up.
+- Simplified SSL enabled communication configuration between tile and AppDynamics Controller
+- Set the certificate in the security-config of the BOSH Director, the tile picks it up automatically.
   For information, see [Security Page](https://docs.pivotal.io/pivotalcf/customizing/vsphere-config.html#security-config).
 
 
@@ -97,8 +95,8 @@ owner: Partners
 
 ##### Features
 
-- Simplified SSL configuration for SAAS AppDynamics controllers, but importing DigiCert Root CA automatically to key store. 
-- Dashboard improvements. 
+- Simplified SSL configuration for SAAS AppDynamics controllers, but importing DigiCert Root CA automatically to key store.
+- Dashboard improvements.
 
 
 ## <a id='44244'></a> v4.4.244
@@ -108,7 +106,7 @@ owner: Partners
 ##### Features
 
 - Improvements to the AppDynamics Dashboard Application
-- Fixes issues noticed on AppDynamics Dashboard Application installation on some private cloud deployments. 
+- Fixes issues noticed on AppDynamics Dashboard Application installation on some private cloud deployments.
 
 
 ## <a id='44231'></a> v4.4.231
@@ -117,7 +115,7 @@ owner: Partners
 
 ##### Features
 
-This major release now contains AppDynamics Machine Agent and an extension that talks to a custom nozzle and collects KPI metrics of the cloud-foundry environment.
+This major release now contains an AppDynamics Machine Agent and an extension that talks to a custom nozzle and collects KPI metrics from the cloud-foundry environment.
 Also, a dashboard application is included that automatically generates the custom dashboard on AppDynamics Controller. For more information, see [AppDynamics KPI Dashboard and Metrics](https://docs.pivotal.io/partners/appdynamics/kpi-dashboard.html).
 
 The tile contains:
@@ -128,7 +126,7 @@ The tile contains:
 
 ### Limitations
 
-The tile requires having 
+The tile requires having
 
 - PCF Ops Manager: v2.0.7 or later, or any v2.1.x or v2.2.x versions
 

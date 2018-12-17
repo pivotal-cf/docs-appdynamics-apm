@@ -3,7 +3,7 @@ title: MultiBuildPack for Java Applications
 owner: Partners
 ---
 
-AppDynamics Application Monitoring for Pivotal Cloud Foundry (PCF) v4.5.556 and later
+AppDynamics Application Performance Monitoring for Pivotal Cloud Foundry (PCF) v4.5.556 and later
 includes an AppDynamics extension buildpack `appdbuildpack` that can be used with
 the Cloud Foundry Java buildpack.
 
@@ -18,14 +18,12 @@ GitHub repository.</p>
 
 Install or upgrade to v4.5.556 AppDynamics Application Performance Monitoring for PCF.
 
-
 ## <a id='Workflow'></a> Add the AppDynamics Extension and Java Buildpacks
 
-You add the AppDynamics Extension buildpack and the forked Java buildpack
-to your `manifest.yml` before pushing an app.
-Follow the steps below.
+Add the AppDynamics Extension buildpack and the forked Java buildpack
+to your `manifest.yml` before pushing an app:
 
-2. To verify that `appdbuildpack` is present, run the following command:
+1. To verify that `appdbuildpack` is present, run the following command:
     <pre class='terminal'>
     $ cf buildpacks
     Getting buildpacks...
@@ -36,7 +34,7 @@ Follow the steps below.
 
 2. Edit your `manifest.yml` file as follows:
      - Set `buildpacks` to `appdbuildpack` and `https://github.com/Appdynamics/java-buildpack.git`
-     - Set `services` to your AppDynamics server broker instance.
+     - Set `services` to your AppDynamics APM for PCF instance.
      In this example `services` is set to`appd`.
      - Set the environment variable `APPD_AGENT` to `java`.
 
@@ -75,7 +73,7 @@ The AppDynamics Extension buildpack facilitates advanced configuration of AppDyn
 
 1. Create a folder named `appdynamics/conf`.
 
-1. In `appdynamics/conf` add one or more of the following advanced configuration: 
+1. In `appdynamics/conf` add one or more of the following advanced configuration:
     - `app-agent-config.xml`
     - `controller-info.xml`
     - `custom-activity-correlation.xml`
@@ -100,5 +98,4 @@ The AppDynamics Extension buildpack facilitates advanced configuration of AppDyn
     appdynamics/conf/custom-interceptors.xml
     </pre>
 
-4. To push the app, follow [Add the AppDynamics Extension and Java Buildpacks](#Workflow) above. 
-       
+4. To push the app, follow [Add the AppDynamics Extension and Java Buildpacks](#Workflow) above.

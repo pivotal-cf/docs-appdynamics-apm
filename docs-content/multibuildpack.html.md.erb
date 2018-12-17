@@ -3,7 +3,7 @@ title: AppDynamics Extension Buildpack (MultiBuildpack Approach)
 owner: Partners
 ---
 
-Starting with the v4.5.514 of the tile AppDynamics Application Monitoring for PCF  we will be shipping an Appdynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard build packs using cloud foundry's multi buildpack workflow. The buildpack serves as a single point for AppDynamics APM support eventually.
+Starting with the v4.5.514 of the tile AppDynamics Application Performance Monitoring for PCF we will be shipping an Appdynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard build packs using cloud foundry's multi buildpack workflow. The buildpack serves as a single point for AppDynamics APM support eventually.
 
 ## <a id='Prerequistites'></a> Prerequisites
 
@@ -20,7 +20,7 @@ Starting with the v4.5.514 of the tile AppDynamics Application Monitoring for PC
 Please refer to the [official hwc buildpack page](https://docs.cloudfoundry.org/buildpacks/hwc/index.html) for the procedure to push .NET apps to cloudfoundry.
 
 
-1. Install/Upgrade AppDynamics Application Monitoring for PCF tile to version  v4.5.454 or later.  No additional configuration is needed !
+1. Install/Upgrade AppDynamics Application Performance Monitoring for PCF tile to version v4.5.454 or later.  No additional configuration is needed!
 2. Once the tile is installed a buildpack with name <b>appdbuildpack</b> should be available to you in your cf environment buildpacks
     <pre class='terminal'>
     $ cf buildpacks
@@ -32,7 +32,7 @@ Please refer to the [official hwc buildpack page](https://docs.cloudfoundry.org/
     appdbuildpack            25         true      false    appdynamics_buildpack-v4.5.514.zip
     </pre>
 
-3. Configure your application to bind to the AppDynamics service exposed by the tile. Edit manifest.yml
+3. Configure your application to bind to the AppDynamics service exposed by the tile. Edit the `manifest.yml` file.
 
     ~~~yaml
     ---
@@ -43,12 +43,12 @@ Please refer to the [official hwc buildpack page](https://docs.cloudfoundry.org/
       - <appdynamics service instance>
     ~~~
 
-4. Now push your .NET hwc application with appdbuildpack and hwc_buildpack.
+4. Push your .NET hwc application with `appdbuildpack` and `hwc_buildpack`.
     <pre class='terminal'>
     $ cf push -b appdbuildpack -b hwc_buildpack -s windows2016
     </pre>
 
-<b><i>appdbuildpack</i></b> will [fetch the AppDynamics .NET agent from NuGET](https://nuget.org/packages/AppDynamics.Agent.Distrib.Micro.Windows/)
+The <b><i>appdbuildpack</i></b> will [fetch the AppDynamics .NET agent from NuGET](https://nuget.org/packages/AppDynamics.Agent.Distrib.Micro.Windows/)
 and configure the agent based on the controller information represented by bound <i>"appdynamics service instance"</i>
 
 ![](./images/net_instrumentation.png)
@@ -62,17 +62,16 @@ and configure the agent based on the controller information represented by bound
 
 2. Any advanced configuration files for the agents are also picked by this buildpack. This solves the restrictions we used to have with standard buildpacks, where only basic Controller information and App/Tier/Node information is configured.
 
-    1. For example, In the above .NET workflow, we can override logging configuration by dropping a custom logging configuration file [AppDynamicsAgentLog.config](https://docs.appdynamics.com/display/PRO45/.NET+Agent+Logging)
-in the folder containing manifest.yml and push the application. This buildpack simplifies the workflows involved with overriding advanced configuration.
+    1. For example, In the above .NET workflow, you can override logging configuration by dropping a custom logging configuration file [AppDynamicsAgentLog.config](https://docs.appdynamics.com/display/PRO45/.NET+Agent+Logging)
+in the folder containing `manifest.yml` and push the application. This buildpack simplifies the workflows involved with overriding advanced configuration.
 
 
 ## <a id='Why this Design'></a> Advantages using this approach
 
-
 1. So far the AppDynamics approach for adding appdynamics support to APM was to add features to individual standard CF buildpacks. This involves adding the feature and submitting a Pull Request.
 The turn around time was long. This new extension buildpack enables us to add features swiftly.
 
-2. This approach lets us add advanced features easily, now that we are decoupled from standard buildpacks. For e.g: See overriding logging configuration mentioned above.
+2. This approach lets us add advanced features easily, now that we are decoupled from standard buildpacks. For example: See overriding logging configuration mentioned above.
 
 3. This approach will provide a single unified workflow to instrument variety of applications regardless of the buildpack type using AppDynamics.
 
