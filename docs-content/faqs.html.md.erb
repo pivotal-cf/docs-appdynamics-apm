@@ -5,15 +5,16 @@ owner: Partners
 
 ## <a id='GeneralFAQs'></a> General FAQs
 
-### <a id='g1'></a> What is included in the AppDynamics Tile?
+### <a id='g1'></a> What is included in the AppDynamics Application Performance Monitoring for PCF tile?
 
 * **AppDynamics Service Broker** --- for application instrumentation
 * **AppDynamics Analytics** --- for transaction analytics
 
-### <a id='g2'></a> I am only interested in APM. Should I configure  Transaction Analytics?
+### <a id='g2'></a> I am only interested in APM. Should I configure Transaction Analytics?
 
-For now, provide dummy values in the tile forms.
-AppDynamics and Pivotal are working to have selective deployment option.
+For now, provide dummy values in the tile forms. AppDynamics and Pivotal have a selective deployment option which involves using two tiles, the [AppDynamics Application Performance Monitoring for PCF](https://network.pivotal.io/products/p-appdynamics/) tile,
+and the [AppDynamics Application Analytics for PCF](https://network.pivotal.io/products/appdynamics-analytics) tile for Transaction Analytics.
+Follow the steps outlined in the docs to install and configure [Application Performance Monitoring](https://docs.pivotal.io/partners/appdynamics/installing.html) (APM) and [Transaction Analytics](https://docs.pivotal.io/partners/appdynamics-analytics/installing.html)
 
 ### <a id='g3'></a> How do I configure SSL (On-Prem Controller deployment)?
 
@@ -60,9 +61,9 @@ No additional steps are required to restage apps.
 
 ## <a id='SBFAQS'></a> AppDynamics Service Broker and Buildpacks - APM FAQs
 
-### <a id='s1'></a> What is AppDynamics Service Broker?
+### <a id='s1'></a> What is an AppDynamics Service Broker?
 
-AppDynamics Service Broker implements [Service Broker API](https://github.com/openservicebrokerapi/servicebroker)
+An AppDynamics Service Broker implements [Service Broker API](https://github.com/openservicebrokerapi/servicebroker)
 and provides a [credential service](https://docs.pivotal.io/pivotalcf/services/overview.html) for apps to bind.
 When bound, the necessary AppDynamics configuration is automatically imported into the app environment
 for buildpacks to read and configure AppDynamics agents.

@@ -1,5 +1,5 @@
 ---
-title: Using AppDynamics
+title: Using AppDynamics Application Performance Monitoring for PCF
 owner: Partners
 ---
 
@@ -35,12 +35,13 @@ This topic describes how to push and bind an application to an AppDynamics tile.
 
 |  Language |Workflow | Cloud Foundry Buildpack |
 |---|---|---|
+|  Go | [Go Application Workflow](https://github.com/Appdynamics/cloudfoundry-apps/tree/master/cf-go) | [Go Cloud Foundry buildpack](https://github.com/cloudfoundry/go-buildpack)  |
 | Java  | [Java Application Workflow](https://docs.appdynamics.com/display/PCF/Java+Application+in+PCF+-+Monitoring+Workflow) | [Java buildpack](https://github.com/cloudfoundry/java-buildpack)  |
 | .NET  | [.NET Application Workflow](https://docs.appdynamics.com/display/PCF/.NET+Application+in+PCF+-+Monitoring+Workflow)  | [.NET buildpack](https://github.com/Appdynamics/hwc-buildpack) |
+| NodeJS | | [NodeJS buildpack] (https://github.com/cloudfoundry/nodejs-buildpack)  |
 | PHP  | [PHP Application Workflow](https://docs.appdynamics.com/display/PCF/PHP+Application+in+PCF+-+Monitoring+Workflow) | [PHP buildpack] (https://github.com/cloudfoundry/php-buildpack)  |
 | Python  | [Python Application Workflow](https://docs.appdynamics.com/display/PCF/PHP+Application+in+PCF+-+Monitoring+Workflow) | [Python buildpack] (https://github.com/cloudfoundry/python-buildpack#develop)  |
-| NodeJS | | [NodeJS buildpack] (https://github.com/cloudfoundry/nodejs-buildpack)  |
-|  Go | [Go Application Workflow](https://github.com/Appdynamics/cloudfoundry-apps/tree/master/cf-go) | [Go Cloud Foundry buildpack](https://github.com/cloudfoundry/go-buildpack)  |
+
 
 AppDynamics supports a set of [sample applications](https://github.com/Appdynamics/cloudfoundry-apps) that you can use with these workflows.
 
@@ -48,16 +49,18 @@ AppDynamics supports a set of [sample applications](https://github.com/Appdynami
 ###  * TODO -- <!--  TBD pavan to provide link to .NET buildpack
 -->
 
-## <a id='customize-names'></a> Customizing App, Tier, and Node Names
+## <a id='customize-names'></a> Customizing App, and Tier Names
 
 AppDynamics Buildpacks auto-generate App/Tier/Node names by looking into the deployed environment. To customize this auto-generation, you can enter `cf set-env {APP} {ENVNAME} {ENVVALUE}` to set the configuration environment variables.
 
-| AGENT |	APPLICATION ENV VARIABLE |	TIER ENV VARIABLE |	NODE ENV VARIABLE |
+| AGENT |	APPLICATION ENV VARIABLE |	TIER ENV VARIABLE |
 | --- | --- | --- | --- |
-| Python |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
-| Java |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME |	APPDYNAMICS_AGENT_NODE_NAME |
-| NodeJS |	APPDYNAMICS_AGENT_APPLICATION_NAME|	APPDYNAMICS_AGENT_TIER_NAME | APPDYNAMICS_AGENT_NODE_NAME |
-| Golang |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
+| Golang |	APPD_APP_NAME |	APPD_TIER_NAME |
+| Java |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME |
+| .NET |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME |
+| NodeJS |	APPDYNAMICS_AGENT_APPLICATION_NAME|	APPDYNAMICS_AGENT_TIER_NAME |
+| PHP |	APPD_APP_NAME |	APPD_TIER_NAME |
+| Python |	APPD_APP_NAME |	APPD_TIER_NAME |
 
 
 ## <a id='setting-proxy-properties'></a> Extending the Default Configuration
