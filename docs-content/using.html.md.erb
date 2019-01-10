@@ -22,7 +22,7 @@ This topic describes how to push and bind an application to an AppDynamics tile.
   <pre class='terminal'>$ cf api</pre>
   You should see the following output:
   <pre class='terminal'>
-  api endpoint: https://api.my.pivotal.io
+  api endpoint: https<scan>:</scan>//api.my.pivotal.io
   api version: 2.103.0
   </pre>
 
@@ -69,9 +69,9 @@ If you are using a proxy server, the consumer application should specify the `ht
 
 1. Set the environment variable for the application and the Controller.
    * For an HTTP proxy:
-    <pre class='terminal'>cf set-env <app-name> http_proxy http://user@password:myproxy....:8080/</pre>
+    <pre class='terminal'>cf set-env <app-name> http_proxy http<scan>:</scan>//user@password:myproxy....:8080/</pre>
    * For an HTTPS proxy:
-    <pre class='terminal'>cf set-env <app-name> https_proxy https://user@password:myproxy....:8080/</pre>
+    <pre class='terminal'>cf set-env <app-name> https_proxy https<scan>:</scan>//user@password:myproxy....:8080/</pre>
 
 1. Restage the application:
     <pre class='terminal'>cf restage <app-name></pre>
