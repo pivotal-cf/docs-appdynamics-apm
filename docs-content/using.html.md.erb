@@ -1,5 +1,5 @@
 ---
-title: Using AppDynamics Application Performance Monitoring for PCF
+title: AppDynamics Application Performance Monitoring for PCF Workflow
 owner: Partners
 ---
 
@@ -14,7 +14,7 @@ This topic describes how to push and bind an application to an AppDynamics tile.
    See [Installing the cf CLI](https://docs.pivotal.io/pivotalcf/cf-cli/install-go-cli.html).
 
 
-## <a id='log-in-to-pivotal-cli'></a> Log In to the Pivotal CLI
+## <a id='log-in-to-pivotal-cli'></a> Create AppDynamics Service Instance
 
 1. Open a cf CLI or command-prompt window.
 
@@ -31,39 +31,332 @@ This topic describes how to push and bind an application to an AppDynamics tile.
 
 1. Enter your email address and Pivotal password when prompted.
 
-1. Follow the workflow referenced in the following table, based on the type of app you are monitoring.
+1. Verify `appdynamics` service is present in the cf environment 
+  <pre class='terminal'>
+  $ cf marketplace -s appdynamics
+  service plan                   description                    free or paid
+  pcf-appd                       pcf-appd                       free
+  pcf-appd-troubleshooting-lab   pcf-appd-troubleshooting-lab   free
+  </pre>
 
-|  Language |Workflow | Cloud Foundry Buildpack |
-|---|---|---|
-|  Go | [Go Application Workflow](https://github.com/Appdynamics/cloudfoundry-apps/tree/master/cf-go) | [Go Cloud Foundry buildpack](https://github.com/cloudfoundry/go-buildpack)  |
-| Java  | [Java Application Workflow](https://docs.appdynamics.com/display/PCF/Java+Application+in+PCF+-+Monitoring+Workflow) | [Java buildpack](https://github.com/cloudfoundry/java-buildpack)  |
-| .NET  | [.NET Application Workflow](https://docs.appdynamics.com/display/PCF/.NET+Application+in+PCF+-+Monitoring+Workflow)  | [.NET buildpack](https://github.com/Appdynamics/hwc-buildpack) |
-| NodeJS | | [NodeJS buildpack] (https://github.com/cloudfoundry/nodejs-buildpack)  |
-| PHP  | [PHP Application Workflow](https://docs.appdynamics.com/display/PCF/PHP+Application+in+PCF+-+Monitoring+Workflow) | [PHP buildpack] (https://github.com/cloudfoundry/php-buildpack)  |
-| Python  | [Python Application Workflow](https://docs.appdynamics.com/display/PCF/PHP+Application+in+PCF+-+Monitoring+Workflow) | [Python buildpack] (https://github.com/cloudfoundry/python-buildpack#develop)  |
+1. Create a service instance of `appdynamics` service and a plan of choice.
+  <pre class='terminal'>
+  $ cf create-service appdynamics pcf-appd appd
+  </pre>
+
+1. Follow the workflow for the corresponding laguage of the application mentioned below
 
 
-AppDynamics supports a set of [sample applications](https://github.com/Appdynamics/cloudfoundry-apps) that you can use with these workflows.
+## <a id='workflows'></a>AppDynamics Instrumentation Workflows
 
-<!--
-###  * TODO -- <!--  TBD pavan to provide link to .NET buildpack
--->
+### <a id='hwc_workflow'></a> DotNet Framework Applications (MultiBuildPack)
+DotNet Framework Applications are pushed using standard `hwc_buildpack`. Such applications are instrumented 
+using `appdbuildpack` in tandem with `hwc_buildpack` using multibuildpack approach.
 
-## <a id='customize-names'></a> Customizing App, and Tier Names
+1. Include `appdbuildpack` in the `buildpacks` section
 
-AppDynamics Buildpacks auto-generate App/Tier/Node names by looking into the deployed environment. To customize this auto-generation, you can enter `cf set-env {APP} {ENVNAME} {ENVVALUE}` to set the configuration environment variables.
+2. Set the application environment variable `APPD_AGENT` to `dotnet` 
 
-| AGENT |	APPLICATION ENV VARIABLE |	TIER ENV VARIABLE |
+3. Bind the application to `appdynamics` service instance (e.g:  `appd` from above section). Include `appd` in `services` section of application manifest. 
+
+	```yaml
+	---
+	applications:
+	- name: cf-net
+	  memory: 2G
+	  buildpacks: 
+		- appdbuildpack
+		- hwc_buildpack
+	  stack: windows2016
+	  env:
+		APPD_AGENT: dotnet 
+	  services:
+		- appd
+	```
+
+4. Push the application 
+    <pre class='terminal'>$ cf push </pre>
+
+#### <a id='extending_dotnet'></a> Advanced configuration
+`appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
+agent binary downloads and extend agents advanced configuration respectively.
+Refer [AppDynamics MultiBuildPack documentation](multibuildpack.html#Advanced%20Features) for details.
+
+ 
+### <a id='dotnetcore_linux_workflow'></a> DotNet Core Linux Applications (MultiBuildPack)
+1. Include `appdbuildpack` in the `buildpacks` section
+
+1. Set the application environment variable `APPD_AGENT` to `dotnet-linux` 
+
+1. Bind the application to `appdynamics` service instance (e.g:  `appd` from above section). Include `appd` in `services` section of application manifest.
+
+	```yaml
+	----
+	applications:
+	- name: cf-net-linux
+	  memory: 2G
+	  buildpacks: 
+		- appdbuildpack
+		- dotnet_core_buildpack
+	  env:
+		APPD_AGENT: dotnet-linux
+	  services:
+		- appd
+	```
+
+4. Push the application 
+    <pre class='terminal'>$ cf push </pre>
+
+#### <a id='extending_dotnet_linux'></a> Advanced configuration
+`appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
+agent binary downloads and extend agents advanced configuration respectively.
+Refer [AppDynamics MultiBuildPack documentation](multibuildpack.html#Advanced%20Features) for details.
+
+
+### <a id='dotnetcore_windows_workflow'></a> DotNet Core Windows Applications (MultiBuildPack)
+
+DotNet Core Applications for Windows are pushed using standard `binary_buildpack`. Such applications are instrumented 
+using `appdbuildpack` in tandem with `binary_buildpack` using multibuildpack approach.
+
+1. Include `appdbuildpack` in the `buildpacks` section
+
+1. Set the application environment variable `APPD_AGENT` to `dotnet-windows` 
+
+1. Bind the application to `appdynamics` service instance (e.g:  `appd` from above section). Include `appd` in `services` section of application manifest. 
+
+	```yaml
+	---
+	applications:
+	- name: cf-net-windows
+	  random-route: true
+	  memory: 512M
+	  path: app.zip
+	  command: dotnetHelloWorld.exe
+	  stack: windows2016
+	  buildpacks:
+		- appd_buildpack
+		- binary_buildpack
+	  env:
+		APPD_AGENT: dotnet-windows
+		DOTNET_CLI_TELEMETRY_OPTOUT: 1
+		DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+	  services:
+		- appd
+	```
+
+1. Push the application 
+  <pre class='terminal'>$ cf push </pre>
+
+#### <a id='extending_dotnet_windows'></a> Advanced configuration
+`appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
+agent binary downloads and extend agents advanced configuration respectively.
+Refer [AppDynamics MultiBuildPack documentation](multibuildpack.html#Advanced%20Features) for details.
+
+
+### <a id='python_workflow'></a> Python Applications (MultiBuildPack)
+
+Python Applications are pushed using standard `python_buildpack`. Such applications are instrumented 
+using `appdbuildpack` in tandem with `python_buildpack` using multibuildpack approach.
+
+1. Include `appdbuildpack` in the `buildpacks` section of application manifest.
+
+1. Set the application environment variable `APPD_AGENT` to `python` 
+
+1. Bind the application to `appdynamics` service instance (e.g:  `appd` from above section). Include `appd` in `services` section of application manifest. 
+
+	```yaml
+	---
+	applications:
+	- name: cf-python
+	  memory: 500M
+	  buildpacks: 
+		- appdbuildpack
+		- python_buildpack
+	  env:
+		APPD_AGENT: python
+	  services:
+		- appd
+	```
+
+1. Push the application 
+  <pre class='terminal'>$ cf push </pre>
+
+#### <a id='extending_python'></a> Advanced configuration
+`appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
+agent binary downloads and extend agents advanced configuration respectively.
+Refer [AppDynamics MultiBuildPack documentation](multibuildpack.html#Advanced%20Features) for details.
+
+
+### <a id='go_workflow'></a> GoLang Applications (MultiBuildPack)
+
+Go Applications are pushed using standard `go_buildpack`. AppDynamics provides an SDK to instrument 
+such applications. The configuration needed to start the go agent via SDK apis is exported as environment
+variables when the applications are pushed with `appdbuildpack` and `go_buildpack` using multibuildpack
+approach.
+
+1. Include `appdbuildpack` in the `buildpacks` section of application manifest.
+
+1. Set the application environment variable `APPD_AGENT` to `golang` 
+
+1. Bind the application to `appdynamics` service instance (e.g:  `appd` from above section). Include `appd` in `services` section of application manifest.
+
+	```yaml
+	---
+	applications:
+	- name: cf-go
+	  memory: 500M
+	  buildpacks: 
+		- appdbuildpack
+		- go_buildpack
+	  env:
+		APPD_AGENT: golang
+	  services:
+		- appd
+	```
+
+1. Copy paste the below snippet to initialize the go agent. 
+
+	  ```go
+	  package main
+	  import (
+		  ... 
+		  appd "appdynamics"
+	  )
+
+		...
+		  cfg := appd.Config{}
+		  cfg.AppName = os.Getenv("APPD_APPLICATION_NAME")
+		  cfg.TierName = os.Getenv("APPD_TIER_NAME")
+		  cfg.NodeName = os.Getenv("APPD_NODE_NAME")
+
+		  /* AppDynamics Controller Confiuration */
+		  cfg.Controller.Host = os.Getenv("APPD_CONTROLLER_HOST")
+		  port, err := strconv.ParseInt(os.Getenv("APPD_CONTROLLER_HOST"), 10, 16)
+		  if err != nil {
+			return err
+		  }
+		  cfg.Controller.Port = uint16(port)
+		  cfg.Controller.Account = os.Getenv("APPD_ACCOUNT_NAME")
+		  cfg.Controller.AccessKey = os.Getenv("APPD_ACCOUNT_ACCESS_KEY")
+		  cfg.InitTimeoutMs = 1000
+
+		  err = appd.InitSDK(&cfg)
+		  if err != nil {
+			  fmt.Println(err)
+		  }
+		  ... 
+	```
+
+1. The necessary configuration to start AppDynamics Golang agent is exposed via environment variables `APPD_APPLICATION_NAME`, 
+`APPD_TIER_NAME`, `APPD_NODE_NAME`, `APPD_CONTROLLER_HOST`, `APPD_CONTROLLER_HOST`, `APPD_ACCOUNT_NAME`, `APPD_ACCOUNT_ACCESS_KEY`
+
+1. Push the application 
+  <pre class='terminal'>$ cf push </pre>
+
+#### <a id='extending_golang'></a> Advanced configuration
+`appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
+agent binary downloads and extend agents advanced configuration respectively.
+Refer [AppDynamics MultiBuildPack documentation](multibuildpack.html#Advanced%20Features) for details.
+
+
+### <a id='java_workflow'></a> Java Applications
+
+Java applications are instrumented by AppDynamics using standard `java_buildpack`. 
+
+1. Bind the application to `appdynamics` service instance (e.g:  `appd` from above section). Include `appd` in `services` section of application manifest. 
+
+
+	```yaml
+	---
+	applications:
+	- name: cf-java-app
+	  memory: 1G
+	  random-route: true
+	  path: build/libs/cf-java-sample-1.0.jar
+	  buildpacks:
+		- java_buildpack
+	  services:
+		- appd
+	```
+
+1. Push the application 
+  <pre class='terminal'>$ cf push </pre>
+
+#### <a id='extending_java'></a> Advanced configuration
+
+Because AppDynamics instrumentation of pcf java applications does not use `appdbuildpack`, the configuration is managed
+by `java_buildpack` directly.
+
+Refer [standard `java_buildpack` documentation](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-app_dynamics_agent.md)
+
+
+### <a id='node_workflow'></a>  Node.js Applications
+Node.js applications are instrumented by AppDynamics using standard `nodejs_buildpack` directly. 
+
+1. Edit your application and paste the following in your application at the beginning of your application source code, before any other require statement.
+
+	```javascript
+	  var cfEnv = require('cfenv');
+	  var appEnv = cfEnv.getAppEnv();
+	  var appdService = appEnv.getServiceCreds('pcf-appd-instance');
+	  var appdynamics = require("appdynamics").profile({
+		  controllerHostName: appdService['host-name'],
+		  controllerPort: appdService['port'],
+		  controllerSslEnabled: appdService['ssl-enabled'],
+		  accountName: appdService['account-name'],
+		  accountAccessKey: appdService['account-access-key'],
+		  nodeName: `${appEnv.name}.${process.env.CF_INSTANCE_INDEX}`,
+		  libagent: true
+	  });
+  ```
+  
+1. Add appdynamics package in the list of dependencies specified in your package.json
+
+	```json
+		....
+		"dependencies": {
+		  "express": "~4.15.2",
+		  "logfmt": "~1.2.0",
+		  "appdynamics": "latest",
+		  "cfenv": "latest"
+		},
+		...
+	```
+
+1. Bind the application to `appdynamics` service instance (e.g:  `appd` from above section). Include `appd` in `services` section of application manifest. 
+
+   
+	```yaml
+	applications:
+	- name: cf-node
+	  memory: 500M
+	  services:
+		- appd
+	```
+1. Push the application 
+   <pre class='terminal'>$ cf push </pre>
+
+
+## <a id='Extending'></a> Extending Default Configuration
+
+### <a id='app-tier-node'></a> Extending Application, Tier, Node names 
+
+To override the the default AppDynamics application/tier/node names just set the following environment variables 
+
+<pre class='terminal'>$ cf set-env APP ENV-NAME ENV-VALUE </pre>
+
+
+| AGENT |	APPLICATION ENV VARIABLE |	TIER ENV VARIABLE |	NODE ENV VARIABLE |
 | --- | --- | --- | --- |
-| Golang |	APPD_APP_NAME |	APPD_TIER_NAME |
-| Java |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME |
-| .NET |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME |
-| NodeJS |	APPDYNAMICS_AGENT_APPLICATION_NAME|	APPDYNAMICS_AGENT_TIER_NAME |
-| PHP |	APPD_APP_NAME |	APPD_TIER_NAME |
-| Python |	APPD_APP_NAME |	APPD_TIER_NAME |
+| Python |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
+| Java |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME |	APPDYNAMICS_AGENT_NODE_NAME |
+| NodeJS |	APPDYNAMICS_AGENT_APPLICATION_NAME|	APPDYNAMICS_AGENT_TIER_NAME | APPDYNAMICS_AGENT_NODE_NAME |
+| Golang |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME | 
+| .NET |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME | APPDYNAMICS_AGENT_NODE_NAME |
+| PHP |	APPD_APP_NAME |	APPD_TIER_NAME | APPD_NODE_NAME |
 
 
-## <a id='setting-proxy-properties'></a> Extending the Default Configuration
+### <a id='proxy'></a> Extending Proxy configuration
 
 If you are using a proxy server, the consumer application should specify the `http_proxy` or `https_proxy` as an environment variable for the application running on PCF to communicate with the proxy server. Do the following:
 
