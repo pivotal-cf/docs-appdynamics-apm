@@ -26,12 +26,12 @@ Starting with version v4.6.x of [AppDynamics Application Performance Monitoring 
 
 3. Edit the following sections of application's `manifest.yml`
 
-    1. include `appdbuildpack` extension buildpack to the `buildpacks` section as show below
+    1. include `appdbuildpack` extension buildpack to the `buildpacks` section as shown below
 
     ~~~yaml
       buildpacks:
         - appdbuildpack
-        - <langauge specific buildpack>
+        - <language specific buildpack>
     ~~~
 
     1.  set `APPD_AGENT` environment variable corresponding to the language of the application in `env` section as show below
@@ -141,3 +141,4 @@ applications:
 
 As always, you can find sample applications demostrating  multi buildpack approach in our GitHub space.
 https://github.com/AppDynamics/cloudfoundry-apps
+
