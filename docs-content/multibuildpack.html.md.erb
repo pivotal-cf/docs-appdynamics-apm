@@ -1,19 +1,19 @@
 ---
-title: AppDynamics Extension Buildpack (MultiBuildpack Approach)
+title: AppDynamics Extension Buildpack (Multiple Buildpack Approach)
 owner: Partners
 ---
 
-Starting with version v4.6.x of [AppDynamics Application Performance Monitoring for PCF](https://network.pivotal.io/products/p-appdynamics/) tile we will be shipping an AppDynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard build packs using cloud foundry's multi buildpack workflow. The buildpack serves as a single point for AppDynamics APM support.
+Starting with version v4.6.x of [AppDynamics Application Performance Monitoring for PCF](https://network.pivotal.io/products/p-appdynamics/) tile we will be shipping an AppDynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard build packs using Cloud Foundry's multiple buildpack workflow. The buildpack serves as a single point for AppDynamics APM support.
 
 ## <a id='Prerequistites'></a> Prerequisites
 
-  1. Must use cf CLI v6.38 or later for using multi buildpacks.
+  1. Cloud Foundry Command Line Interface (cf CLI) v6.38 or later is required to use multiple buildpacks. See [Installing the cf CLI](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html).
 
 ## <a id='Workflow'></a> Workflow
 
-1. Install/Upgrade AppDynamics Application Performance Monitoring for PCF tile version v4.6.x or later.  No additional configuration is needed!
+1. Install or Upgrade [AppDynamics Application Performance Monitoring for PCF tile](https://network.pivotal.io/products/p-appdynamics) version v4.6.x or later.  No additional configuration is needed!
 
-2. Once the tile is installed a buildpack with name <b>appdbuildpack</b> should be available to you in your cf environment buildpacks
+2. Once the AppDynamics APM for PCF tile is installed, a buildpack with the name <b>appdbuildpack</b> appears in your list of cf environment buildpacks:
     <pre class='terminal'>
     $ cf buildpacks
     Getting buildpacks...
@@ -24,9 +24,9 @@ Starting with version v4.6.x of [AppDynamics Application Performance Monitoring 
     appdbuildpack            25         true      false    AppDynamics_buildpack-v4.6.10.zip
     </pre>
 
-3. Edit the following sections of application's `manifest.yml`
+3. Edit the following sections of your application's `manifest.yml`
 
-    1. include `appdbuildpack` extension buildpack to the `buildpacks` section as shown below
+    1. Include the `appdbuildpack` extension buildpack in the `buildpacks` section.
 
     ~~~yaml
       buildpacks:
@@ -34,14 +34,14 @@ Starting with version v4.6.x of [AppDynamics Application Performance Monitoring 
         - <language specific buildpack>
     ~~~
 
-    1.  set `APPD_AGENT` environment variable corresponding to the language of the application in `env` section as show below
+    1.  In the `env` section, set the `APPD_AGENT` environment variable corresponding to the language of the application.
 
     ~~~yaml
       env:
         APPD_AGENT: dotnet
     ~~~
 
-    1. bind the application to AppDynamics service instance, by including it in `services` section as below
+    1. Bind the application to the AppDynamics service instance, by including it in `services` section.
 
     ~~~yaml
       services:
@@ -49,7 +49,7 @@ Starting with version v4.6.x of [AppDynamics Application Performance Monitoring 
     ~~~
 
 
-4. Push your application using `cf push`
+4. To push your application use the use the cf CLI command, `cf push`.
     <pre class='terminal'>
     $ cf push
     </pre>
@@ -66,12 +66,12 @@ Starting with version v4.6.x of [AppDynamics Application Performance Monitoring 
 
 
 ## <a id='Advanced Features'></a> Advanced Features
-AppDynamics extension buildpack supports configurable environment variables to customize fetching agent binaries and overriding agent configuration
+The AppDynamics extension buildpack supports configurable environment variables. This allows you to customize how you fetch agent binaries and override agent configuration.
 
 ### <a id='Overriding Agent Binary Downloads'></a> Overriding Agent Binary Downloads
-By default `appdbuildpack` tries to fetch the corresponding AppDynamics agent from standard langauge specific repositories (e.g: NuGet for .NET, PyPI for Python, npm for node.js etc).
+By default `appdbuildpack` tries to fetch the corresponding AppDynamics agent from standard language-specific repositories, for example: NuGet for .NET, PyPI for Python, npm for node.js etc.
 
-To override this behavior, set the environment variable `APPD_AGENT_HTTP_URL` to a custom http url where the binaries are hosted. `appdbuildpack` downloads the agent bits from that url and installs the agent.
+To override this behavior, you can set the environment variable `APPD_AGENT_HTTP_URL` to a custom http url where the binaries are hosted. `appdbuildpack` then downloads the agent bits from that url and installs the agent.
 
 ~~~yaml
   env:
@@ -83,9 +83,9 @@ To override this behavior, set the environment variable `APPD_AGENT_HTTP_URL` to
 
 ### <a id='Overriding Agent Configuration'></a> Extending Agent Configuration
 
-By default `appdbuildpack` configures the basic configuration needed by the AppDynamics agent to instrument the application. This includes application AppDynamics name, tier, node and controller information.
+By default `appdbuildpack` creates the basic configuration needed by the AppDynamics agent to instrument the application. This includes the application AppDynamics name, tier, node and controller information.
 
-`appdbuildpack` facilitates adding additional configuration to the agents or overriding existing default configuration. To acheive this, set the `APPD_CONF_HTTP_URL` environment variable to a custom http url where advanced agent configuration files are hosted. The extension buildpack downloads the relevant files related to the AppDynamics agent and extends the agent configuration.
+`appdbuildpack` facilitates adding additional configuration to the agents or overriding the existing default configuration. To acheive this, set the `APPD_CONF_HTTP_URL` environment variable to a custom http url where advanced agent configuration files are hosted. The extension buildpack downloads the relevant files related to the AppDynamics agent and extends the agent configuration.
 
 ~~~yaml
   env:
@@ -96,11 +96,11 @@ By default `appdbuildpack` configures the basic configuration needed by the AppD
 
 Notes:
 
-1. `APPD_CONF_HTTP_URL` must point to the location of the folder, not the file location. In the above example, advanced configuration files of AppDynamics DotNet Agent (e.g: `AppDynamicsAgentLog.config`) are hosted under conf/v1 folder.
+1. `APPD_CONF_HTTP_URL` must point to the location of the folder, not the file location. In the above example, advanced configuration files of AppDynamics DotNet Agent (e.g: `AppDynamicsAgentLog.config`) are hosted under `conf/v1` folder.
 
-1. `appdbuildpack` will only fetch the files with relevant names that are applicable to the agent. In the above example, since it is a dotnet agent, only files `AppDynamicsAgentLog.config` and `AppDynamicsConfig.json` are downloaded, if present, under `http://custom-http.server.com/dotnet/conf/v1`. All other files are ignored.
+1. `appdbuildpack` will only fetch the files with relevant names that are applicable to the agent. In the example above, because it is a dotnet agent, only the files `AppDynamicsAgentLog.config` and `AppDynamicsConfig.json` are downloaded, if located at `http://custom-http.server.com/dotnet/conf/v1`. All other files are ignored.
 
-1. Refer [AppDynamics documentation](https://docs.appdynamics.com/display/PRO45/Install+App+Server+Agents) for the names and formats of the advanced configuration files applicable to each of the AppDynamics agents.
+1. Refer to the [AppDynamics documentation](https://docs.appdynamics.com/display/PRO45/Install+App+Server+Agents) for the names and formats of the advanced configuration files applicable to each of the AppDynamics agents.
 
 
 
@@ -127,13 +127,13 @@ applications:
 ~~~
 
 
-## <a id='Why this Design'></a> Advantages using this approach
+## <a id='Why this Design'></a> Advantages to Using this Approach
 
-1. Clear seperation of responsibilities between `appdbuildpack` and the standard system buildpacks. `appdbuildpack` is now solely responsible for anything related to AppDynamics intrumentation.
+1. Clear separation of responsibilities between `appdbuildpack` and the standard system buildpacks. `appdbuildpack` is now solely responsible for anything related to AppDynamics intrumentation.
 
-2. Any new features related to AppDynamics will be shipped through `appdbuildpack`. This significantly reduces the turn around time when compared to shipping AppDynamics bits through standard buildpacks.
+2. Any new features related to AppDynamics will be shipped through `appdbuildpack`. This significantly reduces the new feature turnaround time compared to shipping AppDynamics bits through standard buildpacks.
 
-3. A single unified workflow to instrument variety of applications regardless of the language/framework of the application. Any new feature added to appdbuildpack (if applicable) is available across all langauge agents since `appdbuildpack` is the sole source of AppDynamics instrumentation logic.
+3. A single unified workflow to instrument variety of applications regardless of the language or framework of the application. Any new feature added to `appdbuildpack` (if applicable) is available across all langauge agents since `appdbuildpack` is the sole source of AppDynamics instrumentation logic.
 
 
 
