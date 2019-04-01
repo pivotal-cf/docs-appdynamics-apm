@@ -393,6 +393,10 @@ AppDynamics.
 1. Use the below [cf cups](http://cli.cloudfoundry.org/en-US/cf/create-user-provided-service.html) command with the JSON fields 
 specified below 
 
+1. The name of the user provided service must be `appdynamics` and it's JSON credentials must have `account-access-key`, `account-name`, `host-name`,
+`port` and `ssl-enabled` fields.
+
+
 <pre class='terminal'>$ cf cups appdynamics -p '{"account-access-key":"acce$$key", "account-name":"customer1", "host-name":"demo.appdynamics.com", "port":"8090", "ssl-enabled":false}' </pre>
 
 
