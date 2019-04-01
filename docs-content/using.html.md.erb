@@ -383,3 +383,14 @@ If you are using a proxy server, the consumer application should specify the `ht
     <pre class='terminal'>cf restage <app-name></pre>
 
 1. Log in to the Controller web UI, navigate to the Metric Browser, and verify that the application is being detected and monitored.
+
+
+## <a id='UPS'></a> Using User Provided Service
+
+In addition to the above procedure using service broker tile, operators can also use [user provided service](https://docs.cloudfoundry.org/devguide/services/user-provided.html) with name `appdynamics` to instrument applications on
+AppDynamics. 
+
+1. Use the below [cf cups](http://cli.cloudfoundry.org/en-US/cf/create-user-provided-service.html) command with the JSON fields 
+specified below 
+
+<pre class='terminal'>$ cf cups appdynamics -p '{"account-access-key":"acce$$key", "account-name":"customer1", "host-name":"demo.appdynamics.com", "port":"8090", "ssl-enabled":false}' </pre>
