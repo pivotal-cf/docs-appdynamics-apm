@@ -5,21 +5,10 @@ owner: Partners
 
 ## <a id='overview'></a> Overview
 
-Pivotal Cloud Foundry (PCF) is an open source cloud computing Platform as a Service (PaaS).
-Developers can develop, deploy, operate, and scale cloud-native applications for public and private
-clouds.
-
-AppDynamics provides three tiles to support PCF 2.x (v2.0.7+) that are available on the Pivotal
-Network for download and install in a PCF foundation.
-
-* [AppDynamics Application Performance Monitoring for PCF](https://network.pivotal.io/products/p-appdynamics/)
-* [AppDynamics Platform Monitoring for PCF](https://network.pivotal.io/products/appdynamics-platform/)
-* [AppDynamics Application Analytics for PCF](https://network.pivotal.io/products/appdynamics-analytics)
-
-### AppDynamics Application Performance Monitoring for PCF
 To simplify APM setup, the [AppDynamics Application Performance Monitoring (APM) for Pivotal Cloud Foundry](https://network.pivotal.io/products/p-appdynamics/) (PCF) tile delivers a
 service broker to support an AppDynamics marketplace service. The Controller parameters are
 configured in the tile and automatically published to the marketplace when the tile is installed.
+
 A PCF app can be bound to the marketplace service to consume the Controller credentials.
 
 ````
@@ -37,19 +26,6 @@ $ cf push
 The tile also installs the AppDynamics extension buildpack in the PCF environment. For more
 information see the [buildpack support](https://docs.pivotal.io/partners/appdynamics/multibuildpack.html)
 and [language-specific workflows](https://docs.pivotal.io/partners/appdynamics/using.html#workflows) sections to enable APM.
-
-### AppDynamics Platform Monitoring for PCF
-The [AppDynamics Platform Monitoring for PCF](https://network.pivotal.io/products/appdynamics-platform/) tile
-provides visibility into the PCF platform where your AppDynamics-monitored applications are deployed.
-The tile deploys a Firehose Nozzle that collects various KPI metrics and publishes them to a Controller.
-The tile also deploys a Dashboard App that automatically creates KPI health rules and custom dashboards associated with the health rules.
-The Dashboard App allows you to monitor the health and capacity of one or more PCF foundations.
-
-### AppDynamics Application Analytics for PCF
-The [AppDynamics Application Analytics for PCF](https://network.pivotal.io/products/appdynamics-analytics) tile supports collecting
-Transaction Analytics in real-time from PCF apps to connect application performance, user experience, and business outcomes.
-The tile deploys an analytics agent in the PCF environment that will forward transaction analytics events from
-PCF apps to an AppDynamics events service.
 
 
 ## <a id='product-snapshot'></a> Product Snapshot
