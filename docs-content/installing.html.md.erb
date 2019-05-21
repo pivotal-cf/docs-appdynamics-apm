@@ -13,10 +13,21 @@ This topic describes how to install and configure AppDynamics APM for Pivotal Cl
    If you want to use Transactional Analytics, install AppDynamics Analytics for PCF.</p>
 
 
+## <a id='before-you-start'></a> Overview
+
+The diagram illustrates the results of installing the tile. An AppDynamics service broker is deployed as
+a PCF application to the org and space appdynamics-org/appdynamics-space. Each controller
+configured in the tile is published to the AppDynamics marketplace service as a unique plan, which
+apps can bind to.
+
+In addition, the tile publishes the AppDynamics extension buildpack, appdbuildpack, which supports
+multiple buildpack workflows <link>. Create a [Pivotal Network](https://network.pivotal.io) account if you do not have one.
+
+![](./images/pcf-foundation-01.png)
+
 ## <a id='before-you-start'></a> Before You Start
 
 Create a [Pivotal Network](https://network.pivotal.io) account if you do not have one.
-
 
 ## <a id='SSL'></a> Configuring SSL
 
@@ -56,7 +67,7 @@ GH12345678ABCDEFGH12345678ABCDEFGH12345678...
 </pre>
 
 
-## <a id='set-up-the-service-broker-tile'></a> Set Up the Service Broker Tile
+## <a id='set-up-the-service-broker-tile'></a> Setup the APM Tile
 
 1. Log in to Ops Manager.
 
@@ -97,6 +108,25 @@ GH12345678ABCDEFGH12345678ABCDEFGH12345678...
 -->
 
 
-### <a id='apply-updated-settings'></a> Apply All Updated Settings
+## <a id='validating-the-install'></a> Validating the Install
 
-1. In the Installation Dashboard, click **Apply Changes** and wait for all the changes to get applied.
+Once the tile install completes successfully in the Ops Manager, you can confirm that the Controller
+plans have been successfully installed using `cf marketplace`:
+
+    ````
+    $ cf marketplace -s appdynamics
+    …
+    service plan description free or paid
+    my-controller1 controller1 free
+    …
+    ````
+
+Confirm that the AppDynamics extension buildpack is available by using `cf buildpacks`:
+
+    ````
+    $ cf buildpacks
+    buildpack position enabled locked filename
+    …
+    appdbuildpack 24 true false appdynamics_buildpack-v4.6.13.zip
+    ````
+

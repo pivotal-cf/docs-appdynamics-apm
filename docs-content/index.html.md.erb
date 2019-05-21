@@ -5,9 +5,27 @@ owner: Partners
 
 ## <a id='overview'></a> Overview
 
-The [AppDynamics Application Performance Monitoring (APM) for Pivotal Cloud Foundry](https://network.pivotal.io/products/p-appdynamics/) (PCF) allows you to easily deploy AppDynamics-monitored applications on [Pivotal Cloud Foundry](https://pivotal.io/platform) using an AppDynamics marketplace service. AppDynamics [Platform Monitoring for PCF](https://network.pivotal.io/products/appdynamics-platform/) provides visibility into the PCF platform where your AppDynamics-monitored applications are deployed.
+To simplify APM setup, the [AppDynamics Application Performance Monitoring (APM) for Pivotal Cloud Foundry](https://network.pivotal.io/products/p-appdynamics/) (PCF) tile delivers a
+service broker to support an AppDynamics marketplace service. The Controller parameters are
+configured in the tile and automatically published to the marketplace when the tile is installed.
 
-AppDynamics APM for PCF supports performance monitoring of application metrics. AppDynamics agent code embedded or bundled with an application instruments the application code and publishes performance monitoring metrics and other details back to the Application Dashboard in the AppDynamics Controller web UI.
+A PCF app can be bound to the marketplace service to consume the Controller credentials.
+
+````
+$ cf bind my-pcf-app my-appd-marketplace-service
+````
+
+Performing a push will utilize the integrated AppDynamics buildpack support to start the APM agent
+based on the parameters from the marketplace service and start sending performance metrics to the
+Controller.
+
+````
+$ cf push
+````
+
+The tile also installs the AppDynamics extension buildpack in the PCF environment. For more
+information see the [buildpack support](https://docs.pivotal.io/partners/appdynamics/multibuildpack.html)
+and [language-specific workflows](https://docs.pivotal.io/partners/appdynamics/using.html#workflows) sections to enable APM.
 
 
 ## <a id='product-snapshot'></a> Product Snapshot
