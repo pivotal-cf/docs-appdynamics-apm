@@ -49,9 +49,9 @@ This topic describes how to push and bind an application to an AppDynamics tile.
 
 ## <a id='workflows'></a>AppDynamics Instrumentation Workflows
 
-### <a id='hwc_workflow'></a> .NET Framework Applications (Multiple Buildpack)
+### <a id='hwc_workflow'></a> .NET Framework Applications (Multi-Buildpack)
 DotNet Framework Applications are pushed using standard `hwc_buildpack`. These applications are instrumented
-using `appdbuildpack` in tandem with `hwc_buildpack` using the multiple buildpack approach.
+using `appdbuildpack` in tandem with `hwc_buildpack` using the multi-buildpack approach.
 
 1. Edit the following sections of your application's `manifest.yml`
 
@@ -86,10 +86,10 @@ See [AppDynamics Buildpack](https://docs.pivotal.io/partners/appdynamics/multibu
 #### <a id='extending_dotnet'></a> Advanced configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
-See [AppDynamics MultiBuildPack documentation](multibuildpack.html#Advanced%20Features) for details.
+See [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
 
 
-### <a id='dotnetcore_linux_workflow'></a> .NET Core Linux Applications (MultiBuildPack)
+### <a id='dotnetcore_linux_workflow'></a> .NET Core Linux Applications (Multi-Buildpack)
 
 1. Edit the following sections of your application's `manifest.yml`
 
@@ -119,13 +119,13 @@ See [AppDynamics MultiBuildPack documentation](multibuildpack.html#Advanced%20Fe
 #### <a id='extending_dotnet_linux'></a> Advanced configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
-Refer [AppDynamics MultiBuildPack documentation](multibuildpack.html#Advanced%20Features) for details.
+Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
 
 
-### <a id='dotnetcore_windows_workflow'></a> .NET Core Windows Applications (MultiBuildPack)
+### <a id='dotnetcore_windows_workflow'></a> .NET Core Windows Applications (Multi-Buildpack)
 
 DotNet Core Applications for Windows are pushed using standard `binary_buildpack`. Such applications are instrumented
-using `appdbuildpack` in tandem with `binary_buildpack` using multiple buildpack approach.
+using `appdbuildpack` in tandem with `binary_buildpack` using the multi-buildpack approach.
 
 1. Edit the following sections of your application's `manifest.yml`
 
@@ -161,13 +161,13 @@ using `appdbuildpack` in tandem with `binary_buildpack` using multiple buildpack
 #### <a id='extending_dotnet_windows'></a> Advanced configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
-Refer [AppDynamics MultiBuildPack documentation](multibuildpack.html#Advanced%20Features) for details.
+Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
 
 
-### <a id='python_workflow'></a> Python Applications (MultiBuildPack)
+### <a id='python_workflow'></a> Python Applications (Multi-Buildpack)
 
 Python Applications are pushed using standard `python_buildpack`. Such applications are instrumented
-using `appdbuildpack` in tandem with `python_buildpack` using the multiple buildpack approach.
+using `appdbuildpack` in tandem with `python_buildpack` using the multi-buildpack approach.
 
 1. Edit the following sections of your application's `manifest.yml`
 
@@ -197,14 +197,14 @@ using `appdbuildpack` in tandem with `python_buildpack` using the multiple build
 #### <a id='extending_python'></a> Advanced configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
-Refer [AppDynamics MultiBuildPack documentation](multibuildpack.html#Advanced%20Features) for details.
+Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
 
 
-### <a id='go_workflow'></a> GoLang Applications (MultiBuildPack)
+### <a id='go_workflow'></a> GoLang Applications (Multi-Buildpack)
 
 Go Applications are pushed using the standard `go_buildpack`. AppDynamics provides an SDK to instrument
 such applications. The configuration needed to start the go agent via the SDK APIs is exported as environment
-variables when the applications are pushed with `appdbuildpack` and `go_buildpack` using the multiple buildpack
+variables when the applications are pushed with `appdbuildpack` and `go_buildpack` using the multi-buildpack
 approach.
 
 1. Edit the following sections of your application's `manifest.yml`
@@ -271,7 +271,7 @@ approach.
 #### <a id='extending_golang'></a> Advanced configuration
 The `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads, and extend agents advanced configuration respectively.
-See [AppDynamics MultiBuildPack documentation](multibuildpack.html#Advanced%20Features) for details.
+See [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
 
 
 ### <a id='java_workflow'></a> Java Applications
@@ -327,10 +327,10 @@ Node.js applications are instrumented by AppDynamics using standard `nodejs_buil
 	  });
   ```
 
-1. Add appdynamics package in the list of dependencies specified in your package.json
+1. Add the `appdynamics` package in the list of dependencies specified in your package.json
 
 	```json
-		....
+		...
 		"dependencies": {
 		  "express": "~4.15.2",
 		  "logfmt": "~1.2.0",
@@ -365,12 +365,12 @@ To override the the default AppDynamics application/tier/node names, set the fol
 
 | AGENT |	APPLICATION ENV VARIABLE |	TIER ENV VARIABLE |	NODE ENV VARIABLE |
 | --- | --- | --- | --- |
-| Python |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
-| Java |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME |	APPDYNAMICS_AGENT_NODE_NAME |
-| NodeJS |	APPDYNAMICS_AGENT_APPLICATION_NAME|	APPDYNAMICS_AGENT_TIER_NAME | APPDYNAMICS_AGENT_NODE_NAME |
 | Golang |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
+| Java |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME |	APPDYNAMICS_AGENT_NODE_NAME |
 | .NET |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME | APPDYNAMICS_AGENT_NODE_NAME |
+| NodeJS |	APPDYNAMICS_AGENT_APPLICATION_NAME|	APPDYNAMICS_AGENT_TIER_NAME | APPDYNAMICS_AGENT_NODE_NAME |
 | PHP |	APPD_APP_NAME |	APPD_TIER_NAME | APPD_NODE_NAME |
+| Python |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
 
 
 ### <a id='proxy'></a> Extending Proxy configuration
