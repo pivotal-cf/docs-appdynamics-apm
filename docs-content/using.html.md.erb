@@ -329,13 +329,13 @@ Note: Appdynamics Extension Buildpack v4.6.x on, support of node agent with `nod
     | APPDYNAMICS_AGENT_TIER_NAME | Tier Name for the Application to be reported to AppDynamic's Controller
     | APPDYNAMICS_AGENT_NODE_NAME | Node Name for the Application to be reported to AppDynamic's Controller
     | APPD_AGENT_DEBUG  | Set to true to enable debug level logging for the agent. The default is false.
-    | APPD_AGENT_LIBAGENT | Set to true if you want to use the proxyless version of the Node.js agent. The default is false.
+    | APPD_AGENT_LIBAGENT | Controls the proxyless version of the agent. The default is true. Set to false if you want to use the proxy version of the Node.js agent.
     | APPD_LOG_CONFIG | The location, level, and other settings related to agent logging. See [Node.js Agent Logging](https://docs.appdynamics.com/display/PRO45/Node.js+Agent+Logging)
 
 1. Push the application
    <pre class='terminal'>$ cf push </pre>
 
-   
+
 ## <a id='Extending'></a> Extending Default Configuration
 
 ### <a id='app-tier-node'></a> Extending Application, Tier, Node names
