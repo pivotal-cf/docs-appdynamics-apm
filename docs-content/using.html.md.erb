@@ -97,6 +97,8 @@ See [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20F
 
 1. Set the application environment variable `APPD_AGENT` to `dotnet-linux`
 
+1. Set the application environment variable `APPD_AGENT_HTTP_URL` to a custom repository url where the agent is available for download.
+
 1. Bind the application to the `appdynamics` service instance, by including `appd` in the `services` section of the application manifest.
 
 	```yaml
