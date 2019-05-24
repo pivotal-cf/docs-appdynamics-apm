@@ -308,40 +308,11 @@ Refer [standard `java_buildpack` documentation](https://github.com/cloudfoundry/
 
 
 ### <a id='node_workflow'></a>  Node.js Applications
-Node.js applications are instrumented by AppDynamics using standard `nodejs_buildpack` directly.
+Node.js applications are instrumented by AppDynamics using standard `nodejs_buildpack` directly.  
 
-1. Edit your application and paste the following in your application at the beginning of your application source code, before any other require statement.
-
-	```javascript
-	  var cfEnv = require('cfenv');
-	  var appEnv = cfEnv.getAppEnv();
-	  var appdService = appEnv.getServiceCreds('pcf-appd-instance');
-	  var appdynamics = require("appdynamics").profile({
-		  controllerHostName: appdService['host-name'],
-		  controllerPort: appdService['port'],
-		  controllerSslEnabled: appdService['ssl-enabled'],
-		  accountName: appdService['account-name'],
-		  accountAccessKey: appdService['account-access-key'],
-		  nodeName: `${appEnv.name}.${process.env.CF_INSTANCE_INDEX}`,
-		  libagent: true
-	  });
-  ```
-
-1. Add the `appdynamics` package in the list of dependencies specified in your package.json
-
-	```json
-		...
-		"dependencies": {
-		  "express": "~4.15.2",
-		  "logfmt": "~1.2.0",
-		  "appdynamics": "latest",
-		  "cfenv": "latest"
-		},
-		...
-	```
+Note: Appdynamics Extension Buildpack v4.6.x on, support of node agent with `nodejs_buildpack` would be dropped. It will be replaced with Appdynamics own buildpack and can be used with multi-buildpack approach.
 
 1. Bind the application to the `appdynamics` service instance, by including `appd` in the `services` section of the application manifest.
-
 
 	```yaml
 	applications:
@@ -350,10 +321,21 @@ Node.js applications are instrumented by AppDynamics using standard `nodejs_buil
 	  services:
 		- appd
 	```
+1. Optionally provide the environment variables for configuring the agent. Below is the list of supported environment variables
+
+    | ENV VARIABLE | DESCRIPTION |
+    | --- | --- |
+    | APPDYNAMICS_AGENT_APPLICATION_NAME  | Application Name to be reported to AppDynamic's Controller
+    | APPDYNAMICS_AGENT_TIER_NAME | Tier Name for the Application to be reported to AppDynamic's Controller
+    | APPDYNAMICS_AGENT_NODE_NAME | Node Name for the Application to be reported to AppDynamic's Controller
+    | APPD_AGENT_DEBUG  | Set to true to enable debug level logging for the agent. The default is false.
+    | APPD_AGENT_LIBAGENT | Set to true if you want to use the proxyless version of the Node.js agent. The default is false.
+    | APPD_LOG_CONFIG | The location, level, and other settings related to agent logging. See [Node.js Agent Logging](https://docs.appdynamics.com/display/PRO45/Node.js+Agent+Logging)
+
 1. Push the application
    <pre class='terminal'>$ cf push </pre>
 
-
+   
 ## <a id='Extending'></a> Extending Default Configuration
 
 ### <a id='app-tier-node'></a> Extending Application, Tier, Node names
