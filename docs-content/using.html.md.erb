@@ -83,7 +83,7 @@ See [AppDynamics Buildpack](https://docs.pivotal.io/partners/appdynamics/multibu
 6. Push the application using the `cf push` command.
     <pre class='terminal'>$ cf push </pre>
 
-#### <a id='extending_dotnet'></a> Advanced configuration
+#### <a id='extending_dotnet'></a> Advanced Configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
 See [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
@@ -119,7 +119,7 @@ See [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20F
 4. Push the application using the `cf push` command.
     <pre class='terminal'>$ cf push </pre>
 
-#### <a id='extending_dotnet_linux'></a> Advanced configuration
+#### <a id='extending_dotnet_linux'></a> Advanced Configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
 Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
@@ -161,7 +161,7 @@ using `appdbuildpack` in tandem with `binary_buildpack` using the multi-buildpac
 1. Push the application using the `cf push` command.
   <pre class='terminal'>$ cf push </pre>
 
-#### <a id='extending_dotnet_windows'></a> Advanced configuration
+#### <a id='extending_dotnet_windows'></a> Advanced Configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
 Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
@@ -169,7 +169,7 @@ Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%2
 
 ### <a id='python_workflow'></a> Python Applications (Multi-Buildpack)
 
-Python Applications are pushed using standard `python_buildpack`. Such applications are instrumented
+Python Applications are pushed using the standard `python_buildpack`. Such applications are instrumented
 using `appdbuildpack` in tandem with `python_buildpack` using the multi-buildpack approach.
 
 1. Edit the following sections of your application's `manifest.yml`
@@ -197,7 +197,7 @@ using `appdbuildpack` in tandem with `python_buildpack` using the multi-buildpac
 1. Push the application
   <pre class='terminal'>$ cf push </pre>
 
-#### <a id='extending_python'></a> Advanced configuration
+#### <a id='extending_python'></a> Advanced Configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
 Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
@@ -232,7 +232,7 @@ approach.
 		- appd
 	```
 
-1. Copy paste the below snippet to initialize the go agent.
+1. Copy paste the snippet below to initialize the go agent.
 
 	  ```go
 	  package main
@@ -271,7 +271,7 @@ approach.
 1. Push the application
   <pre class='terminal'>$ cf push </pre>
 
-#### <a id='extending_golang'></a> Advanced configuration
+#### <a id='extending_golang'></a> Advanced Configuration
 The `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads, and extend agents advanced configuration respectively.
 See [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
@@ -279,7 +279,7 @@ See [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20F
 
 ### <a id='java_workflow'></a> Java Applications
 
-Java applications are instrumented by AppDynamics using standard `java_buildpack`.
+Java applications are instrumented by AppDynamics using the standard `java_buildpack`.
 
 1. Edit the following sections of your application's `manifest.yml`
 
@@ -302,12 +302,12 @@ Java applications are instrumented by AppDynamics using standard `java_buildpack
 1. Push the application
   <pre class='terminal'>$ cf push </pre>
 
-#### <a id='extending_java'></a> Advanced configuration
+#### <a id='extending_java'></a> Advanced Configuration
 
 Because AppDynamics instrumentation of pcf java applications does not use `appdbuildpack`, the configuration is managed
 by `java_buildpack` directly.
 
-Refer [standard `java_buildpack` documentation](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-app_dynamics_agent.md)
+Refer to the [standard `java_buildpack` documentation](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-app_dynamics_agent.md)
 
 
 ### <a id='node_workflow'></a>  Node.js Applications
@@ -361,7 +361,7 @@ Node.js applications are instrumented by AppDynamics using standard `nodejs_buil
 
 ### <a id='app-tier-node'></a> Extending Application, Tier, Node names
 
-To override the the default AppDynamics application/tier/node names, set the following environment variables.
+To override the default AppDynamics application/tier/node names, set the following environment variables.
 
 <pre class='terminal'>$ cf set-env APP ENV-NAME ENV-VALUE </pre>
 
@@ -394,13 +394,13 @@ If you are using a proxy server, the consumer application should specify the `ht
 
 ## <a id='UPS'></a> Using AppDynamics User Provided Service
 
-In addition to the above procedure using service broker tile, operators can also use [user provided service](https://docs.cloudfoundry.org/devguide/services/user-provided.html) with name `appdynamics` to instrument applications on
+In addition to the procedure above using the service broker tile, operators can also use [user provided service](https://docs.cloudfoundry.org/devguide/services/user-provided.html) with the name `appdynamics` to instrument applications on
 AppDynamics.
 
-1. Use the below [cf cups](http://cli.cloudfoundry.org/en-US/cf/create-user-provided-service.html) command with the JSON fields
-specified below
+1. Use the [cf cups](http://cli.cloudfoundry.org/en-US/cf/create-user-provided-service.html) command below with the JSON fields
+specified.
 
-1. The name of the user provided service must be `appdynamics` and it's JSON credentials must have `account-access-key`, `account-name`, `host-name`,
+1. The name of the user provided service must be `appdynamics` and its JSON credentials must have `account-access-key`, `account-name`, `host-name`,
 `port` and `ssl-enabled` fields.
 
 
