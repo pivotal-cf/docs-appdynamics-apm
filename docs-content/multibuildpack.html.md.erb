@@ -63,6 +63,7 @@ Starting with version v4.6.x of [AppDynamics Application Performance Monitoring 
 | .NET Core (Windows)  | binary_buildpack  | dotnet-windows  |
 | Python  |  python_buidpack | python |
 | GoLang  | go_buildpack  | golang  |
+| NodeJS  | nodejs-buildpack  | nodejs
 
 
 ## <a id='Advanced Features'></a> Advanced Features
@@ -102,6 +103,8 @@ Notes:
 
 1. Refer to the [AppDynamics documentation](https://docs.appdynamics.com/display/PRO45/Install+App+Server+Agents) for the names and formats of the advanced configuration files applicable to each of the AppDynamics agents.
 
+1. For NodeJS agent instead of specifying the file path, environment variables can be set in manifest.yml. More information can be found at `https://docs.pivotal.io/partners/appdynamics/using.html#node_workflow`.
+
 
 
 ## <a id='Sample manifest.yml'></a> Sample manifest.yml
@@ -125,7 +128,6 @@ applications:
     - appd
 
 ~~~
-
 
 ## <a id='Why this Design'></a> Advantages to Using this Approach
 
