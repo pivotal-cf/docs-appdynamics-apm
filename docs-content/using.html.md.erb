@@ -9,7 +9,6 @@ This topic describes how to push and bind an application to an AppDynamics tile.
 ## <a id='before-you-start'></a> Before You Start
 
 1. Create a [Pivotal Network](https://network.pivotal.io) account if you do not have one.
-
 1. Install the Cloud Foundry Command Line Interface (cf CLI).
    See [Installing the cf CLI](https://docs.pivotal.io/pivotalcf/cf-cli/install-go-cli.html).
 
@@ -385,7 +384,114 @@ specified.
 1. The name of the user provided service must be `appdynamics` and its JSON credentials must have `account-access-key`, `account-name`, `host-name`,
 `port` and `ssl-enabled` fields.
 
+    <pre class='terminal'>$ cf cups appdynamics -p '{"account-access-key":"acce$$key", "account-name":"customer1", "host-name":"demo.appdynamics.com", "port":"8090", "ssl-enabled":false}' </pre>
 
-<pre class='terminal'>$ cf cups appdynamics -p '{"account-access-key":"acce$$key", "account-name":"customer1", "host-name":"demo.appdynamics.com", "port":"8090", "ssl-enabled":false}' </pre>
+## <a id='UPS'></a> Deploying the Machine Agent on PCF
 
+This topic helps you deploy the Machine Agent on the Pivotal Cloud Foundry(PCF) platform.
+
+### Before You Start
+   * Acquire admin or space developer access on Cloud Foundry to deploy, run, and manage applications.
+For more information on access rights see the [Cloud Foundry Documentation](https://docs.cloudfoundry.org/concepts/roles.html#orgs).
+   * Download the [Machine Agent](https://download.appdynamics.com/download/#version=&apm=machine&os=linux).
+
+### Set Up the Machine Agent
+
+1. Set up the [AppDynamics GitHub](https://github.com/Appdynamics/cloudfoundry-apps) repository.
+
+    ```
+    git clone https://github.com/Appdynamics/cloudfoundry-apps
+    cd cloudfoundry-apps/cf-machine-agent
+    ```
+
+1. Ensure that the Machine Agent is downloaded from the [AppDynamics Download Center](https://download.appdynamics.com/download/#version=&apm=machine&os=linux) into the current directory.
+
+    ```
+    MachineAgent-4.5.11.2163.zip
+    cd MachineAgent-4.5.11.2163
+    (master)$ ls
+    bin			local-scripts		monitorsLibs
+    conf		machineagent.jar	readme.txt
+    extensions	machineagent.jar.asc	readme.txt.asc
+    lib			monitors		scripts
+    ```
+
+1. Copy the Machine Agent extensions, if any, to the cloudfoundry-apps/**cf-machine-agent** extensions directory. Note that extensions must be of .zip format, containing `extension_folder/{.jar, *.monitor.xml}`
+
+    ```
+    (master)$ cp ~/Downloads/PCFExtension-1.0.0.zip extensions/
+    ```
+
+1. Edit the `JAVA_OPTS` section in the `manifest.yml` to add the Controller information.
+For example, the `manifest.yml` is similar to the following after filling in the details:
+
+    ```
+    ---
+    applications:
+    - name: appdynamics-machine-agent
+      memory: 1G
+      health-check-type: process
+      no-route: true
+      buildpack: java_buildpack_offline
+      path: MachineAgent.zip
+      env:
+        JAVA_OPTS: '-Dappdynamics.agent.accountAccessKey=accessKey -Dappdynamics.agent.accountName=customer1 -Dappdynamics.controller.hostName=saas-controller.e2e.appd.com -Dappdynamics.controller.port=8090 -Dappdynamics.agent.applicationName=app -Dappdynamics.agent.tierName=tier -Dappdynamics.agent.nodeName=node -Dappdynamics.controller.ssl.enabled=false'
+    ```
+
+    Check the additions as follows:
+
+    ```
+    (master)$ git diff
+
+    -    JAVA_OPTS: '-Dappdynamics.agent.accountAccessKey={} -Dappdynamics.agent.accountName={} -Dappdynamics.controller.hostName={} -Dappdynamics.controller.port={} -Dappdynamics.agent.applicationName={} -Dappdynamics.agent.tierName={} -Dappdynamics.agent.nodeName={} -Dappdynamics.controller.ssl.enabled={true|false}'
+    +    JAVA_OPTS: '-Dappdynamics.agent.accountAccessKey=accessKey -Dappdynamics.agent.accountName=customer1 -Dappdynamics.controller.hostName=saas-controller.e2e.appd.com -Dappdynamics.controller.port=8090 -Dappdynamics.agent.applicationName=app -Dappdynamics.agent.tierName=tier -Dappdynamics.agent.nodeName=node -Dappdynamics.controller.ssl.enabled=false'
+    ```
+
+1. Run `package.sh`
+
+    This script packages the extension zip files into the Machine Agent monitor directory, cleans the Machine Agent, and adjusts the permissions of files per requirements from PCF.
+
+    ```
+    (master)$ ./package.sh
+    Creating workdir tmp
+    Moving MachineAgent to tmp dir
+    Unzipping MachineAgent
+    Unzipping Extensions from ../extensions to ./monitors Directory
+    Cleaning MachineAgent - removing *.asc files
+    Adjusting permissions as per requirement from CloudFoundry
+    Packaging MachineAgent
+    ```
+
+1. Deploy the Machine Agent application using `cf push`
+
+    ```
+    (master)$ cf push
+    Pushing from manifest to org appdynamics-org / space appdynamics-space as admin...
+    Using manifest file /Users/appD_user/appdy/cloudfoundry-apps/cf-machine-agent/manifest.yml
+    Getting app info...
+    Updating app with these attributes...
+    name:                appdynamics-machine-agent
+    path:                /Users/appD_user/appdy/cloudfoundry-apps/cf-machine-agent/MachineAgent.zip
+    buildpack:           java_buildpack_offline
+    command:             JAVA_OPTS="-agentpath:$PWD/.java-buildpack/open_jdk_jre/bin/jvmkill-1.16.0_RELEASE=printHeapHistogram=1 -Djava.io.tmpdir=$TMPDIR -Djava.ext.dirs=$PWD/.java-buildpack/container_security_provider:$PWD/.java-buildpack/open_jdk_jre/lib/ext -Djava.security.properties=$PWD/.java-buildpack/java_security/java.security $JAVA_OPTS" && CALCULATED_MEMORY=$($PWD/.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-3.13.0_RELEASE -totMemory=$MEMORY_LIMIT -loadedClasses=30244 -poolType=metaspace -stackThreads=250 -vmOptions="$JAVA_OPTS") && echo JVM Memory Configuration: $CALCULATED_MEMORY && JAVA_OPTS="$JAVA_OPTS $CALCULATED_MEMORY" && MALLOC_ARENA_MAX=2 JAVA_OPTS=$JAVA_OPTS JAVA_HOME=$PWD/.java-buildpack/open_jdk_jre exec $PWD/bin/machine-agent
+    disk quota:          1G
+    health check type:   process
+    instances:           1
+    memory:              1G
+    stack:               cflinuxfs2
+    env:
+      JAVA_OPTS
+
+      Updating app appdynamics-machine-agent...
+      ```
+    In a few seconds, the Machine Agent starts in a container in the PCF Elastic Runtime as an application named `appdynamics-machine-agent`.
+
+1. Check if the application is running.
+
+    ```
+    (master)$ cf apps
+    Getting apps in org appdynamics-org / space appdynamics-space as admin...
+    OK
+    appdynamics-machine-agent   started           1/1         1G       1G
+    ```
 
