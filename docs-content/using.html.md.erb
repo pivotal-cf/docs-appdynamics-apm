@@ -58,11 +58,7 @@ using `appdbuildpack` in tandem with `hwc_buildpack` using the multi-buildpack a
 
 3. Set the application environment variable `APPD_AGENT` to `dotnet`
 
-4. Set the application environment variable APPD_AGENT_HTTP_URL to a custom http url where the  AppDynamics
-.NET Agent for Linux is hosted. This is necessary because the agent is not currently available in NuGet.
-See [AppDynamics Buildpack](https://docs.pivotal.io/partners/appdynamics/multibuildpack.html#Advanced%20Features) for more info.
-
-5. Bind the application to the `appdynamics` service instance, by including `appd` in the `services` section of the application manifest.
+4. Bind the application to the `appdynamics` service instance, by including `appd` in the `services` section of the application manifest.
 
 	```yaml
 	---
@@ -96,7 +92,9 @@ See [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20F
 
 1. Set the application environment variable `APPD_AGENT` to `dotnet-linux`
 
-1. Set the application environment variable `APPD_AGENT_HTTP_URL` to a custom repository url where the agent is available for download.
+1. Set the application environment variable APPD_AGENT_HTTP_URL to a custom http url where the  AppDynamics
+.NET Agent for Linux is hosted. This is necessary because the agent is not currently available in NuGet.
+See [AppDynamics Buildpack](https://docs.pivotal.io/partners/appdynamics/multibuildpack.html#Advanced%20Features) for more info.
 
 1. Bind the application to the `appdynamics` service instance, by including `appd` in the `services` section of the application manifest.
 
