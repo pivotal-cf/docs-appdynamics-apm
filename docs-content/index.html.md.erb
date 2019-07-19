@@ -5,9 +5,27 @@ owner: Partners
 
 ## <a id='overview'></a> Overview
 
-The [AppDynamics Application Performance Monitoring (APM) for Pivotal Cloud Foundry](https://network.pivotal.io/products/p-appdynamics/) (PCF) allows you to easily deploy AppDynamics-monitored applications on [Pivotal Cloud Foundry](https://pivotal.io/platform) using an AppDynamics marketplace service. [AppDynamics Platform Monitoring for PCF](https://network.pivotal.io/products/appdynamics-platform/) provides visibility into the PCF platform where your AppDynamics-monitored applications are deployed. [AppDynamics Application Analytics for Pivotal Cloud Foundry](https://network.pivotal.io/products/appdynamics-analytics) provides Transaction Analytics in real-time to connect application performance, users, and business outcomes.
+To simplify APM setup, the [AppDynamics Application Performance Monitoring (APM) for Pivotal Cloud Foundry](https://network.pivotal.io/products/p-appdynamics/) (PCF) tile delivers a
+service broker to support an AppDynamics marketplace service. The Controller parameters are
+configured in the tile and automatically published to the marketplace when the tile is installed.
 
-AppDynamics APM for PCF supports performance monitoring of application metrics. AppDynamics agent code embedded or bundled with an application instruments the application code and publishes performance monitoring metrics and other details back to the Application Dashboard in the AppDynamics Controller web UI.
+A PCF app can be bound to the marketplace service to consume the Controller credentials.
+
+````
+$ cf bind my-pcf-app my-appd-marketplace-service
+````
+
+Performing a push will utilize the integrated AppDynamics buildpack support to start the APM agent
+based on the parameters from the marketplace service and start sending performance metrics to the
+Controller.
+
+````
+$ cf push
+````
+
+The tile also installs the AppDynamics extension buildpack in the PCF environment. For more
+information see the [buildpack support](https://docs.pivotal.io/partners/appdynamics/multibuildpack.html)
+and [language-specific workflows](https://docs.pivotal.io/partners/appdynamics/using.html#workflows) sections to enable APM.
 
 
 ## <a id='product-snapshot'></a> Product Snapshot
@@ -17,19 +35,19 @@ AppDynamics APM for PCF supports performance monitoring of application metrics. 
     <th>Details</th>
     <tr>
         <td>Version</td>
-        <td>v4.6.13</td>
+        <td>v4.7.81</td>
     </tr>
     <tr>
         <td>Release date</td>
-        <td>March 1, 2019</td>
+        <td>July 19, 2019</td>
     </tr>
     <tr>
         <td>Pivotal Cloud Foundry Operations Manager </td>
-        <td>v2.1.x, v2.2.x, v2.3.x, and v2.4.x</td>
+        <td>v2.2.x, v2.3.x, v2.4.x, v2.5.x, v2.6.x </td>
     </tr>
     <tr>
         <td>Pivotal Application Service (formerly Elastic Runtime)</td>
-        <td>v2.1.x, v2.2.x, v2.3.x, and v2.4.x</td>
+        <td>v2.2.x, v2.3.x, v2.4.x, v2.5.x, v2.6.x </td>
     </tr>
     <tr>
        <td>BOSH stemcell version</td>
@@ -54,7 +72,7 @@ AppDynamics APM for PCF supports performance monitoring of application metrics. 
 
 * AppDynamics Controller v4.4.x or later
 * An AppDynamics account
-* Pivotal Cloud Foundry v2.1.x, v2.2.x, v2.3.x, and v2.4.x
+* Pivotal Cloud Foundry v2.1.x, v2.2.x, v2.3.x, v2.4.x, v2.5.x, v2.6.x
 
 ## <a id="feedback"></a> Feedback
 
