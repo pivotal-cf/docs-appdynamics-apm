@@ -63,8 +63,15 @@ Starting with version v4.6.x of [AppDynamics Application Performance Monitoring 
 | .NET Core (Windows)  | binary_buildpack  | dotnet-windows  |
 | Python  |  python_buidpack | python |
 | GoLang  | go_buildpack  | golang  |
-| NodeJS  | nodejs-buildpack  | nodejs
+| NodeJS  | nodejs-buildpack  | nodejs |
 
+
+  Note: NodeJS multi-buildpack needs one more environment variable.
+
+  ~~~yaml
+    env:
+      APPD_BUILDPACK: true
+  ~~~
 
 ## <a id='Advanced Features'></a> Advanced Features
 The AppDynamics extension buildpack supports configurable environment variables. This allows you to customize how you fetch agent binaries and override agent configuration.
