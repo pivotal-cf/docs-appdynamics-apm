@@ -9,16 +9,26 @@ owner: Partners
 
 **Release Date:** July 19, 2019
 
-- Added advanced configuration option to override the name of the AppDynamics Service exported by AppDynamics Service Broker.
-The overridden name of the service must have `appdynamics` as prefix. 
+- Added advanced configuration option to override the name of the AppDynamics Service exported by AppDynamics Service Broker. The overridden name of the service must have `appdynamics` as prefix.
 - Fixed missing image in MarketPlace UI
 
 ## <a id='4770'></a> 4.7.70
 
 **Release Date:** July 17, 2019
 
-- Added secret fields to hide sensitive information
-- AppDynamics Buildpack now supports Application Container Correlation for Node.JS application when used in tandem with AppDynamics Platform Monitoring Tile v4.7.237 or higher 
+- AppDynamics Buildpack now supports Application Container Correlation for Node.JS application when used in tandem with AppDynamics Platform Monitoring Tile v4.7.237 or higher.
+- Added (obfuscated) Account Access Key Secret field. This field can be used with versions 4.7.x and higher of the AppDynamics buildpack, and version 4.19.2 and higher of the Java buildpack. AppDynamics recommends that customers update both the APM tile and Java/AppDynamics buildpacks to the latest version, in order to use this field. The unobfuscated field is deprecated and will be removed starting from version 5.0 of the APM tile.
+
+<p class="note"><strong>Note:</strong> Support for obfuscation of the Account Access Key requires changes to the VCAP_SERVICES environment variable used by buildpacks and the APM Service Broker tile. The new Account Access Key Secret field can only be used if both the buildpack and tile versions support this change. Using the obfuscated field will change the representation in `VCAP_SERVICES` to:</p>
+
+```
+VCAP_SERVICES[“appdynamics”][“credentials”][“account-access-secret”] = { “secret”: “<access_key>“}
+```
+Previously the unobfuscated field was represented as:
+
+```
+VCAP_SERVICES[“appdynamics”][“credentials”][“account-access-key”] = “<access_key>”
+```
 
 ## <a id='4664'></a> 4.6.64
 
