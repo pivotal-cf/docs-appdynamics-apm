@@ -11,7 +11,7 @@ service broker to support an AppDynamics marketplace service. The Controller pa
 A PCF app can be bound to the marketplace service to consume the Controller credentials.
 
 ````
-$ cf bind my-pcf-app my-appd-marketplace-service
+$ cf bind-service my-pcf-app my-appd-marketplace-service
 ````
 
 Performing a push will utilize the integrated AppDynamics buildpack support to start the APM agent
