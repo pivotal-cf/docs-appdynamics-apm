@@ -1,14 +1,14 @@
 ---
-title: AppDynamics Application Performance Monitoring for PCF
+title: AppDynamics Application Performance Monitoring for Pivotal Platform
 owner: Partners
 ---
 
 ## <a id='overview'></a> Overview
 
-To simplify APM setup, the [AppDynamics Application Performance Monitoring (APM) for Pivotal Cloud Foundry](https://network.pivotal.io/products/p-appdynamics/) (PCF) tile delivers a
+To simplify APM setup, the [AppDynamics Application Performance Monitoring (APM) for Pivotal Platform](https://network.pivotal.io/products/p-appdynamics/) (Pivotal Platform) tile delivers a
 service broker to support an AppDynamics marketplace service. The Controller parameters are configured in the tile and automatically published to the marketplace when the tile is installed.
 
-A PCF app can be bound to the marketplace service to consume the Controller credentials.
+A Pivotal Platform app can be bound to the marketplace service to consume the Controller credentials.
 
 ````
 $ cf bind my-pcf-app my-appd-marketplace-service
@@ -22,7 +22,7 @@ Controller.
 $ cf push
 ````
 
-The tile also installs the AppDynamics extension buildpack in the PCF environment. For more
+The tile also installs the AppDynamics extension buildpack in the Pivotal Platform environment. For more
 information see the [buildpack support](https://docs.pivotal.io/partners/appdynamics/multibuildpack.html)
 and [language-specific workflows](https://docs.pivotal.io/partners/appdynamics/using.html#workflows) sections to enable APM.
 
@@ -41,7 +41,7 @@ and [language-specific workflows](https://docs.pivotal.io/partners/appdynamics/u
         <td>July 19, 2019</td>
     </tr>
     <tr>
-        <td>Pivotal Cloud Foundry Operations Manager </td>
+        <td>Pivotal Platform Operations Manager </td>
         <td>v2.2.x, v2.3.x, v2.4.x, v2.5.x, v2.6.x </td>
     </tr>
     <tr>
@@ -66,11 +66,11 @@ and [language-specific workflows](https://docs.pivotal.io/partners/appdynamics/u
 
 * AppDynamics Controller v4.4.x or later
 * An AppDynamics account
-* Pivotal Cloud Foundry v2.1.x, v2.2.x, v2.3.x, v2.4.x, v2.5.x, v2.6.x
+* Pivotal Platform v2.1.x, v2.2.x, v2.3.x, v2.4.x, v2.5.x, v2.6.x
 
 ## <a id="feedback"></a> Feedback
 
-Provide any bugs, feature requests, or questions to the [Pivotal Cloud Foundry Feedback list](mailto:pivotal-cf-feedback@pivotal.io).
+Provide any bugs, feature requests, or questions to the [Pivotal Platform Feedback list](mailto:pivotal-cf-feedback@pivotal.io).
 
 ## <a id='license'></a> License
 

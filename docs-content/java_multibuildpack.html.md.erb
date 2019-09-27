@@ -3,7 +3,7 @@ title: MultiBuildpack for Java Applications
 owner: Partners
 ---
 
-AppDynamics Application Performance Monitoring for Pivotal Cloud Foundry (PCF) v4.5.556 and later
+AppDynamics Application Performance Monitoring for Pivotal Platform v4.5.556 and later
 includes an AppDynamics extension buildpack `appdbuildpack` that can be used with
 the Cloud Foundry Java buildpack.
 
@@ -16,7 +16,7 @@ GitHub repository.</p>
 
 ## <a id='Prerequistite'></a> Prerequisite
 
-Install or upgrade to v4.5.556 AppDynamics Application Performance Monitoring for PCF.
+Install or upgrade to v4.5.556 AppDynamics Application Performance Monitoring for Pivotal Platform.
 
 ## <a id='Workflow'></a> Add the AppDynamics Extension and Java Buildpacks
 
@@ -34,7 +34,7 @@ to your `manifest.yml` before pushing an app:
 
 2. Edit your `manifest.yml` file as follows:
      - Set `buildpacks` to `appdbuildpack` and `https://github.com/Appdynamics/java-buildpack.git`
-     - Set `services` to your AppDynamics APM for PCF instance.
+     - Set `services` to your AppDynamics APM for Pivotal Platform instance.
      In this example `services` is set to`appd`.
      - Set the environment variable `APPD_AGENT` to `java`.
 
