@@ -89,7 +89,7 @@ In a Terminal window:
         ```
     
     2. Clean global gems.
-
+    
         ```
         $ echo "" > ~/.rvm/gemsets/global.gems
         ```
@@ -258,7 +258,6 @@ This section describes how to sync to the master branch, navigate to the `releas
     ```
     $ git pull
     ```
-
 6. Check out the `release_next` branch. 
     ```
     $ git checkout -b release_next
