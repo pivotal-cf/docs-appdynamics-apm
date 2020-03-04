@@ -3,7 +3,7 @@ title: AppDynamics Extension Buildpack (MultiBuildpack Approach)
 owner: Partners
 ---
 
-Starting with version v4.6.x of [AppDynamics Application Performance Monitoring for Pivotal Platform](https://network.pivotal.io/products/p-appdynamics/) tile we will be shipping an AppDynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard build packs using Cloud Foundry's multiple buildpack workflow. The buildpack serves as a single point for AppDynamics APM support.
+Starting with version v4.6.x of [AppDynamics Application Performance Monitoring for VMware Tanzu](https://network.pivotal.io/products/p-appdynamics/) tile we will be shipping an AppDynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard build packs using Cloud Foundry's multiple buildpack workflow. The buildpack serves as a single point for AppDynamics APM support.
 
 ## <a id='Prerequistites'></a> Prerequisites
 
@@ -11,9 +11,9 @@ Starting with version v4.6.x of [AppDynamics Application Performance Monitoring 
 
 ## <a id='Workflow'></a> Workflow
 
-1. Install or Upgrade [AppDynamics Application Performance Monitoring for Pivotal Platform tile](https://network.pivotal.io/products/p-appdynamics) version v4.6.x or later.  No additional configuration is needed!
+1. Install or Upgrade [AppDynamics Application Performance Monitoring for VMware Tanzu tile](https://network.pivotal.io/products/p-appdynamics) version v4.6.x or later.  No additional configuration is needed!
 
-2. Once the AppDynamics APM for Pivotal Platform tile is installed, a buildpack with the name <b>appdbuildpack</b> appears in your list of cf environment buildpacks:
+2. Once the AppDynamics APM for VMware Tanzu tile is installed, a buildpack with the name <b>appdbuildpack</b> appears in your list of cf environment buildpacks:
     <pre class='terminal'>
     $ cf buildpacks
     Getting buildpacks...

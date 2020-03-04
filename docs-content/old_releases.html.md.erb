@@ -17,7 +17,7 @@ Features included in this release:
  - Fix for insufficient memory when using Java Buildpack v4.0+
  - DB agent upgraded to `4.2.15.18`
 
-This topic describes how to upgrade to v1.2.3 of the AppDynamics APM tile for Pivotal Platform.
+This topic describes how to upgrade to v1.2.3 of the AppDynamics APM tile for VMware Tanzu.
 
 ### <a id='v1-2-3'></a> v1.2.3
 
@@ -81,7 +81,7 @@ Features included in this release:
 Features included in this release:
 
  - Updated stemcell to v3146.9
- - Fixed machine agent related issue for multiple Pivotal Platform installations
+ - Fixed machine agent related issue for multiple VMware Tanzu installations
  - TierName, NodeName and UniqueHostID suffixed with DomainName
  - Support for **OpenTSDB Firehose Nozzle**; support for all Cloud Foundry deployment metrics
 
@@ -90,7 +90,7 @@ Features included in this release:
 
 1. Download the product file from the [AppDynamics Product page](https://network.pivotal.io/products/p-appdynamics) on the [Pivotal Network](https://network.pivotal.io/).
 
-1. Log in to Pivotal Platform Ops Manager.
+1. Log in to VMware Tanzu Ops Manager.
 
 1. Click **Import a Product** and import the AppDynamics product file.
     <%= image_tag("import-product.png") %>
@@ -129,11 +129,11 @@ Features included in this release:
 
 1. Select **Machine Agent Extension**.
     1. Ensure that the Pivotal Ops Metrics/JMX Bridge tile has been installed and JMX VM is running.
-    <p class="note"><strong>Note:</strong> In Pivotal Platform v1.7 and later, Pivotal Ops Metrics is renamed JMX Bridge.</p>
-    1. Give a user-defined **Application Name**. This name should be unique across multiple Pivotal Platform installations.
+    <p class="note"><strong>Note:</strong> In VMware Tanzu v1.7 and later, Pivotal Ops Metrics is renamed JMX Bridge.</p>
+    1. Give a user-defined **Application Name**. This name should be unique across multiple VMware Tanzu installations.
     1. Complete the **AppDynamics Controller**, **Account Name**, and **Account Access Keys** fields.
         <%= image_tag("machine-agent.png") %>
-    1. If you do not want to override the default configuration, select **Disable**. If you want to override the default configuration, select **Enable** and specify the metrics that you want to pull in from JMX Bridge in your Cloud Foundry `config.yml` file. Use this [template](https://github.com/Appdynamics/cloud-foundry-extension/blob/Pivotal Platform-Service-Broker/conf/config.yaml) to override the `config.yml` file.
+    1. If you do not want to override the default configuration, select **Disable**. If you want to override the default configuration, select **Enable** and specify the metrics that you want to pull in from JMX Bridge in your Cloud Foundry `config.yml` file. Use this [template](https://github.com/Appdynamics/cloud-foundry-extension/blob/VMware Tanzu-Service-Broker/conf/config.yaml) to override the `config.yml` file.
         <%= image_tag("OverrideJMX.png") %>
     1. Fill in the JMX Bridge Server IP and Port (default: `44444`).
         <%= image_tag("JMX_Bridge.png") %>
@@ -144,12 +144,12 @@ Features included in this release:
         <%= image_tag("DisabledSSL.png") %>
     1. Click **Save**.
 
-1. Select **Analytics Agent**. Follow the instructions in the [Installling and Configuring Application Analytics for Pivotal Platform](https://docs.pivotal.io/partners/appdynamics-analytics/installing.html) topic to complete this section of the tile.
+1. Select **Analytics Agent**. Follow the instructions in the [Installling and Configuring Application Analytics for VMware Tanzu](https://docs.pivotal.io/partners/appdynamics-analytics/installing.html) topic to complete this section of the tile.
 
 1. Select **Web Proxy Configuration**.
 ![ProxyServerConfig](images/Proxy_Server_Config.png)
 
-1. To use a proxy server between your Pivotal Platform instance and the AppDynamics Controller, select **Enable** and complete the following fields:
+1. To use a proxy server between your VMware Tanzu instance and the AppDynamics Controller, select **Enable** and complete the following fields:
      * **Web Proxy Host Name/IP**: Enter the IP address or host name of the proxy server.
      * **Web Proxy Port**: Enter the port number on which the proxy server listens.
      * **HTTP Web Proxy Auth Enabled**: If your proxy server requires authentication, check this checkbox and complete the following fields:
@@ -158,10 +158,10 @@ Features included in this release:
 
 1. Click **Save**.
 
-1. If relevant for your version of Pivotal Platform, set the correct **Collector** instance count in the Elastic Runtime tile **Resource Config** pane:
-  * Pivotal Platform v1.7 or earlier: Ensure that the **Collector** count is to `1` and click **Save** if changed.
-  * Pivotal Platform v1.8: Ensure that the **Collector** count is set to `0` and click **Save** if changed.
-  * Pivotal Platform v1.9 or later: No action is needed. Pivotal Platform v1.9 and later have no Collector component.
+1. If relevant for your version of VMware Tanzu, set the correct **Collector** instance count in the Elastic Runtime tile **Resource Config** pane:
+  * VMware Tanzu v1.7 or earlier: Ensure that the **Collector** count is to `1` and click **Save** if changed.
+  * VMware Tanzu v1.8: Ensure that the **Collector** count is set to `0` and click **Save** if changed.
+  * VMware Tanzu v1.9 or later: No action is needed. VMware Tanzu v1.9 and later have no Collector component.
 
 1. When finished configuring the AppDynamics tile and any other tile changes, return to the **Ops Manager Installation Dashboard** and click **Apply Changes**.
 
@@ -200,7 +200,7 @@ Features included in this release:
     <%= image_tag("dashboard3.png") %>
     <%= image_tag("dashboard4.png") %>
 
-1. To check Pivotal Platform Ops Metrics, check for an application named **AppDynamicsPivotal PlatformOpsMetrics** in the controller UI. The Application Dashboard for this application should be empty, since it only reports metrics of Pivotal Platform. To see the metrics, select **Home > AppDynamicsPivotal PlatformOpsMetrics > Metric Browser > Application Infrastructure Performance > MachineAgentTier > Custom Metrics > CF**. This lists all underlying components of Pivotal Platform such as CloudController and Router.
+1. To check VMware Tanzu Ops Metrics, check for an application named **AppDynamicsVMware TanzuOpsMetrics** in the controller UI. The Application Dashboard for this application should be empty, since it only reports metrics of VMware Tanzu. To see the metrics, select **Home > AppDynamicsVMware TanzuOpsMetrics > Metric Browser > Application Infrastructure Performance > MachineAgentTier > Custom Metrics > CF**. This lists all underlying components of VMware Tanzu such as CloudController and Router.
     <%= image_tag("view12.2.1.png") %>
 
 ### <a id='http-proxy'></a> Configuration with HTTP Proxy
@@ -264,12 +264,12 @@ Example:
 
 If the machine agent does not expose any metrics in the AppDynamics dashboard:
 
-* If you are using Pivotal Platform v1.7 or earlier, check the Elastic Runtime tile **Resource Config** pane to ensure that you are running a **Collector** job with an instance count of `1`.
+* If you are using VMware Tanzu v1.7 or earlier, check the Elastic Runtime tile **Resource Config** pane to ensure that you are running a **Collector** job with an instance count of `1`.
 * Ensure the JMX Bridge tile is installed and verify the admin credentials, IP address, and port of the Metrics instance.
-* If a proxy exists, the machine agent might not be able to reach out. Add the following environment variable parameters to the "AppDynamicsPivotal PlatformOpsMetrics" app in the AppDynamicsPivotal PlatformOpsMetrics-related Org and Space:
+* If a proxy exists, the machine agent might not be able to reach out. Add the following environment variable parameters to the "AppDynamicsVMware TanzuOpsMetrics" app in the AppDynamicsVMware TanzuOpsMetrics-related Org and Space:
 
 <pre class='terminal'>
-  $ cf set-env AppDynamicsPivotal PlatformOpsMetrics JAVA_OPTS "
+  $ cf set-env AppDynamicsVMware TanzuOpsMetrics JAVA_OPTS "
   -Dappdynamics.http.proxyHost=proxy.customer.com
   -Dappdynamics.http.proxyPort=8080 -Dhttp.proxyHost=proxy.customer.com
   -Dhttp.proxyPort=8080 -Dhttps.proxyHost=proxy.customer.com
@@ -324,7 +324,7 @@ There must be at least one Analytics Agent in the monitored environment, althoug
 
 In this example, AppServerHost1-3 collect only transaction data, and only app agents are required. Each one connects to the Analytics Agent on AppServerHost4. The analytics agent forwards the transaction analytics data to the event service. Finally, the controller fetches the analytics data from the event service and renders it to the controller analytics dashboard.
 
-Follow the steps below to configure Transaction Analytics for your Pivotal Platform apps.
+Follow the steps below to configure Transaction Analytics for your VMware Tanzu apps.
 
 #### <a id="step1"></a> Step 1: Configure Tile for Analytics
 
@@ -338,11 +338,11 @@ Follow the steps below to configure Transaction Analytics for your Pivotal Platf
 
 1. Click **Save**.
 
-1. After the tile updates successfully, you can verify that each analytics agent runs as a CF application in the **AppDynamicsPivotal PlatformOpsMetrics-service-org** org. The name of each analytics agent is **AppDynamicsAnalytics**, with a route `appdynamics-analytics.DOMAIN-NAME`. See the following example:
+1. After the tile updates successfully, you can verify that each analytics agent runs as a CF application in the **AppDynamicsVMware TanzuOpsMetrics-service-org** org. The name of each analytics agent is **AppDynamicsAnalytics**, with a route `appdynamics-analytics.DOMAIN-NAME`. See the following example:
     <pre class="terminal">
-    $ cf target -o AppDynamicsPivotal PlatformOpsMetrics-service-org
+    $ cf target -o AppDynamicsVMware TanzuOpsMetrics-service-org
     $ cf apps
-    Getting apps in org AppDynamicsPivotal PlatformOpsMetrics-service-org / space AppDynamicsPivotal PlatformOpsMetrics-service-space as admin...
+    Getting apps in org AppDynamicsVMware TanzuOpsMetrics-service-org / space AppDynamicsVMware TanzuOpsMetrics-service-space as admin...
     OK
     name                       requested state   instances   memory   disk   url</pre>
 
@@ -354,7 +354,7 @@ After deploying the tile, follow the steps below to bind an application with the
 
 1. Set a JAVA system property on the application to forward data to analytics agent.
     <pre class="terminal">$ cf set-env TARGET-APP-NAME JAVA_OPTS "-Dappdynamics.analytics.agent.url=<span>http:</span>//appdynamics-analytics.DOMAIN-NAME/v1/sinks/bt"</pre>
-    In the example above, `http://appdynamics-analytics.DOMAIN-NAME` is the URL of the analytics agent running in the **AppDynamicsPivotal PlatformOpsMetrics-service-org** org.
+    In the example above, `http://appdynamics-analytics.DOMAIN-NAME` is the URL of the analytics agent running in the **AppDynamicsVMware TanzuOpsMetrics-service-org** org.
 
 1. Restage the application for the changes to take effect.
     <pre class="terminal">$ cf restage TARGET-APP-NAME</pre>
@@ -402,7 +402,7 @@ This document describes how to configure a database agent and see database metri
 
 ## <a id="DataBaseMonitoring"></a> AppDynamics v1.x DataBaseMonitoring
 
- - If your AppDynamics controller has license for Database monitoring, you can monitor databases in Pivotal Platform.
+ - If your AppDynamics controller has license for Database monitoring, you can monitor databases in VMware Tanzu.
  - Supported database agent **v4.2.15.18**
  - Supported databases:
   ![DBSupport](../images/DBSupport.png)
@@ -431,13 +431,13 @@ This document describes how to configure a database agent and see database metri
 
 The database agent and the AppDynamics controller work together to monitor a database. The agent collects the data from the database server and passes it to the AppDynamics Controller for interpretation and display in the Controller UI. The database agent does not need to be installed on the same system hosting the database server.
 
-<p class="note"><strong>Note:</strong> Because each database agent starts with 1&nbsp;G of memory, AppDynamics reccommends configuring at most two DB collectors for each database agent app running in Pivotal Platform.</p>
+<p class="note"><strong>Note:</strong> Because each database agent starts with 1&nbsp;G of memory, AppDynamics reccommends configuring at most two DB collectors for each database agent app running in VMware Tanzu.</p>
 
 1. Open the AppDynamics controller and go to **Databases > Configuration > Collectors**.
   ![Database collector](../images/Database2.png)
 
 1. Configure a database collector using the [Configure Database Collectors](https://docs.appdynamics.com/display/PRO41/Configure+Database+Collectors) topic from the AppDynamics docs.
-  - For the **Database Agent** field in every collector, select the database agent name deployed in Pivotal Platform. In the example image below, you choose **DBAgent-Pivotal Platform-Public-Controller-1** as the **Database Agent** and not **Default DB Agent**.
+  - For the **Database Agent** field in every collector, select the database agent name deployed in VMware Tanzu. In the example image below, you choose **DBAgent-VMware Tanzu-Public-Controller-1** as the **Database Agent** and not **Default DB Agent**.
     ![CollectorConfig](../images/Database3.png)
 
 1. Once you configure and save the collector, generate some traffic on an application that includes database operations. After a couple of minutes, you can see database traffic on your AppDynamics Database Dashboard.

@@ -1,5 +1,5 @@
 ---
-title: AppDynamics Application Performance Monitoring for Pivotal Platform Workflow
+title: AppDynamics Application Performance Monitoring for VMware Tanzu Workflow
 owner: Partners
 ---
 
@@ -357,7 +357,7 @@ To override the default AppDynamics application/tier/node names, set the followi
 
 ### <a id='proxy'></a> Extending Proxy configuration
 
-If you are using a proxy server, the consumer application should specify the `http_proxy` or `https_proxy` as an environment variable for the application running on Pivotal Platform to communicate with the proxy server. Do the following:
+If you are using a proxy server, the consumer application should specify the `http_proxy` or `https_proxy` as an environment variable for the application running on VMware Tanzu to communicate with the proxy server. Do the following:
 
 1. Set the environment variable for the application and the Controller.
    * For an HTTP proxy:
@@ -384,9 +384,9 @@ specified.
 
     <pre class='terminal'>$ cf cups appdynamics -p '{"account-access-key":"acce$$key", "account-name":"customer1", "host-name":"demo.appdynamics.com", "port":"8090", "ssl-enabled":false}' </pre>
 
-## <a id='UPS'></a> Deploying the Machine Agent on Pivotal Platform
+## <a id='UPS'></a> Deploying the Machine Agent on VMware Tanzu
 
-This topic helps you deploy the Machine Agent on the Pivotal Platform(Pivotal Platform) platform.
+This topic helps you deploy the Machine Agent on the VMware Tanzu(VMware Tanzu) platform.
 
 ### Before You Start
    * Acquire admin or space developer access on Cloud Foundry to deploy, run, and manage applications.
@@ -417,7 +417,7 @@ For more information on access rights see the [Cloud Foundry Documentation](http
 1. Copy the Machine Agent extensions, if any, to the cloudfoundry-apps/**cf-machine-agent** extensions directory. Note that extensions must be of .zip format, containing `extension_folder/{.jar, *.monitor.xml}`
 
     ```
-    (master)$ cp ~/Downloads/Pivotal PlatformExtension-1.0.0.zip extensions/
+    (master)$ cp ~/Downloads/VMware TanzuExtension-1.0.0.zip extensions/
     ```
 
 1. Edit the `JAVA_OPTS` section in the `manifest.yml` to add the Controller information.
@@ -447,7 +447,7 @@ For example, the `manifest.yml` is similar to the following after filling in the
 
 1. Run `package.sh`
 
-    This script packages the extension zip files into the Machine Agent monitor directory, cleans the Machine Agent, and adjusts the permissions of files per requirements from Pivotal Platform.
+    This script packages the extension zip files into the Machine Agent monitor directory, cleans the Machine Agent, and adjusts the permissions of files per requirements from VMware Tanzu.
 
     ```
     (master)$ ./package.sh
@@ -482,7 +482,7 @@ For example, the `manifest.yml` is similar to the following after filling in the
 
       Updating app appdynamics-machine-agent...
       ```
-    In a few seconds, the Machine Agent starts in a container in the Pivotal Platform Elastic Runtime as an application named `appdynamics-machine-agent`.
+    In a few seconds, the Machine Agent starts in a container in the VMware Tanzu Elastic Runtime as an application named `appdynamics-machine-agent`.
 
 1. Check if the application is running.
 
