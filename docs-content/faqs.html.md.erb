@@ -89,18 +89,18 @@ You can use the Java buildpack shipped with CF environments directly. The AppDyn
 
 In addition, you must place the AppDynamics agent downloaded from `packages.appdynamics.com/java/index.yml`. See the [Offline Package](https://github.com/cloudfoundry/java-buildpack#offline-package) section of the _Cloud Foundry Java Buildpack_ documentation.
 
-### <a id='s5'></a> How do I customize AppName, TierName, and NodeName?
+### <a id='s5'></a> How do I customize AppName and TierName?
 
-AppDynamics Buildpacks auto-generate App, Tier, and Node names by looking into the deployed environment. You can customize this auto-generation by setting the configuration environment variables.
+AppDynamics Buildpacks auto-generate app and tier (and Node) names by looking into the deployed environment. You can customize this auto-generation by setting the configuration environment variables. 
 
-To override the following environment, run `cf set-env APP ENV-NAME ENV-VALUE`.
+To override the app or tier names, run `cf set-env APP ENV-NAME ENV-VALUE`. Generally it doesn't make sense to override the node name using this approach, as it will assign the same node name for multiple application instances, resulting in a loss of visibility.
 
-| AGENT |	APPLICATION ENV VARIABLE |	TIER ENV VARIABLE |	NODE ENV VARIABLE |
+| AGENT |	APPLICATION ENV VARIABLE |	TIER ENV VARIABLE
 | --- | --- | --- | --- |
-| Python |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
-| Java |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME |	APPDYNAMICS_AGENT_NODE_NAME |
-| NodeJS |	APPDYNAMICS_AGENT_APPLICATION_NAME|	APPDYNAMICS_AGENT_TIER_NAME | APPDYNAMICS_AGENT_NODE_NAME |
-| Golang |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
+| Python |	APPD_APP_NAME |	APPD_TIER_NAME
+| Java |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME
+| NodeJS |	APPDYNAMICS_AGENT_APPLICATION_NAME|	APPDYNAMICS_AGENT_TIER_NAME
+| Golang |	APPD_APP_NAME |	APPD_TIER_NAME
 
 ### <a id='s6'></a> How do I configure the Java buildpack to fetch a particular agent version?
 

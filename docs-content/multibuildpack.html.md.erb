@@ -1,9 +1,13 @@
 ---
-title: AppDynamics Extension Buildpack (MultiBuildpack Approach)
+title: AppDynamics Extension Buildpack (Multi-Buildpack Approach)
 owner: Partners
 ---
 
-Starting with version v4.6.x of [AppDynamics Application Performance Monitoring for VMware Tanzu](https://network.pivotal.io/products/p-appdynamics/) tile we will be shipping an AppDynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard build packs using Cloud Foundry's multiple buildpack workflow. The buildpack serves as a single point for AppDynamics APM support.
+Starting with version v4.6.x of [AppDynamics Application Performance Monitoring for VMware Tanzu](https://network.pivotal.io/products/p-appdynamics/) tile we will be shipping an AppDynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard buildpacks using Cloud Foundry's multiple buildpack workflow. The buildpack serves as a single point for AppDynamics APM support.
+
+## <a id='Sample Applications'></a> Sample Applications
+
+You can find sample applications demonstrating the multi-buildpack approach in this [GitHub repository](https://github.com/AppDynamics/cloudfoundry-apps)
 
 ## <a id='Prerequistites'></a> Prerequisites
 
@@ -11,7 +15,7 @@ Starting with version v4.6.x of [AppDynamics Application Performance Monitoring 
 
 ## <a id='Workflow'></a> Workflow
 
-1. Install or Upgrade [AppDynamics Application Performance Monitoring for VMware Tanzu tile](https://network.pivotal.io/products/p-appdynamics) version v4.6.x or later.  No additional configuration is needed!
+1. Install or upgrade [AppDynamics Application Performance Monitoring for VMware Tanzu tile](https://network.pivotal.io/products/p-appdynamics) version v4.6.x or later.
 
 2. Once the AppDynamics APM for VMware Tanzu tile is installed, a buildpack with the name <b>appdbuildpack</b> appears in your list of cf environment buildpacks:
     <pre class='terminal'>
@@ -66,13 +70,6 @@ Starting with version v4.6.x of [AppDynamics Application Performance Monitoring 
 | NodeJS  | nodejs-buildpack  | nodejs |
 
 
-  Note: NodeJS multi-buildpack needs one more environment variable.
-
-  ~~~yaml
-    env:
-      APPD_BUILDPACK: true
-  ~~~
-
 ## <a id='Advanced Features'></a> Advanced Features
 The AppDynamics extension buildpack supports configurable environment variables. This allows you to customize how you fetch agent binaries and override agent configuration.
 
@@ -84,8 +81,7 @@ To override this behavior, you can set the environment variable `APPD_AGENT_HTTP
 ~~~yaml
   env:
     APPD_AGENT: dotnet
-    APPD_AGENT_HTTP_URL: http://custom-http.server.com/dotnet/4_5_7_0/AppDynamics-DotNetCore-linux-x64-4.5.7.0.zip
-
+    APPD_AGENT_HTTP_URL: http://custom-http.server.com/dotnet-linux/agent/AppDynamics-DotNetCore-linux-x64-4.5.7.0.zip
 ~~~
 
 
@@ -98,20 +94,24 @@ By default `appdbuildpack` creates the basic configuration needed by the AppDyna
 ~~~yaml
   env:
     APPD_AGENT: dotnet
-    APPD_CONF_HTTP_URL: http://custom-http.server.com/dotnet/conf/v1
-
+    APPD_CONF_HTTP_URL: http://custom-http-server.com
 ~~~
+
+
+`appdbuildpack` will look for configuration files under a subfolder relative to `APPD_CONF_HTTP_URL` according to the `APPD_AGENT` value. So for a .Net Core Linux application, for example, it would look for relevant configuration files such as `AppDynamicsConfig.json` under `APPD_CONF_HTTP_URL/dotnet-linux`, and for a Node.js application it would look under `APPD_CONF_HTTP_URL/nodejs`. In the example above, it would look under `http://custom-http-server.com/dotnet`. This supports the ability to assign a single value for `APPD_CONF_HTTP_URL` for all buildpack types in a foundation using a [staging environment variable group 
+](https://tanzu.vmware.com/application-modernization-recipes/replatforming/environment-variable-groups) and avoids the need to set it for each application.
+
+```
+  $ cf set-staging-environment-variable-group '{"APPD_CONF_HTTP_URL":"http://custom-http.server.com"}'
+```
 
 Notes:
 
-1. `APPD_CONF_HTTP_URL` must point to the location of the folder, not the file location. In the above example, advanced configuration files of AppDynamics DotNet Agent (e.g: `AppDynamicsAgentLog.config`) are hosted under `conf/v1` folder.
+1. When using `APPD_CONF_HTTP_URL`, `appdbuildpack` will only fetch the files with relevant names that are applicable to the agent. In the example above, because it is a dotnet agent, only the files `AppDynamicsAgentLog.config` and `AppDynamicsConfig.json` are downloaded from `APPD_CONF_HTTP_URL/dotnet`. All other files are ignored.
 
-1. `appdbuildpack` will only fetch the files with relevant names that are applicable to the agent. In the example above, because it is a dotnet agent, only the files `AppDynamicsAgentLog.config` and `AppDynamicsConfig.json` are downloaded, if located at `http://custom-http.server.com/dotnet/conf/v1`. All other files are ignored.
+1. When using `APPD_AGENT_HTTP_URL`, the full path including the agent package must be specified, for example `http://custom-http.server.com/dotnet-linux/agent/AppDynamics-DotNetCore-linux-x64-4.5.7.0.zip`
 
 1. Refer to the [AppDynamics documentation](https://docs.appdynamics.com/display/PRO45/Install+App+Server+Agents) for the names and formats of the advanced configuration files applicable to each of the AppDynamics agents.
-
-1. For NodeJS agent instead of specifying the file path, environment variables can be set in manifest.yml. More information can be found at `https://docs.pivotal.io/partners/appdynamics/using.html#node_workflow`.
-
 
 
 ## <a id='Sample manifest.yml'></a> Sample manifest.yml
@@ -127,8 +127,8 @@ applications:
     - dotnet_core_buildpack
   env:
     APPD_AGENT: dotnetcore
-    APPD_AGENT_HTTP_URL: http://cf-app.com/dotnetcore/1/AppDynamics-DotNetCore-linux-x64-4.5.7.0.zip
-    APPD_CONF_HTTP_URL: http://custom-http.server.com/dotnet/conf/v1
+    APPD_AGENT_HTTP_URL: http://custom-http-server.com/dotnet-linux/agent/AppDynamics-DotNetCore-linux-x64-4.5.7.0.zip
+    APPD_CONF_HTTP_URL: http://custom-http-server.com
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
     DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   services:
@@ -144,10 +144,4 @@ applications:
 
 3. A single unified workflow to instrument a variety of applications, regardless of the language or framework of the application. Any new feature added to `appdbuildpack`, if applicable, is available across all langauge agents since `appdbuildpack` is the sole source of AppDynamics instrumentation logic.
 
-
-
-## <a id='Sample Application'></a> Sample Application
-
-As always, you can find sample applications demonstrating the multibuildpack approach in our GitHub space.
-https://github.com/AppDynamics/cloudfoundry-apps
 
