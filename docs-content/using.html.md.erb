@@ -3,7 +3,7 @@ title: AppDynamics Application Performance Monitoring for VMware Tanzu Workflow
 owner: Partners
 ---
 
-This topic describes how to push and bind an application to an AppDynamics tile.
+This topic describes the steps required to instrument VMWare Tanzu applications with AppDynamics agents using the marketplace service published by the AppDynamics APM tile. For all but the Java buildpack, the multi-buildpack approach is used, which requires the AppDynamics extension buildpack 'appdbuildpack' published by the tile, in addition to the language-specific buildpack. The Java buildpack has the AppDynamics agent support directly integrated and does not require the use of the AppDynamics buildpack.
 
 
 ## <a id='before-you-start'></a> Before You Start
@@ -35,7 +35,7 @@ This topic describes how to push and bind an application to an AppDynamics tile.
   $ cf marketplace -s appdynamics
   service plan                   description                    free or paid
   pcf-appd                       pcf-appd                       free
-  pcf-appd-troubleshooting-lab   pcf-appd-troubleshooting-lab   free
+  pcf-appd-test                  pcf-appd-test                  free
   </pre>
 
 1. Create a service instance of the `appdynamics` service and a plan of your choice.
@@ -48,17 +48,22 @@ This topic describes how to push and bind an application to an AppDynamics tile.
 
 ## <a id='workflows'></a>AppDynamics Instrumentation Workflows
 
+### <a id='Sample Applications'></a> Sample Applications
+You can find sample applications demonstrating the multi-buildpack approach in this [GitHub repository](https://github.com/AppDynamics/cloudfoundry-apps)
+
+
 ### <a id='hwc_workflow'></a> .NET Framework Applications (Multi-Buildpack)
-DotNet Framework Applications are pushed using standard `hwc_buildpack`. These applications are instrumented
-using `appdbuildpack` in tandem with `hwc_buildpack` using the multi-buildpack approach.
+.Net Framework applications are pushed using the multi-buildpack approach where the `appdbuildpack` buildpack is used in tandem with the standard `hwc_buildpack` buildpack.
 
 1. Edit the following sections of your application's `manifest.yml`
 
-2. Include `appdbuildpack` in the `buildpacks` section.
+2. Include `appdbuildpack` in the `buildpacks` section
 
 3. Set the application environment variable `APPD_AGENT` to `dotnet`
 
-4. Bind the application to the `appdynamics` service instance, by including `appd` in the `services` section of the application manifest.
+4. Set the app and tier environment variables
+
+5. Bind the application to the Appdynamics service instance in the `services` section of the application manifest
 
 	```yaml
 	---
@@ -71,11 +76,13 @@ using `appdbuildpack` in tandem with `hwc_buildpack` using the multi-buildpack a
 	  stack: windows2016
 	  env:
 		APPD_AGENT: dotnet
+		APPDYNAMICS_AGENT_APPLICATION_NAME: my-cf-net-app
+		APPDYNAMICS_AGENT_TIER_NAME: cf-net-app
 	  services:
 		- appd
 	```
 
-6. Push the application using the `cf push` command.
+6. Push the application using the `cf push` command
     <pre class='terminal'>$ cf push </pre>
 
 #### <a id='extending_dotnet'></a> Advanced Configuration
@@ -84,19 +91,37 @@ agent binary downloads and extend agents advanced configuration respectively.
 See [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
 
 
-### <a id='dotnetcore_linux_workflow'></a> .NET Core Linux Applications (Multi-Buildpack)
+### <a id='dotnetcore_linux_workflow'></a> .NET Core for Linux Applications (Multi-Buildpack)
+.Net Core applications are pushed using the multi-buildpack approach where the `appdbuildpack` buildpack is used in tandem with the standard `dotnet_core_buildpack` buildpack.
 
 1. Edit the following sections of your application's `manifest.yml`
 
-1. Include `appdbuildpack` in the `buildpacks` section.
+1. Include `appdbuildpack` in the `buildpacks` section
 
 1. Set the application environment variable `APPD_AGENT` to `dotnet-linux`
 
-1. Set the application environment variable APPD_AGENT_HTTP_URL to a custom http url where the  AppDynamics
-.NET Agent for Linux is hosted. This is necessary because the agent is not currently available in NuGet.
-See [AppDynamics Buildpack](https://docs.pivotal.io/partners/appdynamics/multibuildpack.html#Advanced%20Features) for more info.
+1. Set the app and tier environment variables
 
-1. Bind the application to the `appdynamics` service instance, by including `appd` in the `services` section of the application manifest.
+1. Set the application environment variable `APPD_AGENT_HTTP_URL` to a custom http url where the AppDynamics
+.NET Agent for Linux is hosted. This is necessary because the agent is not currently available in NuGet.
+See [AppDynamics Buildpack](https://docs.pivotal.io/partners/appdynamics/multibuildpack.html#Advanced%20Features) for more info
+
+1. Set the `APPD_CONF_HTTP_URL` to a custom url where the the agent configuration file `AppDynamicsConfig.json` is hosted in the location `${APPD_CONF_HTTP_URL}/dotnet-linux/AppDynamicsConfig.json` with the following contents: 
+
+    ```
+	{
+		"feature": [
+			"FULL_AGENT"
+		],
+		"log": [
+			{
+			"outputtype": "console"
+			}
+		]
+	}
+	```
+
+1. Bind the application to the AppDynamics service instance in the `services` section of the application manifest
 
 	```yaml
 	----
@@ -108,24 +133,26 @@ See [AppDynamics Buildpack](https://docs.pivotal.io/partners/appdynamics/multibu
 		- dotnet_core_buildpack
 	  env:
 		APPD_AGENT: dotnet-linux
+		APPDYNAMICS_AGENT_APPLICATION_NAME: my-dotnet-linux-app
+		APPDYNAMICS_AGENT_TIER_NAME: cf-net-linux
 		APPD_AGENT_HTTP_URL: http://CUSTOM_REPO/AppDynamics-DotNetCore-linux-x64-VERSION.zip
+		APPD_CONF_HTTP_URL: http://CUSTOM_REPO
 	  services:
 		- appd
 	```
 
-4. Push the application using the `cf push` command.
+4. Push the application using the `cf push` command
     <pre class='terminal'>$ cf push </pre>
 
 #### <a id='extending_dotnet_linux'></a> Advanced Configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
-Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
+Refer to [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
 
 
 ### <a id='dotnetcore_windows_workflow'></a> .NET Core Windows Applications (Multi-Buildpack)
 
-DotNet Core Applications for Windows are pushed using standard `binary_buildpack`. Such applications are instrumented
-using `appdbuildpack` in tandem with `binary_buildpack` using the multi-buildpack approach.
+.Net Core applications for Windows are pushed using the multi-buildpack approach where the `appdbuildpack` buildpack is used in tandem with the standard `binary_buildpack` buildpack.
 
 1. Edit the following sections of your application's `manifest.yml`
 
@@ -133,7 +160,9 @@ using `appdbuildpack` in tandem with `binary_buildpack` using the multi-buildpac
 
 1. Set the application environment variable `APPD_AGENT` to `dotnet-windows`
 
-1. Bind the application to the `appdynamics` service instance, by including `appd` in the `services` section of the application manifest.
+1. Set the app and tier environment variables
+
+1. Bind the application to the AppDynamics service instance in the `services` section of the application manifest
 
 	```yaml
 	---
@@ -145,37 +174,39 @@ using `appdbuildpack` in tandem with `binary_buildpack` using the multi-buildpac
 	  command: dotnetHelloWorld.exe
 	  stack: windows2016
 	  buildpacks:
-		- appd_buildpack
+		- appdbuildpack
 		- binary_buildpack
 	  env:
 		APPD_AGENT: dotnet-windows
+		APPDYNAMICS_AGENT_APPLICATION_NAME: my-dotnet-windows-app
+		APPDYNAMICS_AGENT_TIER_NAME: cf-net-windows
 		DOTNET_CLI_TELEMETRY_OPTOUT: 1
 		DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
 	  services:
 		- appd
 	```
 
-1. Push the application using the `cf push` command.
+1. Push the application using the `cf push` command
   <pre class='terminal'>$ cf push </pre>
 
 #### <a id='extending_dotnet_windows'></a> Advanced Configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
-Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
+Refer to [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
 
 
 ### <a id='python_workflow'></a> Python Applications (Multi-Buildpack)
-
-Python Applications are pushed using the standard `python_buildpack`. Such applications are instrumented
-using `appdbuildpack` in tandem with `python_buildpack` using the multi-buildpack approach.
+Python applications are pushed using the multi-buildpack approach where the `appdbuildpack` buildpack is used in tandem with the standard `python_buildpack` buildpack.
 
 1. Edit the following sections of your application's `manifest.yml`
 
-1. Include `appdbuildpack` in the `buildpacks` section of application manifest.
+1. Include `appdbuildpack` in the `buildpacks` section of application manifest
 
 1. Set the application environment variable `APPD_AGENT` to `python`
 
-1. Bind the application to the `appdynamics` service instance, by including `appd` in the `services` section of the application manifest.
+1. Set the app and tier environment variables
+
+1.  Bind the application to the AppDynamics service instance in the `services` section of the application manifest
 
 	```yaml
 	---
@@ -187,6 +218,8 @@ using `appdbuildpack` in tandem with `python_buildpack` using the multi-buildpac
 		- python_buildpack
 	  env:
 		APPD_AGENT: python
+		APPD_APP_NAME: my-python-app
+		APPD_TIER_NAME: cf-python
 	  services:
 		- appd
 	```
@@ -197,23 +230,26 @@ using `appdbuildpack` in tandem with `python_buildpack` using the multi-buildpac
 #### <a id='extending_python'></a> Advanced Configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
-Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
-
+Refer to [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
 
 ### <a id='go_workflow'></a> GoLang Applications (Multi-Buildpack)
 
-Go Applications are pushed using the standard `go_buildpack`. AppDynamics provides an SDK to instrument
-such applications. The configuration needed to start the go agent via the SDK APIs is exported as environment
-variables when the applications are pushed with `appdbuildpack` and `go_buildpack` using the multi-buildpack
-approach.
+Go applications are pushed using the multi-buildpack approach where the `appdbuildpack` buildpack is used in tandem with the standard `go_buildpack` buildpack.
+
+AppDynamics provides an SDK to instrument such applications. The configuration needed to start the Go agent via the SDK APIs is consumed via environment
+variables.
 
 1. Edit the following sections of your application's `manifest.yml`
 
-1. Include `appdbuildpack` in the `buildpacks` section of application manifest.
+1. Include `appdbuildpack` in the `buildpacks` section of application manifest
 
 1. Set the application environment variable `APPD_AGENT` to `golang`
 
-1. Bind the application to the `appdynamics` service instance, by including `appd` in the `services` section of the application manifest.
+1. Set the `LD_LIBRARY_PATH` environemt variable to the folder containing libappdynamics.so
+
+1. Set the app and tier environment variables based on what's read by the application using `os.Getenv("...")`
+
+1. Bind the application to the AppDynamics service instance in the `services` section of the application manifest
 
 	```yaml
 	---
@@ -225,11 +261,14 @@ approach.
 		- go_buildpack
 	  env:
 		APPD_AGENT: golang
+		APPD_APPLICATION_NAME: my-go-app
+		APPD_TIER_NAME: go-tier
+		LD_LIBRARY_PATH: /app/vendor/appdynamics/lib
 	  services:
 		- appd
 	```
 
-1. Copy paste the snippet below to initialize the go agent.
+1. Copy paste the snippet below to initialize the go agent
 
 	  ```go
 	  package main
@@ -243,8 +282,10 @@ approach.
 		  cfg.AppName = os.Getenv("APPD_APPLICATION_NAME")
 		  cfg.TierName = os.Getenv("APPD_TIER_NAME")
 		  cfg.NodeName = os.Getenv("APPD_NODE_NAME")
+		  cfg.NodeName = os.Getenv("APPD_NODE_NAME") + ":" + os.Getenv("CF_INSTANCE_INDEX")
+	
 
-		  /* AppDynamics Controller Confiuration */
+		  /* AppDynamics Controller Configuration */
 		  cfg.Controller.Host = os.Getenv("APPD_CONTROLLER_HOST")
 		  port, err := strconv.ParseInt(os.Getenv("APPD_CONTROLLER_HOST"), 10, 16)
 		  if err != nil {
@@ -262,8 +303,8 @@ approach.
 		  ...
 	```
 
-1. The necessary configuration to start AppDynamics Golang agent is exposed via environment variables `APPD_APPLICATION_NAME`,
-`APPD_TIER_NAME`, `APPD_NODE_NAME`, `APPD_CONTROLLER_HOST`, `APPD_CONTROLLER_HOST`, `APPD_ACCOUNT_NAME`, `APPD_ACCOUNT_ACCESS_KEY`
+1. The necessary configuration to start AppDynamics Golang agent is consumed via environment variables `APPD_APPLICATION_NAME`,
+`APPD_TIER_NAME`, `APPD_NODE_NAME`, `APPD_CONTROLLER_HOST`, `APPD_ACCOUNT_NAME`, `APPD_ACCOUNT_ACCESS_KEY`
 
 1. Push the application
   <pre class='terminal'>$ cf push </pre>
@@ -276,12 +317,15 @@ See [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20F
 
 ### <a id='java_workflow'></a> Java Applications
 
-Java applications are instrumented by AppDynamics using the standard `java_buildpack`.
+Java applications are instrumented by AppDynamics using the standard `java_buildpack_offline` buildpack. The multi-buildpack approach is not used as this is not supported by the Java buildpack.
 
 1. Edit the following sections of your application's `manifest.yml`
 
-1. Bind the application to the `appdynamics` service instance, by including `appd` in the `services` section of the application manifest.
+1. Set the app and tier environment variables
 
+1. Optionally set the `APPD_CF_NODE_PREFIX` environment variable to prepend a string to the node name assigned by the buildpack
+
+1. Bind the application to the AppDynamics service instance in the `services` section of the application manifest
 
 	```yaml
 	---
@@ -291,7 +335,11 @@ Java applications are instrumented by AppDynamics using the standard `java_build
 	  random-route: true
 	  path: build/libs/cf-java-sample-1.0.jar
 	  buildpacks:
-		- java_buildpack
+		- java_buildpack_offline
+	  env:
+		APPDYNAMICS_AGENT_APPLICATION_NAME: my-java-app
+		APPDYNAMICS_AGENT_TIER_NAME: cf-java-app
+		APPD_CF_NODE_PREFIX: my-node-prefix
 	  services:
 		- appd
 	```
@@ -301,24 +349,40 @@ Java applications are instrumented by AppDynamics using the standard `java_build
 
 #### <a id='extending_java'></a> Advanced Configuration
 
-Because AppDynamics instrumentation of pcf java applications does not use `appdbuildpack`, the configuration is managed
+Because AppDynamics instrumentation of VMWare Tanzu Java applications does not use `appdbuildpack`, the configuration is managed
 by `java_buildpack` directly.
 
 Refer to the [standard `java_buildpack` documentation](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-app_dynamics_agent.md)
 
 
-### <a id='node_workflow'></a>  Node.js Applications
-Node.js applications are instrumented by AppDynamics using standard `nodejs_buildpack` directly.  
+### <a id='node_workflow'></a>  Node.js Applications (Multi-Buildpack)
+Node.js applications are pushed using the multi-buildpack approach where the `appdbuildpack` buildpack is used in tandem with the standard `nodejs_buildpack` buildpack.
 
-Note: Appdynamics Extension Buildpack v4.6.x on, support of node agent with `nodejs_buildpack` would be dropped. It will be replaced with Appdynamics own buildpack and can be used with multi-buildpack approach.
+1. Edit the following sections of your application's `manifest.yml`
 
-1. Bind the application to the `appdynamics` service instance, by including `appd` in the `services` section of the application manifest.
+1. Include `appdbuildpack` in the `buildpacks` section
+
+1. Set the application environment variable `APPD_AGENT` to `nodejs`
+
+1. Set the app and tier environment variables
+
+1. Optionally set the environment variable `APPDYNAMICS_LOGGER_OUTPUT_TYPE` to `console` to stream agent logs
+
+1. Optionally set the environment variable `APPD_CDN_BASE_URL` to point to an internal repo where the AppDynamics Node.js agent package is hosted. This overrides the default AppDynamics repo that is hosted on the public internet and typically not available in a VMWare Tanzu environment
+
+1. Bind the application to the AppDynamics service instance in the `services` section of the application manifest
 
 	```yaml
 	applications:
 	- name: cf-node
 	  memory: 500M
-	  services:
+	env:
+      APPD_AGENT: nodejs
+      APPDYNAMICS_AGENT_APPLICATION_NAME: my-nodejs-app
+	  APPDYNAMICS_AGENT_TIER_NAME: cf-nodejs
+	  APPDYNAMICS_LOGGER_OUTPUT_TYPE: console
+	  APPD_CDN_BASE_URL: http://internalrepo.com
+	services:
 		- appd
 	```
 1. Optionally provide the environment variables for configuring the agent. Below is the list of supported environment variables
@@ -327,7 +391,6 @@ Note: Appdynamics Extension Buildpack v4.6.x on, support of node agent with `nod
     | --- | --- |
     | APPDYNAMICS_AGENT_APPLICATION_NAME  | Application Name to be reported to AppDynamic's Controller
     | APPDYNAMICS_AGENT_TIER_NAME | Tier Name for the Application to be reported to AppDynamic's Controller
-    | APPDYNAMICS_AGENT_NODE_NAME | Node Name for the Application to be reported to AppDynamic's Controller
     | APPD_AGENT_DEBUG  | Set to true to enable debug level logging for the agent. The default is false.
     | APPD_AGENT_LIBAGENT | Controls the proxyless version of the agent. The default is true. Set to false if you want to use the proxy version of the Node.js agent.
     | APPD_LOG_CONFIG | The location, level, and other settings related to agent logging. See [Node.js Agent Logging](https://docs.appdynamics.com/display/PRO45/Node.js+Agent+Logging)
@@ -338,28 +401,11 @@ Note: Appdynamics Extension Buildpack v4.6.x on, support of node agent with `nod
 
 ## <a id='Extending'></a> Extending Default Configuration
 
-### <a id='app-tier-node'></a> Extending Application, Tier, Node names
-
-To override the default AppDynamics application/tier/node names, set the following environment variables.
-
-<pre class='terminal'>$ cf set-env APP ENV-NAME ENV-VALUE </pre>
-  <font size=2>
-  	
-| AGENT |	APPLICATION ENV VARIABLE |	TIER ENV VARIABLE |	NODE ENV VARIABLE |
-| --- | --- | --- | --- |
-| Golang |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
-| Java |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME |	APPDYNAMICS_AGENT_NODE_NAME |
-| .NET |	APPDYNAMICS_AGENT_APPLICATION_NAME |	APPDYNAMICS_AGENT_TIER_NAME | APPDYNAMICS_AGENT_NODE_NAME |
-| NodeJS |	APPDYNAMICS_AGENT_APPLICATION_NAME|	APPDYNAMICS_AGENT_TIER_NAME | APPDYNAMICS_AGENT_NODE_NAME |
-| PHP |	APPD_APP_NAME |	APPD_TIER_NAME | APPD_NODE_NAME |
-| Python |	APPD_APP_NAME |	APPD_TIER_NAME |	APPD_NODE_NAME |
-  </font>
-
 ### <a id='proxy'></a> Extending Proxy configuration
 
 If you are using a proxy server, the consumer application should specify the `http_proxy` or `https_proxy` as an environment variable for the application running on VMware Tanzu to communicate with the proxy server. Do the following:
 
-1. Set the environment variable for the application and the Controller.
+1. Set the environment variable for the application and the Controller
    * For an HTTP proxy:
     <pre class='terminal'>cf set-env <app-name> http_proxy http<scan>:</scan>//user@password:myproxy....:8080/</pre>
    * For an HTTPS proxy:
@@ -368,7 +414,7 @@ If you are using a proxy server, the consumer application should specify the `ht
 1. Restage the application:
     <pre class='terminal'>cf restage <app-name></pre>
 
-1. Log in to the Controller web UI, navigate to the Metric Browser, and verify that the application is being detected and monitored.
+1. Log in to the Controller web UI, navigate to the Metric Browser, and verify that the application is being detected and monitored
 
 
 ## <a id='UPS'></a> Using AppDynamics User Provided Service
@@ -377,10 +423,10 @@ In addition to the procedure above using the service broker tile, operators can 
 AppDynamics.
 
 1. Use the [cf cups](http://cli.cloudfoundry.org/en-US/cf/create-user-provided-service.html) command below with the JSON fields
-specified.
+specified
 
 1. The name of the user provided service must be `appdynamics` and its JSON credentials must have `account-access-key`, `account-name`, `host-name`,
-`port` and `ssl-enabled` fields.
+`port` and `ssl-enabled` fields
 
     <pre class='terminal'>$ cf cups appdynamics -p '{"account-access-key":"acce$$key", "account-name":"customer1", "host-name":"demo.appdynamics.com", "port":"8090", "ssl-enabled":false}' </pre>
 
@@ -395,14 +441,14 @@ For more information on access rights see the [Cloud Foundry Documentation](http
 
 ### Set Up the Machine Agent
 
-1. Set up the [AppDynamics GitHub](https://github.com/Appdynamics/cloudfoundry-apps) repository.
+1. Set up the [AppDynamics GitHub](https://github.com/Appdynamics/cloudfoundry-apps) repository
 
     ```
     git clone https://github.com/Appdynamics/cloudfoundry-apps
     cd cloudfoundry-apps/cf-machine-agent
     ```
 
-1. Ensure that the Machine Agent is downloaded from the [AppDynamics Download Center](https://download.appdynamics.com/download/#version=&apm=machine&os=linux) into the current directory.
+1. Ensure that the Machine Agent is downloaded from the [AppDynamics Download Center](https://download.appdynamics.com/download/#version=&apm=machine&os=linux) into the current directory
 
     ```
     MachineAgent-4.5.11.2163.zip
@@ -414,10 +460,10 @@ For more information on access rights see the [Cloud Foundry Documentation](http
     lib			monitors		scripts
     ```
 
-1. Copy the Machine Agent extensions, if any, to the cloudfoundry-apps/**cf-machine-agent** extensions directory. Note that extensions must be of .zip format, containing `extension_folder/{.jar, *.monitor.xml}`
+1. Copy the Machine Agent extensions, if any, to the cloudfoundry-apps/**cf-machine-agent** extensions directory. Note that extensions must be of .zip format, containing `extension_folder/{.jar, *.monitor.xml}`. For example:
 
     ```
-    (master)$ cp ~/Downloads/VMware TanzuExtension-1.0.0.zip extensions/
+    $ cp ~/Downloads/rabbitmqmonitor-2.0.2.zip extensions/
     ```
 
 1. Edit the `JAVA_OPTS` section in the `manifest.yml` to add the Controller information.
@@ -433,24 +479,14 @@ For example, the `manifest.yml` is similar to the following after filling in the
       buildpack: java_buildpack_offline
       path: MachineAgent.zip
       env:
-        JAVA_OPTS: '-Dappdynamics.agent.accountAccessKey=accessKey -Dappdynamics.agent.accountName=customer1 -Dappdynamics.controller.hostName=saas-controller.e2e.appd.com -Dappdynamics.controller.port=8090 -Dappdynamics.agent.applicationName=app -Dappdynamics.agent.tierName=tier -Dappdynamics.agent.nodeName=node -Dappdynamics.controller.ssl.enabled=false'
+        JAVA_OPTS: '-Dappdynamics.agent.accountAccessKey=accessKey -Dappdynamics.agent.accountName=customer1 -Dappdynamics.controller.hostName=mycontroller.com -Dappdynamics.controller.port=<port> -Dappdynamics.agent.applicationName=myAppName -Dappdynamics.agent.uniqueHostId=myUniqueHostId -Dappdynamics.controller.ssl.enabled=false'
     ```
-
-    Check the additions as follows:
-
-    ```
-    (master)$ git diff
-
-    -    JAVA_OPTS: '-Dappdynamics.agent.accountAccessKey={} -Dappdynamics.agent.accountName={} -Dappdynamics.controller.hostName={} -Dappdynamics.controller.port={} -Dappdynamics.agent.applicationName={} -Dappdynamics.agent.tierName={} -Dappdynamics.agent.nodeName={} -Dappdynamics.controller.ssl.enabled={true|false}'
-    +    JAVA_OPTS: '-Dappdynamics.agent.accountAccessKey=accessKey -Dappdynamics.agent.accountName=customer1 -Dappdynamics.controller.hostName=saas-controller.e2e.appd.com -Dappdynamics.controller.port=8090 -Dappdynamics.agent.applicationName=app -Dappdynamics.agent.tierName=tier -Dappdynamics.agent.nodeName=node -Dappdynamics.controller.ssl.enabled=false'
-    ```
-
 1. Run `package.sh`
 
     This script packages the extension zip files into the Machine Agent monitor directory, cleans the Machine Agent, and adjusts the permissions of files per requirements from VMware Tanzu.
 
     ```
-    (master)$ ./package.sh
+    $ ./package.sh
     Creating workdir tmp
     Moving MachineAgent to tmp dir
     Unzipping MachineAgent
@@ -460,36 +496,19 @@ For example, the `manifest.yml` is similar to the following after filling in the
     Packaging MachineAgent
     ```
 
-1. Deploy the Machine Agent application using `cf push`
+1. Deploy the Machine Agent using `cf push`
 
     ```
-    (master)$ cf push
-    Pushing from manifest to org appdynamics-org / space appdynamics-space as admin...
-    Using manifest file /Users/appD_user/appdy/cloudfoundry-apps/cf-machine-agent/manifest.yml
-    Getting app info...
-    Updating app with these attributes...
-    name:                appdynamics-machine-agent
-    path:                /Users/appD_user/appdy/cloudfoundry-apps/cf-machine-agent/MachineAgent.zip
-    buildpack:           java_buildpack_offline
-    command:             JAVA_OPTS="-agentpath:$PWD/.java-buildpack/open_jdk_jre/bin/jvmkill-1.16.0_RELEASE=printHeapHistogram=1 -Djava.io.tmpdir=$TMPDIR -Djava.ext.dirs=$PWD/.java-buildpack/container_security_provider:$PWD/.java-buildpack/open_jdk_jre/lib/ext -Djava.security.properties=$PWD/.java-buildpack/java_security/java.security $JAVA_OPTS" && CALCULATED_MEMORY=$($PWD/.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-3.13.0_RELEASE -totMemory=$MEMORY_LIMIT -loadedClasses=30244 -poolType=metaspace -stackThreads=250 -vmOptions="$JAVA_OPTS") && echo JVM Memory Configuration: $CALCULATED_MEMORY && JAVA_OPTS="$JAVA_OPTS $CALCULATED_MEMORY" && MALLOC_ARENA_MAX=2 JAVA_OPTS=$JAVA_OPTS JAVA_HOME=$PWD/.java-buildpack/open_jdk_jre exec $PWD/bin/machine-agent
-    disk quota:          1G
-    health check type:   process
-    instances:           1
-    memory:              1G
-    stack:               cflinuxfs2
-    env:
-      JAVA_OPTS
-
-      Updating app appdynamics-machine-agent...
-      ```
-    In a few seconds, the Machine Agent starts in a container in the VMware Tanzu Elastic Runtime as an application named `appdynamics-machine-agent`.
-
-1. Check if the application is running.
+    $ cf push
+    ```
+    
+1. Verify the app is running using `cf apps` and check the app logs on the container (home/vcap/app) to validate the extension is working
 
     ```
-    (master)$ cf apps
+    $ cf apps
     Getting apps in org appdynamics-org / space appdynamics-space as admin...
     OK
     appdynamics-machine-agent   started           1/1         1G       1G
     ```
 
+Note the `conf/logging/log4j.xml` file in `MachineAgent.zip` can be configured to log to the console (by default it logs to the file system).
