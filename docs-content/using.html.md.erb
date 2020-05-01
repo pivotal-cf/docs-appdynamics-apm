@@ -91,7 +91,7 @@ agent binary downloads and extend agents advanced configuration respectively.
 See [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
 
 
-### <a id='dotnetcore_linux_workflow'></a> .NET Core Linux Applications (Multi-Buildpack)
+### <a id='dotnetcore_linux_workflow'></a> .NET Core for Linux Applications (Multi-Buildpack)
 .Net Core applications are pushed using the multi-buildpack approach where the `appdbuildpack` buildpack is used in tandem with the standard `dotnet_core_buildpack` buildpack.
 
 1. Edit the following sections of your application's `manifest.yml`
@@ -102,7 +102,7 @@ See [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20F
 
 1. Set the app and tier environment variables
 
-1. Set the application environment variable `APPD_AGENT_HTTP_URL` to a custom http url where the  AppDynamics
+1. Set the application environment variable `APPD_AGENT_HTTP_URL` to a custom http url where the AppDynamics
 .NET Agent for Linux is hosted. This is necessary because the agent is not currently available in NuGet.
 See [AppDynamics Buildpack](https://docs.pivotal.io/partners/appdynamics/multibuildpack.html#Advanced%20Features) for more info.
 
@@ -147,7 +147,7 @@ See [AppDynamics Buildpack](https://docs.pivotal.io/partners/appdynamics/multibu
 #### <a id='extending_dotnet_linux'></a> Advanced Configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
-Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
+Refer to [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
 
 
 ### <a id='dotnetcore_windows_workflow'></a> .NET Core Windows Applications (Multi-Buildpack)
@@ -174,7 +174,7 @@ Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%2
 	  command: dotnetHelloWorld.exe
 	  stack: windows2016
 	  buildpacks:
-		- appd_buildpack
+		- appdbuildpack
 		- binary_buildpack
 	  env:
 		APPD_AGENT: dotnet-windows
@@ -192,7 +192,7 @@ Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%2
 #### <a id='extending_dotnet_windows'></a> Advanced Configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
-Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
+Refer to [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
 
 
 ### <a id='python_workflow'></a> Python Applications (Multi-Buildpack)
@@ -230,7 +230,7 @@ Python applications are pushed using the multi-buildpack approach where the `app
 #### <a id='extending_python'></a> Advanced Configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
-Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
+Refer to [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
 
 ### <a id='go_workflow'></a> GoLang Applications (Multi-Buildpack)
 
@@ -245,7 +245,7 @@ variables.
 
 1. Set the application environment variable `APPD_AGENT` to `golang`
 
-1. Set the `LD_LIBRARY_PATH` to the parent folder of libappdynamics.so
+1. Set the `LD_LIBRARY_PATH` environemt variable to the folder containing libappdynamics.so
 
 1. Set the app and tier environment variables based on what's read by the application using `os.Getenv("...")`
 
@@ -304,7 +304,7 @@ variables.
 	```
 
 1. The necessary configuration to start AppDynamics Golang agent is consumed via environment variables `APPD_APPLICATION_NAME`,
-`APPD_TIER_NAME`, `APPD_NODE_NAME`, `APPD_CONTROLLER_HOST`, `APPD_CONTROLLER_HOST`, `APPD_ACCOUNT_NAME`, `APPD_ACCOUNT_ACCESS_KEY`
+`APPD_TIER_NAME`, `APPD_NODE_NAME`, `APPD_CONTROLLER_HOST`, `APPD_ACCOUNT_NAME`, `APPD_ACCOUNT_ACCESS_KEY`
 
 1. Push the application
   <pre class='terminal'>$ cf push </pre>
