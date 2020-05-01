@@ -48,8 +48,8 @@ This topic describes the steps required to instrument VMWare Tanzu applications 
 
 ## <a id='workflows'></a>AppDynamics Instrumentation Workflows
 
-### <a id='Sample Applications'></a>Sample Applications
-You can find sample applications demonstrating the multi-buildpack approach for each application type in this GitHub repository.
+### <a id='Sample Applications'></a> Sample Applications
+You can find sample applications demonstrating the multi-buildpack approach in this [GitHub repository](https://github.com/AppDynamics/cloudfoundry-apps)
 
 
 ### <a id='hwc_workflow'></a> .NET Framework Applications (Multi-Buildpack)
@@ -63,7 +63,7 @@ You can find sample applications demonstrating the multi-buildpack approach for 
 
 4. Set the app and tier environment variables
 
-5. Bind the application to the `appdynamics` service instance in the `services` section of the application manifest.
+5. Bind the application to the Appdynamics service instance in the `services` section of the application manifest.
 
 	```yaml
 	---
@@ -121,7 +121,7 @@ See [AppDynamics Buildpack](https://docs.pivotal.io/partners/appdynamics/multibu
 	}
 	```
 
-1. Bind the application to the `appdynamics` service instance in the `services` section of the application manifest.
+1. Bind the application to the AppDynamics service instance in the `services` section of the application manifest.
 
 	```yaml
 	----
@@ -162,7 +162,7 @@ Refer [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%2
 
 1. Set the app and tier environment variables
 
-1. Bind the application to the `appdynamics` service instance in the `services` section of the application manifest.
+1. Bind the application to the AppDynamics service instance in the `services` section of the application manifest.
 
 	```yaml
 	---
@@ -206,7 +206,7 @@ Python applications are pushed using the multi-buildpack approach where the `app
 
 1. Set the app and tier environment variables
 
-1.  Bind the application to the `appdynamics` service instance in the `services` section of the application manifest.
+1.  Bind the application to the AppDynamics service instance in the `services` section of the application manifest.
 
 	```yaml
 	---
@@ -249,7 +249,7 @@ variables.
 
 1. Set the app and tier environment variables based on what's read by the application using `os.Getenv("...")`
 
-1. Bind the application to the `appdynamics` service instance in the `services` section of the application manifest.
+1. Bind the application to the AppDynamics service instance in the `services` section of the application manifest.
 
 	```yaml
 	---
@@ -325,7 +325,7 @@ Java applications are instrumented by AppDynamics using the standard `java_build
 
 1. Optionally set the `APPD_CF_NODE_PREFIX` environment variable to prepend a string to the node name assigned by the buildpack
 
-1. Bind the application to the `appdynamics` service instance in the `services` section of the application manifest.
+1. Bind the application to the AppDynamics service instance in the `services` section of the application manifest.
 
 	```yaml
 	---
@@ -370,7 +370,7 @@ Node.js applications are pushed using the multi-buildpack approach where the `ap
 
 1. Optionally set the environment variable `APPD_CDN_BASE_URL` to point to an internal repo where the AppDynamics Node.js agent package is hosted. This overrides the default AppDynamics repo that is hosted on public internet and typically not available in a VMWare Tanzu environment.
 
-1. Bind the application to the `appdynamics` service instance in the `services` section of the application manifest.
+1. Bind the application to the AppDynamics service instance in the `services` section of the application manifest.
 
 	```yaml
 	applications:
