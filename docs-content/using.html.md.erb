@@ -368,7 +368,7 @@ Node.js applications are pushed using the multi-buildpack approach where the `ap
 
 1. Optionally set the environment variable `APPDYNAMICS_LOGGER_OUTPUT_TYPE` to `console` to stream agent logs
 
-1. Optionally set the environment variable `APPD_CDN_BASE_URL` to point to an internal repo where the AppDynamics Node.js agent package is hosted. This overrides the default AppDynamics repo that is hosted on public internet and typically not available in a VMWare Tanzu environment.
+1. Optionally set the environment variable `APPD_CDN_BASE_URL` to point to an internal repo where the AppDynamics Node.js agent package is hosted. This overrides the default AppDynamics repo that is hosted on the public internet and typically not available in a VMWare Tanzu environment.
 
 1. Bind the application to the AppDynamics service instance in the `services` section of the application manifest.
 
