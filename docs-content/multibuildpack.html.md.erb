@@ -5,6 +5,8 @@ owner: Partners
 
 Starting with version v4.6.x of [AppDynamics Application Performance Monitoring for VMware Tanzu](https://network.pivotal.io/products/p-appdynamics/) tile we will be shipping an AppDynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard buildpacks using Cloud Foundry's multiple buildpack workflow. The buildpack serves as a single point for AppDynamics APM support.
 
+<p class="note"><strong>Note:</strong> The Java buildpack does not support the multi-buildpack approach. As a result AppDynamics APM support is implemented directly in the Java buildpack and the multi-buildpack approach is not used for Java applications.</p>
+
 ## <a id='Sample Applications'></a> Sample Applications
 
 You can find sample applications demonstrating the multi-buildpack approach in this [GitHub repository](https://github.com/AppDynamics/cloudfoundry-apps)
@@ -89,6 +91,10 @@ To override this behavior, you can set the environment variable `APPD_AGENT_HTTP
 
 By default `appdbuildpack` creates the basic configuration needed by the AppDynamics agent to instrument the application. This includes the application AppDynamics name, tier, node and controller information.
 
+<p class="note"><strong>Note:</strong> The APPD_CONF_HTTP_URL feature has been integrated in the Java buildpack and uses 'java' as the APPD_AGENT value. See the <a href="./using.html#java_workflow">Java Applications workflow documentation</a> for more information.</p>
+
+
+
 `appdbuildpack` facilitates adding additional configuration to the agents or overriding the existing default configuration. To acheive this, set the `APPD_CONF_HTTP_URL` environment variable to a custom http url where advanced agent configuration files are hosted. The extension buildpack downloads the relevant files related to the AppDynamics agent and extends the agent configuration.
 
 ~~~yaml
@@ -97,8 +103,9 @@ By default `appdbuildpack` creates the basic configuration needed by the AppDyna
     APPD_CONF_HTTP_URL: http://custom-http-server.com
 ~~~
 
+`appdbuildpack` will look for configuration files under a subfolder relative to `APPD_CONF_HTTP_URL` according to the `APPD_AGENT` value. So for a .Net Core Linux application, for example, it would look for relevant configuration files such as `AppDynamicsConfig.json` under `APPD_CONF_HTTP_URL/dotnet-linux`, and for a Node.js application it would look under `APPD_CONF_HTTP_URL/nodejs`. In the example above, it would look under `http://custom-http-server.com/dotnet`.
 
-`appdbuildpack` will look for configuration files under a subfolder relative to `APPD_CONF_HTTP_URL` according to the `APPD_AGENT` value. So for a .Net Core Linux application, for example, it would look for relevant configuration files such as `AppDynamicsConfig.json` under `APPD_CONF_HTTP_URL/dotnet-linux`, and for a Node.js application it would look under `APPD_CONF_HTTP_URL/nodejs`. In the example above, it would look under `http://custom-http-server.com/dotnet`. This supports the ability to assign a single value for `APPD_CONF_HTTP_URL` for all buildpack types in a foundation using a [staging environment variable group 
+This supports the ability to assign a single value for `APPD_CONF_HTTP_URL` for all buildpack types in a foundation using a [staging environment variable group 
 ](https://tanzu.vmware.com/application-modernization-recipes/replatforming/environment-variable-groups) and avoids the need to set it for each application.
 
 ```

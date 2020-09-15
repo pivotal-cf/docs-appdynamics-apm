@@ -323,6 +323,8 @@ Java applications are instrumented by AppDynamics using the standard `java_build
 
 1. Set the app and tier environment variables
 
+1. Optionally set the `APPD_CONF_HTTP_URL` environment variable to a URL where advanced agent configuration files are hosted. See [Extending Agent Configuration documentation](multibuildpack.html#Overriding%20Agent%20Configuration) for more information. Also see the cf-java-sample and cf-configuration-static applications in the [sample app repository](https://github.com/AppDynamics/cloudfoundry-apps) for an example of how to override the log4j2.xml file to redirect agent output to STDOUT
+
 1. Optionally set the `APPD_CF_NODE_PREFIX` environment variable to prepend a string to the node name assigned by the buildpack
 
 1. Bind the application to the AppDynamics service instance in the `services` section of the application manifest
@@ -339,6 +341,7 @@ Java applications are instrumented by AppDynamics using the standard `java_build
 	  env:
 		APPDYNAMICS_AGENT_APPLICATION_NAME: my-java-app
 		APPDYNAMICS_AGENT_TIER_NAME: cf-java-app
+		APPD_CONF_HTTP_URL: http://custom-http-server.com
 		APPD_CF_NODE_PREFIX: my-node-prefix
 	  services:
 		- appd
