@@ -9,7 +9,7 @@ Starting with version v4.6.x of [AppDynamics Application Performance Monitoring 
 
 ## <a id='Sample Applications'></a> Sample Applications
 
-You can find sample applications demonstrating the multi-buildpack approach in this [GitHub repository](https://github.com/AppDynamics/cloudfoundry-apps)
+You can find sample applications demonstrating the multi6-buildpack approach in this [GitHub repository](https://github.com/AppDynamics/cloudfoundry-apps)
 
 ## <a id='Prerequistites'></a> Prerequisites
 
@@ -76,14 +76,14 @@ You can find sample applications demonstrating the multi-buildpack approach in t
 The AppDynamics extension buildpack supports configurable environment variables. This allows you to customize how you fetch agent binaries and override agent configuration.
 
 ### <a id='Overriding Agent Binary Downloads'></a> Overriding Agent Binary Downloads
-By default `appdbuildpack` tries to fetch the corresponding AppDynamics agent from standard language-specific repositories, for example: NuGet for .NET, PyPI for Python, npm for node.js etc.
+By default `appdbuildpack` fetches the corresponding AppDynamics agent from standard language-specific repositories (NuGet for .NET, PyPI for Python and NPM for Node.js). For .NET Framework, .NET Core Windows and Node.js applications, it's possible to override the repository where `appdbuildpack` fetches the agents. If you  set the environment variable `APPD_AGENT_HTTP_URL` to a custom http url where the agent files are hosted,  `appdbuildpack` then downloads the agent from that url and installs the agent. 
 
-To override this behavior, you can set the environment variable `APPD_AGENT_HTTP_URL` to a custom http url where the binaries are hosted. `appdbuildpack` then downloads the agent bits from that url and installs the agent.
+For example, for a .NET Framework application, set APPD_AGENT_HTTP_URL in the `env` section of manifest.yaml as shown, and redeploy the application.
 
 ~~~yaml
   env:
     APPD_AGENT: dotnet
-    APPD_AGENT_HTTP_URL: http://custom-http.server.com/dotnet-linux/agent/AppDynamics-DotNetCore-linux-x64-4.5.7.0.zip
+    APPD_AGENT_HTTP_URL: http://<path to custom NuGet package binaries>
 ~~~
 
 
