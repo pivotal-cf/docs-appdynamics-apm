@@ -76,18 +76,18 @@ You can find sample applications demonstrating the multi-buildpack approach in t
 The AppDynamics extension buildpack supports configurable environment variables. This allows you to customize how you fetch agent binaries and override agent configuration.
 
 ### <a id='Overriding Agent Binary Downloads'></a> Overriding Agent Binary Downloads
-By default `appdbuildpack` tries to fetch the corresponding AppDynamics agent from standard language-specific repositories, for example: NuGet for .NET, PyPI for Python, npm for node.js etc.
+By default `appdbuildpack` fetches the corresponding AppDynamics agent from standard language-specific repositories (NuGet for .NET, PyPI for Python and NPM for Node.js). For .NET Framework, .NET Core Windows and Node.js applications, it's possible to override the repository where `appdbuildpack` fetches the agents. If you  set the environment variable `APPD_AGENT_HTTP_URL` to a custom http url where the agent files are hosted,  `appdbuildpack` then downloads the agent from that url and installs the agent. 
 
-To override this behavior, you can set the environment variable `APPD_AGENT_HTTP_URL` to a custom http url where the binaries are hosted. `appdbuildpack` then downloads the agent bits from that url and installs the agent.
+For example, for a .NET Framework application, set APPD_AGENT_HTTP_URL in the `env` section of manifest.yaml as shown, and redeploy the application.
 
 ~~~yaml
   env:
     APPD_AGENT: dotnet
-    APPD_AGENT_HTTP_URL: http://custom-http.server.com/dotnet-linux/agent/AppDynamics-DotNetCore-linux-x64-4.5.7.0.zip
+    APPD_AGENT_HTTP_URL: http://<path to custom NuGet package binaries>
 ~~~
 
 
-### <a id='Overriding Agent Configuration'></a> Extending Agent Configuration
+### <a id='Overriding Agent Configuration'></a> Overriding Agent Configuration
 
 By default `appdbuildpack` creates the basic configuration needed by the AppDynamics agent to instrument the application. This includes the application AppDynamics name, tier, node and controller information.
 
@@ -95,7 +95,7 @@ By default `appdbuildpack` creates the basic configuration needed by the AppDyna
 
 
 
-`appdbuildpack` facilitates adding additional configuration to the agents or overriding the existing default configuration. To acheive this, set the `APPD_CONF_HTTP_URL` environment variable to a custom http url where advanced agent configuration files are hosted. The extension buildpack downloads the relevant files related to the AppDynamics agent and extends the agent configuration.
+For .NET Framework, .NET Core Windows, .NET Core for Linux and Python applications, `appdbuildpack` facilitates adding additional configuration to the agents or overriding the existing default configuration. To acheive this, set the `APPD_CONF_HTTP_URL` environment variable to a custom http url where advanced agent configuration files are hosted. The extension buildpack downloads the relevant files related to the AppDynamics agent and extends the agent configuration.
 
 ~~~yaml
   env:
@@ -103,7 +103,7 @@ By default `appdbuildpack` creates the basic configuration needed by the AppDyna
     APPD_CONF_HTTP_URL: http://custom-http-server.com
 ~~~
 
-`appdbuildpack` will look for configuration files under a subfolder relative to `APPD_CONF_HTTP_URL` according to the `APPD_AGENT` value. So for a .Net Core Linux application, for example, it would look for relevant configuration files such as `AppDynamicsConfig.json` under `APPD_CONF_HTTP_URL/dotnet-linux`, and for a Node.js application it would look under `APPD_CONF_HTTP_URL/nodejs`. In the example above, it would look under `http://custom-http-server.com/dotnet`.
+`appdbuildpack` will look for configuration files under a subfolder relative to `APPD_CONF_HTTP_URL` according to the `APPD_AGENT` value. So for a .Net Core Linux application, for example, it would look for relevant configuration files such as `AppDynamicsConfig.json` under `APPD_CONF_HTTP_URL/dotnet-linux`, and for a Python application it would look under `APPD_CONF_HTTP_URL/python`. In the example above, it would look under `http://custom-http-server.com/dotnet`.
 
 This supports the ability to assign a single value for `APPD_CONF_HTTP_URL` for all buildpack types in a foundation using a [staging environment variable group 
 ](https://tanzu.vmware.com/application-modernization-recipes/replatforming/environment-variable-groups) and avoids the need to set it for each application.
