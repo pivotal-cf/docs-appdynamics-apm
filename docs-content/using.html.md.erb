@@ -3,7 +3,7 @@ title: AppDynamics Application Performance Monitoring for VMware Tanzu Workflow
 owner: Partners
 ---
 
-This topic describes the steps required to instrument VMWare Tanzu applications with AppDynamics agents using the marketplace service published by the AppDynamics APM tile. For all but the Java buildpack, the multi-buildpack approach is used, which requires the AppDynamics extension buildpack 'appdbuildpack' published by the tile, in addition to the language-specific buildpack. The Java buildpack has the AppDynamics agent support directly integrated and does not require the use of the AppDynamics buildpack.
+This topic describes the steps required to instrument VMWare Tanzu applications with AppDynamics agents using the marketplace service published by the AppDynamics APM tile. For all but the Java buildpack, the multi-buildpack approach is used, which requires the AppDynamics extension buildpack `appdbuildpack` published by the tile, in addition to the language-specific buildpack. The Java buildpack has the AppDynamics agent support directly integrated and does not require the use of the AppDynamics buildpack.
 
 
 ## <a id='before-you-start'></a> Before You Start
@@ -18,32 +18,33 @@ This topic describes the steps required to instrument VMWare Tanzu applications 
 1. Open a cf CLI or command-prompt window.
 
 1. Identify your Pivotal API endpoint and version. Enter the following command:
-  <pre class='terminal'>$ cf api</pre>
+  `$ cf api`
+
   The following output appears:
-  <pre class='terminal'>
+
+  ```
   api endpoint: https<scan>:</scan>//api.my.pivotal.io
   api version: 2.103.0
-  </pre>
+  ```
 
 1. Log in to the Pivotal endpoint:
-  <pre class='terminal'>cf login</pre>
+  `cf login`
 
 1. Enter your email address and Pivotal password when prompted.
 
-1. Verify the `appdynamics` service is present in the cf environment.
-  <pre class='terminal'>
+2. Verify the `appdynamics` service is present in the cf environment.
+
+  ```
   $ cf marketplace -s appdynamics
   service plan                   description                    free or paid
   pcf-appd                       pcf-appd                       free
   pcf-appd-test                  pcf-appd-test                  free
-  </pre>
+  ```
 
 1. Create a service instance of the `appdynamics` service and a plan of your choice.
-  <pre class='terminal'>
-  $ cf create-service appdynamics pcf-appd appd
-  </pre>
+  `$ cf create-service appdynamics pcf-appd appd`
 
-1. Follow the workflow for the corresponding language of the application mentioned below
+1. Follow the workflow for the corresponding language of the application mentioned below.
 
 
 ## <a id='workflows'></a>AppDynamics Instrumentation Workflows
@@ -88,7 +89,7 @@ You can find sample applications demonstrating the multi-buildpack approach in t
 #### <a id='extending_dotnet'></a> Advanced Configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
 agent binary downloads and extend agents advanced configuration respectively.
-See [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
+See [AppDynamics Multi-Buildpack documentation](./multibuildpack.html#Advanced%20Features) for details.
 
 
 ### <a id='dotnetcore_linux_workflow'></a> .NET Core for Linux Applications (Multi-Buildpack)
@@ -106,7 +107,7 @@ See [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20F
 .NET Agent for Linux is hosted. This is necessary because the agent is not currently available in NuGet.
 See [AppDynamics Buildpack](https://docs.pivotal.io/partners/appdynamics/multibuildpack.html#Advanced%20Features) for more info
 
-1. Set the `APPD_CONF_HTTP_URL` to a custom url where the the agent configuration file `AppDynamicsConfig.json` is hosted in the location `${APPD_CONF_HTTP_URL}/dotnet-linux/AppDynamicsConfig.json` with the following contents: 
+1. Set the `APPD_CONF_HTTP_URL` to a custom url where the the agent configuration file `AppDynamicsConfig.json` is hosted in the location `${APPD_CONF_HTTP_URL}/dotnet-linux/AppDynamicsConfig.json` with the following contents:
 
     ```
 	{
@@ -142,7 +143,9 @@ See [AppDynamics Buildpack](https://docs.pivotal.io/partners/appdynamics/multibu
 	```
 
 4. Push the application using the `cf push` command
-    <pre class='terminal'>$ cf push </pre>
+    ```
+	$ cf push
+	```
 
 #### <a id='extending_dotnet_linux'></a> Advanced Configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
@@ -187,7 +190,9 @@ Refer to [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advance
 	```
 
 1. Push the application using the `cf push` command
-  <pre class='terminal'>$ cf push </pre>
+  ```
+  cf push
+  ```
 
 #### <a id='extending_dotnet_windows'></a> Advanced Configuration
 `appdbuildpack` provides `APPD_AGENT_HTTP_URL` and `APPD_CONF_HTTP_URL` environment variables to customize
@@ -225,11 +230,12 @@ Python applications are pushed using the multi-buildpack approach where the `app
 	```
 
 1. Push the application
-  <pre class='terminal'>$ cf push </pre>
+  ```
+  $ cf push
+  ```
 
 #### <a id='extending_python'></a> Advanced Configuration
-`appdbuildpack` provides the `APPD_CONF_HTTP_URL` environment variable to customize
-agent binary downloads and extend agents advanced configuration respectively.
+`appdbuildpack` provides the `APPD_CONF_HTTP_URL` environment variable to customize agent binary downloads and extend agents advanced configuration respectively.
 Refer to [AppDynamics Multi-Buildpack documentation](multibuildpack.html#Advanced%20Features) for details.
 
 ### <a id='go_workflow'></a> GoLang Applications (Multi-Buildpack)
@@ -283,7 +289,7 @@ variables.
 		  cfg.TierName = os.Getenv("APPD_TIER_NAME")
 		  cfg.NodeName = os.Getenv("APPD_NODE_NAME")
 		  cfg.NodeName = os.Getenv("APPD_NODE_NAME") + ":" + os.Getenv("CF_INSTANCE_INDEX")
-	
+
 
 		  /* AppDynamics Controller Configuration */
 		  cfg.Controller.Host = os.Getenv("APPD_CONTROLLER_HOST")
@@ -307,7 +313,9 @@ variables.
 `APPD_TIER_NAME`, `APPD_NODE_NAME`, `APPD_CONTROLLER_HOST`, `APPD_ACCOUNT_NAME`, `APPD_ACCOUNT_ACCESS_KEY`
 
 1. Push the application
-  <pre class='terminal'>$ cf push </pre>
+  ```
+  $ cf push
+  ```
 
 #### <a id='extending_golang'></a> Advanced Configuration
 The `appdbuildpack` provides the `APPD_CONF_HTTP_URL` environment variable to customize
@@ -348,7 +356,9 @@ Java applications are instrumented by AppDynamics using the standard `java_build
 	```
 
 1. Push the application
-  <pre class='terminal'>$ cf push </pre>
+  ```
+  $ cf push
+  ```
 
 #### <a id='extending_java'></a> Advanced Configuration
 
@@ -399,7 +409,9 @@ Node.js applications are pushed using the multi-buildpack approach where the `ap
     | APPD_LOG_CONFIG | The location, level, and other settings related to agent logging. See [Node.js Agent Logging](https://docs.appdynamics.com/display/PRO45/Node.js+Agent+Logging)
 
 1. Push the application
-   <pre class='terminal'>$ cf push </pre>
+   ```
+   $ cf push
+   ```
 
 
 ## <a id='Extending'></a> Extending Default Configuration
@@ -410,28 +422,29 @@ If you are using a proxy server, the consumer application should specify the `ht
 
 1. Set the environment variable for the application and the Controller
    * For an HTTP proxy:
-    <pre class='terminal'>cf set-env <app-name> http_proxy http<scan>:</scan>//user@password:myproxy....:8080/</pre>
+  `cf set-env http_proxy http://user@password:myproxy....:8080/`
+
    * For an HTTPS proxy:
-    <pre class='terminal'>cf set-env <app-name> https_proxy https<scan>:</scan>//user@password:myproxy....:8080/</pre>
+  `cf set-env https_proxy https://user@password:myproxy....:8080/`
 
 1. Restage the application:
-    <pre class='terminal'>cf restage <app-name></pre>
+    `cf restage <app-name>`
 
-1. Log in to the Controller web UI, navigate to the Metric Browser, and verify that the application is being detected and monitored
+2. Log in to the Controller web UI, navigate to the Metric Browser, and verify that the application is being detected and monitored.
 
 
-## <a id='UPS'></a> Using AppDynamics User Provided Service
+## <a id='UPS'></a> Using AppDynamics User-Provided Service
 
-In addition to the procedure above using the service broker tile, operators can also use [user provided service](https://docs.cloudfoundry.org/devguide/services/user-provided.html) with the name `appdynamics` to instrument applications on
-AppDynamics.
+In addition to the procedure above using the service broker tile, operators can also use [user provided service](https://docs.cloudfoundry.org/devguide/services/user-provided.html) with the name `appdynamics` to instrument applications on AppDynamics.
 
-1. Use the [cf cups](http://cli.cloudfoundry.org/en-US/cf/create-user-provided-service.html) command below with the JSON fields
-specified
+1. Use the [cf cups](http://cli.cloudfoundry.org/en-US/cf/create-user-provided-service.html) command below with the JSON fields specified.
 
 1. The name of the user provided service must be `appdynamics` and its JSON credentials must have `account-access-key`, `account-name`, `host-name`,
 `port` and `ssl-enabled` fields
 
-    <pre class='terminal'>$ cf cups appdynamics -p '{"account-access-key":"acce$$key", "account-name":"customer1", "host-name":"demo.appdynamics.com", "port":"8090", "ssl-enabled":false}' </pre>
+    ```
+	$ cf cups appdynamics -p '{"account-access-key":"acce$$key", "account-name":"customer1", "host-name":"demo.appdynamics.com", "port":"8090", "ssl-enabled":false}'
+	```
 
 ## <a id='UPS'></a> Deploying the Machine Agent on VMware Tanzu
 
@@ -504,7 +517,7 @@ For example, the `manifest.yml` is similar to the following after filling in the
     ```
     $ cf push
     ```
-    
+
 1. Verify the app is running using `cf apps` and check the app logs on the container (home/vcap/app) to validate the extension is working
 
     ```

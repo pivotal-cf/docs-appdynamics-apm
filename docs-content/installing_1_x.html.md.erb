@@ -1,5 +1,5 @@
 ---
-title: (Deprecated) Installing and Configuring AppDynamics APM (v1.x) 
+title: (Deprecated) Installing and Configuring AppDynamics APM (v1.x)
 owner: Partners
 ---
 
@@ -9,7 +9,7 @@ The AppDynamics Machine Agent extension is a separate application that can consu
 
 The VMware Tanzu tile for AppDynamics installs the AppDynamics Service Broker as an application, registers it as a Service Broker on Cloud Foundry, and exposes its service plans on the Marketplace. It also installs the Machine Agent Extension.
 
-![Components](./images/Components.png)
+![alt-text=""](./images/Components.png)
 
 
 ## <a id='installing'></a> Install the AppDynamics Tile
@@ -19,79 +19,104 @@ The VMware Tanzu tile for AppDynamics installs the AppDynamics Service Broker as
 1. Log in to VMware Tanzu Ops Manager.
 
 1. Click **Import a Product** and import the AppDynamics product file.
-    <%= image_tag("import-product.png") %>
 
-1. Select the **AppDynamics Service Broker**.
-    <%= image_tag("select-appdynamics.png") %>
+    ![alt-text=""](./images/import-product.png)
 
-1. Click **Add** on the **AppDynamics Service Broker** tile to add this product to your staging area.
+2. Select the **AppDynamics Service Broker**.
 
-1. Click the newly added tile to review any configurable options. For more information, see [Configuring the AppDynamics Tile](#configuring).
-    <%= image_tag("configure-appdynamics.png") %>
+    ![alt-text=""](./images/select-appdynamics.png)
 
-1. Click **Apply Changes** to apply the configuration.
+3. Click **Add** on the **AppDynamics Service Broker** tile to add this product to your staging area.
+
+4. Click the newly added tile to review any configurable options. For more information, see [Configuring the AppDynamics Tile](#configuring).
+
+    ![alt-text=""](./images/configure-appdynamics.png)
+
+5. Click **Apply Changes** to apply the configuration.
 
 
 ## <a id='configuring'></a> Configure the AppDynamics Tile
 
 1. From the **Ops Manager Installation Dashboard**, click the **AppDynamics Service Broker** tile.
-    <%= image_tag("select.png") %>
 
-1. Select **Service Broker Application**.
-    <%= image_tag("default.png") %>
+    ![alt-text=""](./images/select.png)
+
+2. Select **Service Broker Application**.
+
+    ![alt-text=""](./images/default.png)
+
     1. Before creating Service Plans, you must collect the license keys from the
       AppDynamics Dashboard.
         1. Log in to your AppDynamics account and click the gear icon in the upper right corner of the page.<br>
-          <%= image_tag("settings.png") %>
-        1. Select **License**.<br>
-          <%= image_tag("license.png") %>
-        1. Record the details of the license access key and controller.
-          <%= image_tag("details.png") %>
-    1. Click **Add** on the far right of the Service Plan screen to create a new service plan.
-    1. Enter the **Account Name** and **Account Access Key** from the license page along with controller binding credentials (`ip`, `port`, `ssl-enabled`). The plan name and plan description are user-defined.
-        <%= image_tag("create-plan.png") %>
 
-    1. (Optional) Create additional service plans for the same account key.
-    1. Complete the database fields.
-    1. Click **Save** to save the information for this plan.
-  
-1. Select **Machine Agent Extension**.
+          ![alt-text=""](./images/settings.png)
+
+        2. Select **License**.<br>
+
+          ![alt-text=""](./images/license.png)
+
+        3. Record the details of the license access key and controller.
+
+          ![alt-text=""](./images/details.png)
+
+    2. Click **Add** on the far right of the Service Plan screen to create a new service plan.
+    3. Enter the **Account Name** and **Account Access Key** from the license page along with controller binding credentials (`ip`, `port`, `ssl-enabled`). The plan name and plan description are user-defined.
+
+        ![alt-text=""](./images/create-plan.png)
+
+    4. (Optional) Create additional service plans for the same account key.
+    5. Complete the database fields.
+    6. Click **Save** to save the information for this plan.
+
+3. Select **Machine Agent Extension**.
     1. Ensure that the Pivotal Ops Metrics/JMX Bridge tile has been installed and JMX VM is running.
-    <p class="note"><strong>Note:</strong> In VMware Tanzu v1.7 and later, Pivotal Ops Metrics is renamed JMX Bridge.</p>
-    1. Give a user-defined **Application Name**. This name should be unique across multiple VMware Tanzu installations.
-    1. Complete the **AppDynamics Controller**, **Account Name**, and **Account Access Keys** fields.
-        <%= image_tag("machine-agent.png") %>
-    1. If you do not want to override the default configuration, select **Disable**. If you want to override the default configuration, select **Enable** and specify the metrics that you want to pull in from JMX Bridge in your Cloud Foundry `config.yml` file. Use this [template](https://github.com/Appdynamics/cloud-foundry-extension/blob/VMware Tanzu-Service-Broker/conf/config.yaml) to override the `config.yml` file.
-        <%= image_tag("OverrideJMX.png") %>
-    1. Fill in the JMX Bridge Server IP and Port (default: 44444).
-        <%= image_tag("JMX_Bridge.png") %>
-    1. Fill in the credentials to connect to the server. Select the **JMX Authentication** checkbox.
-    1. The AppDynamics tile does not support communication with JMX Bridge over SSL. In the **JMX Provider** section of the JMX Bridge tile, uncheck the **Enable SSL** checkbox. 
-        <%= image_tag("DisabledJMXBridge.png") %>
-    1. Disable SSL in the AppDynamics tile.
-        <%= image_tag("DisabledSSL.png") %>
-    1. Click **Save**.
+      <p class="note"><strong>Note:</strong> In VMware Tanzu v1.7 and later, Pivotal Ops Metrics is renamed JMX Bridge.</p>
 
-1. Select **Analytics Agent**.
+    2. Give a user-defined **Application Name**. This name should be unique across multiple VMware Tanzu installations.
+    3. Complete the **AppDynamics Controller**, **Account Name**, and **Account Access Keys** fields.
 
-1. Select **Web Proxy Configuration**.
-![ProxyServerConfig](images/Proxy_Server_Config.png)
+        ![alt-text=""](./images/machine-agent.png)
 
-1. To use a proxy server between your VMware Tanzu instance and the AppDynamics Controller, select **Enable** and complete the following fields:
+    4. If you do not want to override the default configuration, select **Disable**. If you want to override the default configuration, select **Enable** and specify the metrics that you want to pull in from JMX Bridge in your Cloud Foundry `config.yml` file. Use this [template](https://github.com/Appdynamics/cloud-foundry-extension/blob/VMware Tanzu-Service-Broker/conf/config.yaml) to override the `config.yml` file.
+
+        ![alt-text=""](./images/OverrideJMX.png)
+
+    5. Fill in the JMX Bridge Server IP and Port (default: 44444).
+
+        ![alt-text=""](./images/JMX_Bridge.png)
+
+    6. Fill in the credentials to connect to the server. Select the **JMX Authentication** checkbox.
+    7. The AppDynamics tile does not support communication with JMX Bridge over SSL. In the **JMX Provider** section of the JMX Bridge tile, uncheck the **Enable SSL** checkbox.
+
+        ![alt-text=""](./images/DisabledJMXBridge.png)
+
+    8. Disable SSL in the AppDynamics tile.
+
+        ![alt-text=""](./images/DisabledSSL.png)
+
+    9. Click **Save**.
+
+4. Select **Analytics Agent**.
+
+5. Select **Web Proxy Configuration**.
+        ![alt-text="ProxyServerConfig"](./images/Proxy_Server_Config.png)
+
+6. To use a proxy server between your VMware Tanzu instance and the AppDynamics Controller, select **Enable** and complete the following fields:
      * **Web Proxy Host Name/IP**: Enter the IP address or host name of the proxy server.
      * **Web Proxy Port**: Enter the port number on which the proxy server listens.
      * **HTTP Web Proxy Auth Enabled**: If your proxy server requires authentication, check this checkbox and complete the following fields:
          * **Web Proxy Username**: Enter the username for authenticating with the proxy server. The default for no authentication is `_none_`.
-         * **Web Proxy Password**: Enter the password for authenticating with the proxy. 
+         * **Web Proxy Password**: Enter the password for authenticating with the proxy.
 
-1. Click **Save**.
+7. Click **Save**.
 
-1. If relevant for your version of VMware Tanzu, set the correct **Collector** instance count in the Elastic Runtime tile **Resource Config** pane:
-  * VMware Tanzu v1.7 or earlier: Ensure that the **Collector** count is to `1` and click **Save** if changed.
-  * VMware Tanzu v1.8: Ensure that the **Collector** count is set to `0` and click **Save** if changed.
-  * VMware Tanzu v1.9 or later: No action is needed. VMware Tanzu v1.9 and later have no Collector component.
+8. If relevant for your version of VMware Tanzu, set the correct **Collector** instance count in the Elastic Runtime tile **Resource Config** pane:
 
-1. When finished configuring the AppDynamics tile and any other tile changes, return to the **Ops Manager Installation Dashboard** and click **Apply Changes**. 
+     * VMware Tanzu v1.7 or earlier: Ensure that the **Collector** count is to `1` and click **Save** if changed.
+     * VMware Tanzu v1.8: Ensure that the **Collector** count is set to `0` and click **Save** if changed.
+     * VMware Tanzu v1.9 or later: No action is needed. VMware Tanzu v1.9 and later have no Collector component.
+
+9.  When finished configuring the AppDynamics tile and any other tile changes, return to the **Ops Manager Installation Dashboard** and click **Apply Changes**.
 
 
 ## <a id='bind-instance'></a> Create and Bind a Service Instance
@@ -107,30 +132,34 @@ The VMware Tanzu tile for AppDynamics installs the AppDynamics Service Broker as
     </pre>
 
 1. Log in to Apps Manager and navigate to the Services Marketplace.
-    <%= image_tag("marketplace.png") %>
 
-1. View AppDynamics Service Plans.
-    <%= image_tag("plans.png") %>
+    ![alt-text=""](./images/marketplace.png)
 
-1. Bind the AppDynamics Service to an application.
-    <%= image_tag("bind.png") %>
+2. View AppDynamics Service Plans.
 
-1. In a terminal window, use the `cf restage` command to make the changes effective.
-    <pre class='terminal'>
-      $ cf restage APPNAME
-    </pre>
+    ![alt-text=""](./images/plans.png)
 
-1. Confirm that your application node is reporting to the Controller by logging in to AppDynamics. Your application should appear in the **Applications** list or as a node in the Application Dashboard:
-    <br><br>
-    <%= image_tag("dashboard.png") %>
+3. Bind the AppDynamics Service to an application.
 
-1. Select **Top Business Transactions**, **Network Dashboard**, and **Transaction Snapshots** to display other views of the AppDynamics Application Dashboard.
-    <%= image_tag("dashboard2.png") %>
-    <%= image_tag("dashboard3.png") %>
-    <%= image_tag("dashboard4.png") %>
+    ![alt-text=""](./images/bind.png)
 
-1. To check VMware Tanzu Ops Metrics, check for an application named **AppDynamicsVMware TanzuOpsMetrics** in the controller UI. The Application Dashboard for this application should be empty, since it only reports metrics of VMware Tanzu. To see the metrics, select **Home > AppDynamicsVMware TanzuOpsMetrics > Metric Browser > Application Infrastructure Performance > MachineAgentTier > Custom Metrics > CF**. This lists all underlying components of VMware Tanzu such as CloudController and Router.
-    <%= image_tag("view12.2.1.png") %>
+4. In a terminal window, use the `cf restage` command to make the changes effective.
+    `$ cf restage APPNAME`
+
+5. Confirm that your application node is reporting to the Controller by logging in to AppDynamics. Your application should appear in the **Applications** list or as a node in the Application Dashboard:
+    <br>
+
+    ![alt-text=""](./images/dashboard.png)
+
+6. Select **Top Business Transactions**, **Network Dashboard**, and **Transaction Snapshots** to display other views of the AppDynamics Application Dashboard.
+
+    ![alt-text=""](./images/dashboard2.png)
+    ![alt-text=""](./images/dashboard3.png)
+    ![alt-text=""](./images/dashboard4.png)
+
+7. To check VMware Tanzu Ops Metrics, check for an application named **AppDynamicsVMware TanzuOpsMetrics** in the controller UI. The Application Dashboard for this application should be empty, since it only reports metrics of VMware Tanzu. To see the metrics, select **Home > AppDynamicsVMware TanzuOpsMetrics > Metric Browser > Application Infrastructure Performance > MachineAgentTier > Custom Metrics > CF**. This lists all underlying components of VMware Tanzu such as CloudController and Router.
+
+    ![alt-text=""](./images/view12.2.1.png)
 
 
 ## <a id='http-proxy'></a> Configuration with HTTP Proxy
@@ -163,9 +192,7 @@ If the Cloud Foundry environment needs to use an HTTP(S) proxy for external outb
 
 Whenever making changes to Cloud Foundry environment variables, you must restage your app(s) to make the changes effective.
 
-<pre class='terminal'>
-  $ cf restage APPNAME
-</pre>
+  `$ cf restage APPNAME`
 
 You can set these environment variables either individually per app, or with environment variable groups set for all apps as part of staging, running environments, etcetera using the cf CLI.
 

@@ -93,36 +93,36 @@ Features included in this release:
 1. Log in to VMware Tanzu Ops Manager.
 
 1. Click **Import a Product** and import the AppDynamics product file.
-    <%= image_tag("import-product.png") %>
+    <%= image_tag("./images/import-product.png") %>
 
 1. Select the **AppDynamics Service Broker**.<br>
-    <%= image_tag("select-appdynamics.png") %>
+    <%= image_tag("./images/select-appdynamics.png") %>
 
 1. Click **Add** on the **AppDynamics Service Broker** tile to add this product to your staging area.
 
 1. Click the newly added tile to review any configurable options. For more information, see [Configuring the AppDynamics Tile](#configuring).
-    <%= image_tag("configure-appdynamics.png") %>
+    <%= image_tag("./images/configure-appdynamics.png") %>
 
 1. Click **Apply Changes** to apply the configuration.
 
 ### <a id='configuring'></a> Configure the AppDynamics Tile
 
 1. From the **Ops Manager Installation Dashboard**, click the **AppDynamics Service Broker** tile.
-    <%= image_tag("select.png") %>
+    <%= image_tag("./images/select.png") %>
 
 1. Select **Service Broker Application**.
     <%= image_tag("default.png") %>
     1. Before creating Service Plans, you must collect the license keys from the
       AppDynamics Dashboard.
         1. Log in to your AppDynamics account and click the gear icon in the upper right corner of the page.<br>
-          <%= image_tag("settings.png") %>
+          <%= image_tag("./images/settings.png") %>
         1. Select **License**.<br>
-          <%= image_tag("license.png") %>
+          <%= image_tag("./images/license.png") %>
         1. Record the details of the license access key and controller.
-          <%= image_tag("details.png") %>
+          <%= image_tag("./images/details.png") %>
     1. Click **Add** on the far right of the Service Plan screen to create a new service plan.
     1. Enter the **Account Name** and **Account Access Key** from the license page along with controller binding credentials (`ip`, `port`, `ssl-enabled`). The plan name and plan description are user-defined.
-        <%= image_tag("create-plan.png") %>
+        <%= image_tag("./images/create-plan.png") %>
     1. (Optional) Create additional service plans for the same account key.
     1. Complete the database fields.
     1. Click **Save** to save the information for this plan.
@@ -132,16 +132,16 @@ Features included in this release:
     <p class="note"><strong>Note:</strong> In VMware Tanzu v1.7 and later, Pivotal Ops Metrics is renamed JMX Bridge.</p>
     1. Give a user-defined **Application Name**. This name should be unique across multiple VMware Tanzu installations.
     1. Complete the **AppDynamics Controller**, **Account Name**, and **Account Access Keys** fields.
-        <%= image_tag("machine-agent.png") %>
+        <%= image_tag("./images/machine-agent.png") %>
     1. If you do not want to override the default configuration, select **Disable**. If you want to override the default configuration, select **Enable** and specify the metrics that you want to pull in from JMX Bridge in your Cloud Foundry `config.yml` file. Use this [template](https://github.com/Appdynamics/cloud-foundry-extension/blob/VMware Tanzu-Service-Broker/conf/config.yaml) to override the `config.yml` file.
-        <%= image_tag("OverrideJMX.png") %>
+        <%= image_tag("./images/OverrideJMX.png") %>
     1. Fill in the JMX Bridge Server IP and Port (default: `44444`).
-        <%= image_tag("JMX_Bridge.png") %>
+        <%= image_tag("./images/JMX_Bridge.png") %>
     1. Fill in the credentials to connect to the server. Select the **JMX Authentication** checkbox.
     1. The AppDynamics tile does not support communication with JMX Bridge over SSL. In the **JMX Provider** section of the JMX Bridge tile, uncheck the **Enable SSL** checkbox.
-        <%= image_tag("DisabledJMXBridge.png") %>
+        <%= image_tag("./images/DisabledJMXBridge.png") %>
     1. Disable SSL in the AppDynamics tile.
-        <%= image_tag("DisabledSSL.png") %>
+        <%= image_tag("./images/DisabledSSL.png") %>
     1. Click **Save**.
 
 1. Select **Analytics Agent**. Follow the instructions in the [Installling and Configuring Application Analytics for VMware Tanzu](https://docs.pivotal.io/partners/appdynamics-analytics/installing.html) topic to complete this section of the tile.
@@ -178,13 +178,13 @@ Features included in this release:
     </pre>
 
 1. Log in to Apps Manager and navigate to the Services Marketplace.
-    <%= image_tag("marketplace.png") %>
+    <%= image_tag("./images/marketplace.png") %>
 
 1. View AppDynamics Service Plans.
-    <%= image_tag("plans.png") %>
+    <%= image_tag("./images/plans.png") %>
 
 1. Bind the AppDynamics Service to an application.
-    <%= image_tag("bind.png") %>
+    <%= image_tag("./images/bind.png") %>
 
 1. In a terminal window, use the `cf restage` command to make the changes effective.
     <pre class='terminal'>
@@ -193,15 +193,15 @@ Features included in this release:
 
 1. Confirm that your application node is reporting to the Controller by logging in to AppDynamics. Your application should appear in the **Applications** list or as a node in the Application Dashboard:
     <br><br>
-    <%= image_tag("dashboard.png") %>
+    <%= image_tag("./images/dashboard.png") %>
 
 1. Select **Top Business Transactions**, **Network Dashboard**, and **Transaction Snapshots** to display other views of the AppDynamics Application Dashboard.
-    <%= image_tag("dashboard2.png") %>
-    <%= image_tag("dashboard3.png") %>
-    <%= image_tag("dashboard4.png") %>
+    <%= image_tag("./images/dashboard2.png") %>
+    <%= image_tag("./images/dashboard3.png") %>
+    <%= image_tag("./images/dashboard4.png") %>
 
 1. To check VMware Tanzu Ops Metrics, check for an application named **AppDynamicsVMware TanzuOpsMetrics** in the controller UI. The Application Dashboard for this application should be empty, since it only reports metrics of VMware Tanzu. To see the metrics, select **Home > AppDynamicsVMware TanzuOpsMetrics > Metric Browser > Application Infrastructure Performance > MachineAgentTier > Custom Metrics > CF**. This lists all underlying components of VMware Tanzu such as CloudController and Router.
-    <%= image_tag("view12.2.1.png") %>
+    <%= image_tag("./images/view12.2.1.png") %>
 
 ### <a id='http-proxy'></a> Configuration with HTTP Proxy
 

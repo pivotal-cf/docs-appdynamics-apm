@@ -31,7 +31,7 @@ Yes, since the platform metrics framework has been rewritten to use the new Fire
 ### <a id='g7'></a> Will my apps that are bound to older AppDynamics Service Broker instances lose instrumentation while I uninstall v1.x and install v4.4.x?
 
 No. The apps are oblivious to tile installs and uninstalls.
-After the apps are bound, the AppDynamics configuration are present until the apps are restaged.
+After the apps are bound, the AppDynamics configurations are present until the apps are restaged.
 
 ### <a id='g8'></a> How do I upgrade from v1.x to v4.4.x?
 
@@ -54,8 +54,7 @@ No additional steps are required to restage apps.
 
 An AppDynamics Service Broker implements [Service Broker API](https://github.com/openservicebrokerapi/servicebroker)
 and provides a [credential service](https://docs.pivotal.io/pivotalcf/services/overview.html) for apps to bind.
-When bound, the necessary AppDynamics configuration is automatically imported into the app environment
-for buildpacks to read and configure AppDynamics agents.
+When bound, the necessary AppDynamics configuration is automatically imported into the app environment for buildpacks to read and configure AppDynamics agents.
 
 ### <a id='s2'></a> Can I bind apps to AppDynamics without the Service Broker and still instrument apps?
 
@@ -77,7 +76,7 @@ In addition, you must place the AppDynamics agent downloaded from `packages.appd
 
 ### <a id='s5'></a> How do I customize AppName and TierName?
 
-AppDynamics Buildpacks auto-generate app and tier (and Node) names by looking into the deployed environment. You can customize this auto-generation by setting the configuration environment variables. 
+AppDynamics Buildpacks auto-generate app and tier (and Node) names by looking into the deployed environment. You can customize this auto-generation by setting the configuration environment variables.
 
 To override the app or tier names, run `cf set-env APP ENV-NAME ENV-VALUE`. Generally it doesn't make sense to override the node name using this approach, as it will assign the same node name for multiple application instances, resulting in a loss of visibility.
 
@@ -133,4 +132,3 @@ Run `cf env application` and see if the `VCAP_SERVICES` environment variable has
 | ------------ | ------------ |
 |  NODE.JS  | /tmp/appd/{hash} |
 | JAVA   | /app/.java-buildpack/app_dynamics_agent/ver<agent_version>/logs |
-

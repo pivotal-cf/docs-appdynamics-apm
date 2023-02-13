@@ -3,7 +3,7 @@ title: AppDynamics Extension Buildpack (Multi-Buildpack Approach)
 owner: Partners
 ---
 
-Starting with version v4.6.x of [AppDynamics Application Performance Monitoring for VMware Tanzu](https://network.pivotal.io/products/p-appdynamics/) tile we will be shipping an AppDynamics extension buildpack <b>appdbuildpack</b> that can be used in tandem with standard buildpacks using Cloud Foundry's multiple buildpack workflow. The buildpack serves as a single point for AppDynamics APM support.
+Starting with version v4.6.x of [AppDynamics Application Performance Monitoring for VMware Tanzu](https://network.pivotal.io/products/p-appdynamics/) tile we will be shipping an AppDynamics extension buildpack **appdbuildpack** that can be used in tandem with standard buildpacks using Cloud Foundry's multiple buildpack workflow. The buildpack serves as a single point for AppDynamics APM support.
 
 <p class="note"><strong>Note:</strong> The Java buildpack does not support the multi-buildpack approach. As a result AppDynamics APM support is implemented directly in the Java buildpack and the multi-buildpack approach is not used for Java applications.</p>
 
@@ -20,7 +20,8 @@ You can find sample applications demonstrating the multi-buildpack approach in t
 1. Install or upgrade [AppDynamics Application Performance Monitoring for VMware Tanzu tile](https://network.pivotal.io/products/p-appdynamics) version v4.6.x or later.
 
 2. Once the AppDynamics APM for VMware Tanzu tile is installed, a buildpack with the name <b>appdbuildpack</b> appears in your list of cf environment buildpacks:
-    <pre class='terminal'>
+
+    ```
     $ cf buildpacks
     Getting buildpacks...
 
@@ -28,7 +29,7 @@ You can find sample applications demonstrating the multi-buildpack approach in t
     meta_buildpack           1          true      false    meta_buildpack-v1.1.0.zip
     ...
     appdbuildpack            25         true      false    AppDynamics_buildpack-v4.6.10.zip
-    </pre>
+    ```
 
 3. Edit the following sections of your application's `manifest.yml`
 
@@ -40,14 +41,14 @@ You can find sample applications demonstrating the multi-buildpack approach in t
         - <language specific buildpack>
     ~~~
 
-    1.  In the `env` section, set the `APPD_AGENT` environment variable corresponding to the language of the application.
+    2.  In the `env` section, set the `APPD_AGENT` environment variable corresponding to the language of the application.
 
     ~~~yaml
       env:
         APPD_AGENT: dotnet
     ~~~
 
-    1. Bind the application to the AppDynamics service instance, by including it in `services` section.
+    3. Bind the application to the AppDynamics service instance, by including it in `services` section.
 
     ~~~yaml
       services:
@@ -56,9 +57,7 @@ You can find sample applications demonstrating the multi-buildpack approach in t
 
 
 4. To push your application use the use the cf CLI command, `cf push`.
-    <pre class='terminal'>
-    $ cf push
-    </pre>
+    `$ cf push`
 
 
 ## <a id='APPD_AGENT'></a> APPD_AGENT values
@@ -76,7 +75,7 @@ You can find sample applications demonstrating the multi-buildpack approach in t
 The AppDynamics extension buildpack supports configurable environment variables. This allows you to customize how you fetch agent binaries and override agent configuration.
 
 ### <a id='Overriding Agent Binary Downloads'></a> Overriding Agent Binary Downloads
-By default `appdbuildpack` fetches the corresponding AppDynamics agent from standard language-specific repositories (NuGet for .NET, PyPI for Python and NPM for Node.js). For .NET Framework, .NET Core Windows and Node.js applications, it's possible to override the repository where `appdbuildpack` fetches the agents. If you  set the environment variable `APPD_AGENT_HTTP_URL` to a custom http url where the agent files are hosted,  `appdbuildpack` then downloads the agent from that url and installs the agent. 
+By default `appdbuildpack` fetches the corresponding AppDynamics agent from standard language-specific repositories (NuGet for .NET, PyPI for Python and NPM for Node.js). For .NET Framework, .NET Core Windows and Node.js applications, it's possible to override the repository where `appdbuildpack` fetches the agents. If you  set the environment variable `APPD_AGENT_HTTP_URL` to a custom http url where the agent files are hosted,  `appdbuildpack` then downloads the agent from that url and installs the agent.
 
 For example, for a .NET Framework application, set APPD_AGENT_HTTP_URL in the `env` section of manifest.yaml as shown, and redeploy the application.
 
@@ -105,7 +104,7 @@ For .NET Framework, .NET Core Windows, .NET Core for Linux and Python applicatio
 
 `appdbuildpack` will look for configuration files under a subfolder relative to `APPD_CONF_HTTP_URL` according to the `APPD_AGENT` value. So for a .Net Core Linux application, for example, it would look for relevant configuration files such as `AppDynamicsConfig.json` under `APPD_CONF_HTTP_URL/dotnet-linux`, and for a Python application it would look under `APPD_CONF_HTTP_URL/python`. In the example above, it would look under `http://custom-http-server.com/dotnet`.
 
-This supports the ability to assign a single value for `APPD_CONF_HTTP_URL` for all buildpack types in a foundation using a [staging environment variable group 
+This supports the ability to assign a single value for `APPD_CONF_HTTP_URL` for all buildpack types in a foundation using a [staging environment variable group
 ](https://tanzu.vmware.com/application-modernization-recipes/replatforming/environment-variable-groups) and avoids the need to set it for each application.
 
 ```
@@ -150,5 +149,3 @@ applications:
 2. Any new features related to AppDynamics will be shipped through `appdbuildpack`. This significantly reduces the new feature turnaround time compared to shipping AppDynamics bits through standard buildpacks.
 
 3. A single unified workflow to instrument a variety of applications, regardless of the language or framework of the application. Any new feature added to `appdbuildpack`, if applicable, is available across all langauge agents since `appdbuildpack` is the sole source of AppDynamics instrumentation logic.
-
-
