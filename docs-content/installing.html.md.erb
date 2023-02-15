@@ -8,7 +8,7 @@ owner: Partners
 This topic describes how to install and configure AppDynamics APM for VMware Tanzu.
 
 <p class="note"><strong>Note:</strong> Starting with v4.5.545, AppDynamics Analytics support has been moved
-   to a separate tile on <a href="https://network.pivotal.io/">Pivotal Network</a>.
+   to a separate tile on <a href="https://network.pivotal.io/">VMware Tanzu Network</a>.
    If you want to use Transactional Analytics, install AppDynamics Analytics for VMware Tanzu.</p>
 
 <p class="note"><strong>Note:</strong> Starting with v4.7, the APM tile supports two options for configuring the Account Access Key used to communicate with the AppDynamics Controller. In order to use the obfuscated Account Access Key Secret field, AppDynamics recommends that users update both the APM tile and the AppDynamics buildpack to version 4.7.x or higher, and the Java buildpack to version 4.19.2 or higher. With versions previous to 4.19.2 of the Java buildpack or 4.7 of the AppDynamics Extension Buildpacks, use the unobfuscated Account Access Key field. Starting with version 5.0 of the APM tile, the unobfuscated field is deprecated and will be removed.</p>
@@ -25,7 +25,7 @@ In addition, the tile publishes the AppDynamics extension buildpack, appdbuildpa
 
 ## <a id='before-you-start'></a> Before You Start
 
-Create a [Pivotal Network](https://network.pivotal.io) account if you do not have one.
+Create a [VMware Tanzu Network](https://network.pivotal.io) account if you do not have one.
 
 ## <a id='SSL'></a> Configuring SSL
 
@@ -41,7 +41,7 @@ Enable the SSL checkbox in AppDynamics Machine Agent configuration.
 
 For OnPremise Controller deployments, upload the root certificate for the internal CA that signed the Controller certificate for your OnPremise Controller in the security configuration of the BOSH Director.
 
-For an example, see [Security Page](https://docs.pivotal.io/pivotalcf/customizing/vsphere-config.html#security-config)
+For an example, see [Security Page](https://docs.vmware.com/en/VMware-Tanzu-Operations-Manager/vmware-tanzu-ops-manager/vsphere-config.html#step-7-security-pane-7)
 in the VMware Tanzu documentation.
 
 Make sure to follow the exact format below while entering multiple certificates.
@@ -75,12 +75,6 @@ GH12345678ABCDEFGH12345678ABCDEFGH12345678...
 
 ### <a id='appd-controller-config'></a> AppDynamics Controller Setup
 
-<!--
-  TODO -- Update the following screenshot
-  TODO -- include an example
-  TODO -- Pavan/Jeft to review revised descriptions
-  -->
-
 1. In the **Settings** tab, click **AppDynamics Controller Configuration**. Then click **Add**.
     ![alt-text=""](./images/install-02-appd-controller-config-add.png)
 
@@ -102,10 +96,6 @@ GH12345678ABCDEFGH12345678ABCDEFGH12345678...
 1. You can add multiple controller configurations by repeating steps 4 and 5. This will enable applications to bind to any of the entered configurations.
 
 2. Click **Save** to save the changes and return to the Installation Dashboard.
-
-<!--
-[//]: # TODO -- # Previous screenshot is outdated. Also, some options have been removed. Pavan will give latest tile, Doug to update
--->
 
 ## <a id='validating-the-install'></a> Validating the Install
 
