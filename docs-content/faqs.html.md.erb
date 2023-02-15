@@ -66,7 +66,7 @@ Yes. You can bind a user provided service by creating a user provided service. D
 
 ### <a id='s3'></a> Which language VMware Tanzu applications have AppDynamics support?
 
-Refer to [AppDynamics Workflow documentation](using.html)
+Refer to [AppDynamics Workflow documentation](using.html).
 
 ### <a id='s4'></a> I have a deployment with no internet access. How do I push the apps?
 
@@ -116,19 +116,26 @@ If it does not show up in the output, reach out to AppDynamics Support or the #j
 ### <a id='s10'></a> My app is running, but I do not see any metrics in Controller. How do I troubleshoot?
 
 Run `cf env application` and see if the `VCAP_SERVICES` environment variable has AppDynamics information.
+
      * If no, bind the app to AppDynamics service and restage.
+
      * If yes, ensure all credentials (Controller info, key, SSL) are correctly set. If you are using SSL, ensure it is enabled ("ssl: true") in `VCAP_SERVICES`.
 
 ### <a id='s12'></a> What should I send to AppDynamics Support?
 
   * cf logs {appname}
+
   * cf env {appname}
+
   * cf ssh {appname}
+
       + Find the process ID of the running app by running `ps aux`.
+
       + cat /proc/{pid}/environ
+
       + Agent logs
 
-| AGENT  | LOGS  |
-| ------------ | ------------ |
-|  NODE.JS  | /tmp/appd/{hash} |
-| JAVA   | /app/.java-buildpack/app_dynamics_agent/ver<agent_version>/logs |
+        | AGENT  | LOGS  |
+        | ------------ | ------------ |
+        |  NODE.JS  | /tmp/appd/{hash} |
+        | JAVA   | /app/.java-buildpack/app_dynamics_agent/ver<agent_version>/logs |
