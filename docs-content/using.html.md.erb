@@ -83,7 +83,7 @@ You can find sample applications demonstrating the multi-buildpack approach in t
 		- appd
 	```
 
-6. Push the application using the `cf push` command
+6. Push the application using the `cf push` command.
 
   ```
   $ cf push
@@ -108,7 +108,7 @@ See [AppDynamics Multi-Buildpack documentation](./multibuildpack.html#Advanced%2
 
 1. Set the application environment variable `APPD_AGENT_HTTP_URL` to a custom http url where the AppDynamics
 .NET Agent for Linux is hosted. This is necessary because the agent is not currently available in NuGet.
-See [AppDynamics Buildpack](https://docs.pivotal.io/partners/appdynamics/multibuildpack.html#Advanced%20Features) for more info
+See [AppDynamics Buildpack](https://docs.pivotal.io/partners/appdynamics/multibuildpack.html#Advanced%20Features) for more info.
 
 1. Set the `APPD_CONF_HTTP_URL` to a custom url where the the agent configuration file `AppDynamicsConfig.json` is hosted in the location `${APPD_CONF_HTTP_URL}/dotnet-linux/AppDynamicsConfig.json` with the following contents:
 
@@ -316,7 +316,7 @@ variables.
 	```
 
 1. The necessary configuration to start AppDynamics Golang agent is consumed via environment variables `APPD_APPLICATION_NAME`,
-`APPD_TIER_NAME`, `APPD_NODE_NAME`, `APPD_CONTROLLER_HOST`, `APPD_ACCOUNT_NAME`, `APPD_ACCOUNT_ACCESS_KEY`
+`APPD_TIER_NAME`, `APPD_NODE_NAME`, `APPD_CONTROLLER_HOST`, `APPD_ACCOUNT_NAME`, `APPD_ACCOUNT_ACCESS_KEY`.
 
 1. Push the application.
 
@@ -338,7 +338,7 @@ Java applications are instrumented by AppDynamics using the standard `java_build
 
 1. Set the app and tier environment variables.
 
-1. Optionally set the `APPD_CONF_HTTP_URL` environment variable to a URL where advanced agent configuration files are hosted. See [Extending Agent Configuration documentation](multibuildpack.html#Overriding%20Agent%20Configuration) for more information. Also see the cf-java-sample and cf-configuration-static applications in the [sample app repository](https://github.com/AppDynamics/cloudfoundry-apps) for an example of how to override the log4j2.xml file to redirect agent output to STDOUT
+1. Optionally set the `APPD_CONF_HTTP_URL` environment variable to a URL where advanced agent configuration files are hosted. See [Extending Agent Configuration documentation](multibuildpack.html#Overriding%20Agent%20Configuration) for more information. Also see the cf-java-sample and cf-configuration-static applications in the [sample app repository](https://github.com/AppDynamics/cloudfoundry-apps) for an example of how to override the log4j2.xml file to redirect agent output to STDOUT.
 
 1. Optionally set the `APPD_CF_NODE_PREFIX` environment variable to prepend a string to the node name assigned by the buildpack.
 
@@ -373,7 +373,7 @@ Java applications are instrumented by AppDynamics using the standard `java_build
 Because AppDynamics instrumentation of VMWare Tanzu Java applications does not use `appdbuildpack`, the configuration is managed
 by `java_buildpack` directly.
 
-Refer to the [standard `java_buildpack` documentation](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-app_dynamics_agent.md)
+Refer to the [standard `java_buildpack` documentation](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-app_dynamics_agent.md).
 
 
 ### <a id='node_workflow'></a>  Node.js Applications (Multi-Buildpack)
@@ -415,7 +415,7 @@ Node.js applications are pushed using the multi-buildpack approach where the `ap
   | APPDYNAMICS_AGENT_TIER_NAME | Tier Name for the Application to be reported to AppDynamic's Controller
   | APPD_AGENT_DEBUG  | Set to true to enable debug level logging for the agent. The default is false.
   | APPD_AGENT_LIBAGENT | Controls the proxyless version of the agent. The default is true. Set to false if you want to use the proxy version of the Node.js agent.
-  | APPD_LOG_CONFIG | The location, level, and other settings related to agent logging. See [Node.js Agent Logging](https://docs.appdynamics.com/display/PRO45/Node.js+Agent+Logging)
+  | APPD_LOG_CONFIG | The location, level, and other settings related to agent logging. See [Node.js Agent Logging](https://docs.appdynamics.com/display/PRO45/Node.js+Agent+Logging).
 
 1. Push the application.
 
@@ -486,7 +486,7 @@ For more information on access rights see the [Cloud Foundry Documentation](http
   lib			monitors		scripts
   ```
 
-1. Copy the Machine Agent extensions, if any, to the cloudfoundry-apps/**cf-machine-agent** extensions directory. Note that extensions must be of .zip format, containing `extension_folder/{.jar, *.monitor.xml}`. For example:
+1. Copy the Machine Agent extensions, if any, to the `cloudfoundry-apps/cf-machine-agent` extensions directory. Note that extensions must be of .zip format, containing `extension_folder/{.jar, *.monitor.xml}`. For example:
 
   ```
   $ cp ~/Downloads/rabbitmqmonitor-2.0.2.zip extensions/
