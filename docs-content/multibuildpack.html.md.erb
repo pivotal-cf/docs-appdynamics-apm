@@ -19,7 +19,7 @@ You can find sample applications demonstrating the multi-buildpack approach in t
 
 1. Install or upgrade [AppDynamics Application Performance Monitoring for VMware Tanzu tile](https://network.pivotal.io/products/p-appdynamics) version v4.6.x or later.
 
-2. Once the AppDynamics APM for VMware Tanzu tile is installed, a buildpack with the name <b>appdbuildpack</b> appears in your list of cf environment buildpacks:
+1. Once the AppDynamics APM for VMware Tanzu tile is installed, a buildpack with the name <b>appdbuildpack</b> appears in your list of cf environment buildpacks:
 
     ```
     $ cf buildpacks
@@ -31,32 +31,31 @@ You can find sample applications demonstrating the multi-buildpack approach in t
     appdbuildpack            25         true      false    AppDynamics_buildpack-v4.6.10.zip
     ```
 
-3. Edit the following sections of your application's `manifest.yml`
+1. Edit the following sections of your application's `manifest.yml`.
 
     1. Include the `appdbuildpack` extension buildpack in the `buildpacks` section.
 
-    ~~~yaml
-      buildpacks:
-        - appdbuildpack
-        - <language specific buildpack>
-    ~~~
+      ```
+        buildpacks:
+          - appdbuildpack
+          - <language specific buildpack>
+      ```
 
-    2.  In the `env` section, set the `APPD_AGENT` environment variable corresponding to the language of the application.
+    1.  In the `env` section, set the `APPD_AGENT` environment variable corresponding to the language of the application.
 
-    ~~~yaml
-      env:
-        APPD_AGENT: dotnet
-    ~~~
+      ```
+        env:
+          APPD_AGENT: dotnet
+      ```
 
-    3. Bind the application to the AppDynamics service instance, by including it in `services` section.
+    1. Bind the application to the AppDynamics service instance, by including it in `services` section.
 
-    ~~~yaml
-      services:
-       - appd
-    ~~~
+      ```
+        services:
+         - appd
+      ```
 
-
-4. To push your application use the use the cf CLI command, `cf push`.
+1. To push your application use the use the cf CLI command, `cf push`.
     `$ cf push`
 
 
@@ -79,12 +78,11 @@ By default `appdbuildpack` fetches the corresponding AppDynamics agent from stan
 
 For example, for a .NET Framework application, set APPD_AGENT_HTTP_URL in the `env` section of manifest.yaml as shown, and redeploy the application.
 
-~~~yaml
+```
   env:
     APPD_AGENT: dotnet
     APPD_AGENT_HTTP_URL: http://<path to custom NuGet package binaries>
-~~~
-
+```
 
 ### <a id='Overriding Agent Configuration'></a> Overriding Agent Configuration
 
@@ -96,11 +94,11 @@ By default `appdbuildpack` creates the basic configuration needed by the AppDyna
 
 For .NET Framework, .NET Core Windows, .NET Core for Linux and Python applications, `appdbuildpack` facilitates adding additional configuration to the agents or overriding the existing default configuration. To acheive this, set the `APPD_CONF_HTTP_URL` environment variable to a custom http url where advanced agent configuration files are hosted. The extension buildpack downloads the relevant files related to the AppDynamics agent and extends the agent configuration.
 
-~~~yaml
+```
   env:
     APPD_AGENT: dotnet
     APPD_CONF_HTTP_URL: http://custom-http-server.com
-~~~
+```
 
 `appdbuildpack` will look for configuration files under a subfolder relative to `APPD_CONF_HTTP_URL` according to the `APPD_AGENT` value. So for a .Net Core Linux application, for example, it would look for relevant configuration files such as `AppDynamicsConfig.json` under `APPD_CONF_HTTP_URL/dotnet-linux`, and for a Python application it would look under `APPD_CONF_HTTP_URL/python`. In the example above, it would look under `http://custom-http-server.com/dotnet`.
 
@@ -122,7 +120,7 @@ Notes:
 
 ## <a id='Sample manifest.yml'></a> Sample manifest.yml
 
-~~~yaml
+```
 ---
 applications:
 - name: cf-net-linux
@@ -140,12 +138,12 @@ applications:
   services:
     - appd
 
-~~~
+```
 
 ## <a id='Why this Design'></a> Advantages to Using this Approach
 
 1. Clear separation of responsibilities between `appdbuildpack` and the standard system buildpacks. `appdbuildpack` is now solely responsible for anything related to AppDynamics intrumentation.
 
-2. Any new features related to AppDynamics will be shipped through `appdbuildpack`. This significantly reduces the new feature turnaround time compared to shipping AppDynamics bits through standard buildpacks.
+1. Any new features related to AppDynamics will be shipped through `appdbuildpack`. This significantly reduces the new feature turnaround time compared to shipping AppDynamics bits through standard buildpacks.
 
-3. A single unified workflow to instrument a variety of applications, regardless of the language or framework of the application. Any new feature added to `appdbuildpack`, if applicable, is available across all langauge agents since `appdbuildpack` is the sole source of AppDynamics instrumentation logic.
+1. A single unified workflow to instrument a variety of applications, regardless of the language or framework of the application. Any new feature added to `appdbuildpack`, if applicable, is available across all langauge agents since `appdbuildpack` is the sole source of AppDynamics instrumentation logic.
